@@ -35,8 +35,9 @@ module.exports.generateMZN = function (mappingFilePath, name, selectedPlan, mznM
         sizeVarName = sizeVarName ? sizeVarName : mapping.params.size.value;
         Object.entries(mapping.params).forEach(([paramName, paramObj]) => {
             if (paramObj.value) {
-                let mznParamType = typeof paramObj.value === "string" ? 'string' : 'float'; //TODO: warning if type not supported
-                let mznParamValue = typeof paramObj.value !== "string" ? paramObj.value : '"' + paramObj.value + '"';
+                let paramObjValueNumber = Number(paramObj.value);
+                let mznParamType = typeof paramObj.value === "string" && isNaN(paramObjValueNumber) ? 'string' : 'float'; //TODO: warning if type not supported
+                let mznParamValue = typeof paramObj.value !== "string" && !isNaN(paramObjValueNumber) ? paramObj.value : '"' + paramObj.value + '"';
                 mznData = mznData.concat(mznParamType).concat(': ').concat(paramName).concat(' = ').concat(mznParamValue).concat(';').concat('\n');
             } else if (paramObj.plans) {
                 let plans = utils.getAllPlanNames(sla, mapping);

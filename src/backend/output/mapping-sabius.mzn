@@ -1,11 +1,11 @@
 %% -------- BEGIN CONSTANTS DEFINITION --------
 string: size = "researchers";
 string: selectedPlan = "subscriber";
-string: researchers = "1512";
+float: researchers = "1512";
 string: pageSize = "200";
-string: numPublications = "37";
-string: numPublicationsTypeJournal = "24";
-string: numPublicationsTypeConference = "13";
+float: numPublications = "37";
+float: numPublicationsTypeJournal = "24";
+float: numPublicationsTypeConference = "13";
 %% -------- END CONSTANTS DEFINITION --------
 
 
