@@ -1,0 +1,36 @@
+{
+  "name": "governify-api-limitations-calculator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "mzn": "mzn-fzn --solver fzn-gecode %CD%\\src\\backend\\output\\mapping.mzn",
+    "dot": "dot %CD%\\src\\backend\\output\\mapping.dot -Tpng -o %CD%\\src\\backend\\output\\mapping.png && %CD%\\src\\backend\\output\\mapping.png",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.4.7",
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.2",
+    "cors": "^2.8.3",
+    "express": "^4.16.2",
+    "formidable": "^1.2.1",
+    "helmet": "^3.11.0",
+    "iconv": "^2.3.0",
+    "js-yaml": "^3.12.0",
+    "json-schema-ref-parser": "^5.0.3",
+    "json-schema-ref-parser-sync": "^1.0.0",
+    "moment": "^2.17.1",
+    "newman": "^3.9.3",
+    "node-all-paths": "^1.0.3",
+    "node-plantuml": "^0.6.2",
+    "request": "^2.79.0",
+    "route-parser": "0.0.5",
+    "safe-buffer": "^5.1.2",
+    "utf8": "^3.0.0",
+    "winston": "^2.4.0"
+  }
+}

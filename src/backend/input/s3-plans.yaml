@@ -1,0 +1,48 @@
+context:
+  id: plans
+  sla: '1.0'
+  type: plans
+  api: ./s3-oas.yaml
+  provider: ISA Group
+infrastructure:
+  supervisor: 'http://supervisor.oai.governify.io/api/v2'
+  monitor: 'http://monitor.oai.governify.io/api/v1'
+metrics:
+  requests:
+    type: integer
+    format: int64
+    description: Number of requests
+    resolution: consumption
+pricing:
+  cost: 0
+  currency: EUR
+  billing: monthly
+availability: 'R/00:00:00Z/15:00:00Z'
+configuration: {}
+plans:
+  "Usage limitations":
+    quotas:
+      /api/s3/method1:
+        get:
+          requests:
+            - max: 100
+              period: weekly
+      /api/s3/method2:
+        get:
+          requests:
+            - max: 100
+              period: weekly
+    
+    rates:
+      /api/s3/method1:
+        get:
+          requests:
+            - max: 1
+              period: secondly
+      /api/s3/method2:
+        get:
+          requests:
+            - max: 1
+              period: secondly
+
+     

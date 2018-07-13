@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<!--
+	Industrious by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+
+<head>
+    <title>RESTful API usage plans discoverer</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/js/monaco/min/vs/editor/editor.main.css" />
+</head>
+
+<body class="is-preload">
+
+    <!-- Header -->
+    <header id="header">
+        <a class="logo" href="index.html">RESTful API usage plans discoverer</a>
+        <nav>
+            <a href="#menu">Menu</a>
+        </nav>
+    </header>
+
+    <!-- Nav -->
+    <nav id="menu">
+        <ul class="links">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a href="editor.html">Editor</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Heading -->
+    <div id="heading">
+        <h1>RESTful API usage plans discoverer</h1>
+    </div>
+
+    <!-- Main -->
+    <section id="main" class="wrapper">
+        <div class="inner">
+            <div class="content">
+
+                <div id="graphcontainer"></div>
+
+                <!-- Elements -->
+                <div class="row">
+                    <div class="col-6 col-12-medium">
+                        <h3>Actions</h3>
+                        <ul class="actions">
+                            <li>
+                                <a href="#main" class="button primary" onclick="exec();">Calculate usage limitations</a>
+                            </li>
+                            <li>
+                                <a href="#container" class="button" onclick="loadData();">Refresh editor</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-6 col-12-medium">
+                        <h3>Examples</h3>
+                        <ul class="actions">
+                            <li>
+                                <a href="#main" class="button" onclick="change('mapping')">Synthetic</a>
+                            </li>
+                            <li>
+                                <a href="#main" class="button" onclick="change('mapping-sabius')">SABIUS</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-12-medium">
+                        <h3>Dependencies graph</h3>
+                        <img src="" id="graphcontainerImg" width="100%">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-12-medium">
+                        <h3>Editor</h3>
+                        <div id="container" style="width:100%;height:600px;border:1px solid grey"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-12-medium">
+                        <h3>Editor actions</h3>
+                        <ul class="actions">
+                            <li>
+                                <a href="#container" class="button primary" onclick="save();">Save</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="inner">
+            <div class="content">
+                <section>
+                    <h3>About us</h3>
+                    <p>We are...</p>
+                </section>
+                <section>
+                    <h4>More information</h4>
+                    <ul class="alt">
+                        <li>
+                            <a href="https://isa-group.github.io/2018-06-comprehensive-modeling/">Comprehensive API modeling</a>
+                        </li>
+                        <li>
+                            <a href="http://restalk-patterns.org/rest.html">RESTalk patterns</a>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h4>Contact</h4>
+                    <ul class="plain">
+                        <li>
+                            <a href="#main">
+                                <i class="icon fa-twitter">&nbsp;</i>@someone</a>
+                        </li>
+                        <li>
+                            <a href="#main">
+                                <i class="icon fa-twitter">&nbsp;</i>@someone</a>
+                        </li>
+                        <li>
+                            <a href="#main">
+                                <i class="icon fa-github">&nbsp;</i>Github</a>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+            <div class="copyright">
+                &copy;
+            </div>
+        </div>
+    </footer>
+
+
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/sigma.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.parsers.json.min.js"></script> -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.12.0/js-yaml.min.js"></script>
+
+
+    <!-- <script>
+        sigma.parsers.json('data/data.json', {
+            container: 'graphcontainer',
+            settings: {
+                defaultNodeColor: '#ec5148'
+            }
+        });
+    </script> -->
+
+    <script>
+        if (!localStorage.getItem('mapping')) {
+            localStorage.setItem('mapping', "mapping");
+        }
+        document.getElementById('graphcontainerImg').src = 'data/' + localStorage.getItem('mapping') + '.png';
+
+        var require = {
+            paths: {
+                'vs': 'assets/js/monaco/min/vs'
+            }
+        };
+    </script>
+    <script src="assets/js/monaco/min/vs/loader.js"></script>
+    <script src="assets/js/monaco/min/vs/editor/editor.main.nls.js"></script>
+    <script src="assets/js/monaco/min/vs/editor/editor.main.js"></script>
+
+    <script>
+        $.get('data/' + localStorage.getItem('mapping') + '.yaml', function (data) {
+            var editor = monaco.editor.create(document.getElementById('container'), {
+                value: data,
+                language: 'yaml'
+            });
+        });
+
+        function loadData() {
+            $.get('data/' + localStorage.getItem('mapping') + '.yaml', function (data) {
+                //data is the JSON string
+                monaco.editor.setModel(monaco.editor.createModel(data, 'yaml'));
+            });
+        }
+
+        function save() {
+            var text = monaco.editor.getModels()[0].getValue()
+            $.ajax({
+                type: "POST",
+                url: "postMapping?mapping=" + localStorage.getItem('mapping'),
+                data: jsyaml.safeLoad(text),
+                success: function () {
+                    console.log("OK saved");
+                    window.location.replace("generate?mzn=true&dot=true&mapping=" + localStorage.getItem(
+                        'mapping'));
+                }
+            });
+        }
+
+        function exec() {
+            $.ajax({
+                type: "GET",
+                url: "exec?mapping=" + localStorage.getItem('mapping'),
+                success: function (data) {
+                    alert(data);
+                }
+            });
+        }
+
+        function change(name) {
+            localStorage.setItem('mapping', name);
+            window.location.replace('generate?mzn=true&dot=true&mapping=' + localStorage.getItem('mapping'));
+        }
+    </script>
+
+</body>
+
+</html>

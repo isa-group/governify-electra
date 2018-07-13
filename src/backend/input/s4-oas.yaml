@@ -1,0 +1,29 @@
+openapi: 3.0.0
+servers: []
+info:
+  description: ''
+  version: 1.0.0
+  title: s4
+  termsOfService: ''
+  contact:
+    email: ''
+  x-sla: './s4-plans.yaml'
+paths:
+  /api/s4/method1:
+    get:
+      summary: ''
+      description: ''
+      parameters: []
+      operationId: 's4m1'
+      responses:
+        default:
+          description: ''
+  /api/s4/method2:
+    get:
+      summary: ''
+      description: ''
+      parameters: []
+      operationId: 's4m2'
+      responses:
+        default:
+          description: ''

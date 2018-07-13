@@ -1,0 +1,29 @@
+openapi: 3.0.0
+servers: []
+info:
+  description: ''
+  version: 1.0.0
+  title: s3
+  termsOfService: ''
+  contact:
+    email: ''
+  x-sla: './s3-plans.yaml'
+paths:
+  /api/s3/method1:
+    get:
+      summary: ''
+      description: ''
+      parameters: []
+      operationId: 's3m1'
+      responses:
+        default:
+          description: ''
+  /api/s3/method2:
+    get:
+      summary: ''
+      description: ''
+      parameters: []
+      operationId: 's3m2'
+      responses:
+        default:
+          description: ''

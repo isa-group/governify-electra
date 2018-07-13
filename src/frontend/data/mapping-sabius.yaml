@@ -1,0 +1,109 @@
+params:
+  size:
+    value: researchers
+  selectedPlan:
+    value: subscriber
+  researchers:
+    value: '1512'
+  pageSize:
+    plans:
+      non-subscriber:
+        value: '25'
+      subscriber:
+        value: '200'
+  numPublications:
+    value: '37'
+  numPublicationsTypeJournal:
+    value: '24'
+  numPublicationsTypeConference:
+    value: '13'
+services:
+  scopus: ./scopus-oas.yaml
+  sabius-publication-data: ./sabius-publication-data-oas.yaml
+mappings:
+  - input:
+      service: sabius-publication-data
+      path: '/v1/{snapshot}/authors'
+      method: GET
+      size: '1'
+      gateway:
+        type: sequential
+        id: ''
+        prob: ''
+    output:
+      - service: scopus
+        path: /search/author
+        method: GET
+        size: '1'
+        gateway:
+          type: sequential
+          id: ''
+          prob: ''
+      - service: scopus
+        path: '/author/author_id/{author_id}'
+        method: GET
+        size: '1'
+        gateway:
+          type: sequential
+          id: ''
+          prob: ''
+  - input:
+      service: sabius-publication-data
+      path: '/v1/{snapshot}/authors/{authorId}/metrics'
+      method: GET
+      size: '1'
+      gateway:
+        type: and
+        id: and_o_1
+        prob: ''
+    output:
+      - service: scopus
+        path: '/author/author_id/{author_id}'
+        method: GET
+        size: '1'
+        gateway:
+          type: sequential
+          id: ''
+          prob: ''
+  - input:
+      service: sabius-publication-data
+      path: '/v1/{snapshot}/authors/{authorId}/documents'
+      method: GET
+      size: '1'
+      gateway:
+        type: and
+        id: and_o_1
+        prob: ''
+    output:
+      - service: scopus
+        path: /search/scopus
+        method: GET
+        size: ceil(numPublications/pageSize)
+        gateway:
+          type: sequential
+          id: ''
+          prob: ''
+      - service: scopus
+        path: '/abstract/scopus_id/{scopus_id}'
+        method: GET
+        size: numPublications
+        gateway:
+          type: sequential
+          id: ''
+          prob: ''
+      - service: scopus
+        path: '/serial/title/issn/{issn}'
+        method: GET
+        size: numPublicationsTypeJournal
+        gateway:
+          type: xor
+          id: xor_i_1
+          prob: numPublicationsTypeJournal/numPublications
+      - service: scopus
+        path: /serial/title
+        method: GET
+        size: numPublicationsTypeConference
+        gateway:
+          type: xor
+          id: xor_i_1
+          prob: numPublicationsTypeConference/numPublications

@@ -1,0 +1,39 @@
+subgraph "s4" {
+node [shape=box]
+node [ style=rounded, shape=box, label = "<s4> GET /api/s4/method1" ] "s4m1"
+limits_s4m1 [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>Usage limitations</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>100 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>1 req secondly</td>
+</tr>
+</table>
+>];
+s4m1 -> limits_s4m1[ style=dashed, color=black, penwidth=0.5 ];
+node [ style=rounded, shape=box, label = "<s4> GET /api/s4/method2" ] "s4m2"
+limits_s4m2 [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>Usage limitations</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>100 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>1 req secondly</td>
+</tr>
+</table>
+>];
+s4m2 -> limits_s4m2[ style=dashed, color=black, penwidth=0.5 ];
+}

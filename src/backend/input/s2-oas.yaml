@@ -1,0 +1,29 @@
+openapi: 3.0.0
+servers: []
+info:
+  description: ''
+  version: 1.0.0
+  title: s2
+  termsOfService: ''
+  contact:
+    email: ''
+  x-sla: './s2-plans.yaml'
+paths:
+  /api/s2/method1:
+    get:
+      summary: ''
+      description: ''
+      parameters: []
+      operationId: 's2m1'
+      responses:
+        default:
+          description: ''
+  /api/s2/method2:
+    get:
+      summary: ''
+      description: ''
+      parameters: []
+      operationId: 's2m2'
+      responses:
+        default:
+          description: ''

@@ -1,0 +1,129 @@
+subgraph "scopus" {
+node [shape=box]
+node [ style=rounded, shape=box, label = "<scopus> GET /search/author" ] "AuthorSearch"
+limits_AuthorSearch [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>non-subscriber</b></td>
+<td><b>subscriber</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>5000 req weekly</td>
+<td>5000 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>3 req secondly</td>
+<td>3 req secondly</td>
+</tr>
+</table>
+>];
+AuthorSearch -> limits_AuthorSearch[ style=dashed, color=black, penwidth=0.5 ];
+node [ style=rounded, shape=box, label = "<scopus> GET /author/author_id/:author_id" ] "AuthorRetrievalid"
+limits_AuthorRetrievalid [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>non-subscriber</b></td>
+<td><b>subscriber</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>5000 req weekly</td>
+<td>5000 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>3 req secondly</td>
+<td>3 req secondly</td>
+</tr>
+</table>
+>];
+AuthorRetrievalid -> limits_AuthorRetrievalid[ style=dashed, color=black, penwidth=0.5 ];
+node [ style=rounded, shape=box, label = "<scopus> GET /search/scopus" ] "ScopusSearch"
+limits_ScopusSearch [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>non-subscriber</b></td>
+<td><b>subscriber</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>20000 req weekly</td>
+<td>20000 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>6 req secondly</td>
+<td>6 req secondly</td>
+</tr>
+</table>
+>];
+ScopusSearch -> limits_ScopusSearch[ style=dashed, color=black, penwidth=0.5 ];
+node [ style=rounded, shape=box, label = "<scopus> GET /abstract/scopus_id/:scopus_id" ] "AbstractRetrieval4"
+limits_AbstractRetrieval4 [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>non-subscriber</b></td>
+<td><b>subscriber</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>10000 req weekly</td>
+<td>10000 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>6 req secondly</td>
+<td>6 req secondly</td>
+</tr>
+</table>
+>];
+AbstractRetrieval4 -> limits_AbstractRetrieval4[ style=dashed, color=black, penwidth=0.5 ];
+node [ style=rounded, shape=box, label = "<scopus> GET /serial/title/issn/:issn" ] "SerialTitleMetadata"
+limits_SerialTitleMetadata [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>non-subscriber</b></td>
+<td><b>subscriber</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>20000 req weekly</td>
+<td>20000 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>3 req secondly</td>
+<td>3 req secondly</td>
+</tr>
+</table>
+>];
+SerialTitleMetadata -> limits_SerialTitleMetadata[ style=dashed, color=black, penwidth=0.5 ];
+node [ style=rounded, shape=box, label = "<scopus> GET /serial/title" ] "SerialTitleSearch"
+limits_SerialTitleSearch [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>non-subscriber</b></td>
+<td><b>subscriber</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>20000 req weekly</td>
+<td>20000 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>3 req secondly</td>
+<td>3 req secondly</td>
+</tr>
+</table>
+>];
+SerialTitleSearch -> limits_SerialTitleSearch[ style=dashed, color=black, penwidth=0.5 ];
+}

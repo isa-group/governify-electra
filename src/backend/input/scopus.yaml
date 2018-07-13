@@ -1,0 +1,977 @@
+openapi: 3.0.1
+servers: []
+info:
+  title: Scopus API
+  version: '2.0'
+  description: 'See https://dev.elsevier.com/api_key_settings.html for detailed information.'
+  x-sla: ./scopus-plans.yaml
+tags:
+  - name: Scopus_Search
+    description: Scopus Search API
+  - name: Affiliation_Search
+    description: Affiliation Search API
+  - name: Author_Search
+    description: Author Search API
+  - name: Abstract_Retrieval
+    description: Abstract Retrieval API
+  - name: Affiliation_Retrieval
+    description: Affiliation Retrieval API
+  - name: Author_Retrieval
+    description: Author Retrieval API
+  - name: Abstract_Citation_Count
+    description: Abstract Citation count API
+  - name: Citations_Overview
+    description: Citations Overview API
+  - name: Serial_Title
+    description: Serial Title API
+paths:
+  # Endpoints NOT used for R00. Tagged as deprectaed for a better identification
+  # '/search/affiliation':
+  #   get:
+  #     deprecated: true
+  #     tags:
+  #       - Affiliation_Search
+  #     description: >-
+  #       Affiliation search exposes interfaces associated with
+  #       Scopus-based affiliation profiles. API key in this example
+  #       was setup with authorized CORS domains.
+  #     operationId: AffiliationSearch
+  #     parameters:
+  #       - description: Affiliation search query string
+  #         in: query
+  #         name: query
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: affil(Broad Institute)
+  #       - description: Your API key
+  #         in: query
+  #         name: apiKey
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: 7f59af901d2d86f78a1fd60c1bf9426a
+  #       - description: 'Requested content type, overrides HTTP header value'
+  #         in: query
+  #         name: httpAccept
+  #         required: false
+  #         schema:
+  #           type: string
+  #     responses:
+  #       '200':
+  #         description: No response was specified
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/affiliation'
+  #           application/xml:
+  #             schema:
+  #               $ref: '#/components/schemas/affiliation'
+  #     summary: Affiliation Search API
+  # '/abstract/doi/{doi}':
+  #   get:
+  #     deprecated: true
+  #     tags:
+  #       - Abstract_Retrieval
+  #     description: >-
+  #       Abstract retrieval via DOI exposes interfaces associated with
+  #       Scopus Abstract API. API key in this example was setup
+  #       with authorized CORS domains.
+  #     operationId: AbstractRetrieval
+  #     parameters:
+  #       - description: doi value
+  #         in: path
+  #         name: doi
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: 10.1016/S0014-5793(01)03313-0
+  #       - description: Your API key
+  #         in: query
+  #         name: apiKey
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: 7f59af901d2d86f78a1fd60c1bf9426a
+  #       - description: 'Requested content type, overrides HTTP header value'
+  #         in: query
+  #         name: httpAccept
+  #         required: false
+  #         schema:
+  #           type: string
+  #     responses:
+  #       '200':
+  #         description: No response was specified
+  #         content:
+  #           text/xml:
+  #             schema:
+  #               items: {}
+  #               type: array
+  #           application/xml:
+  #             schema:
+  #               items: {}
+  #               type: array
+  #           application/json:
+  #             schema:
+  #               items: {}
+  #               type: array
+  #           application/rdf+xml:
+  #             schema:
+  #               items: {}
+  #               type: array
+  #     summary: Abstract Retrieval API
+  # '/abstract/eid/{eid}':
+  #   get:
+  #     deprecated: true
+  #     tags:
+  #       - Abstract_Retrieval
+  #     description: >-
+  #       Abstract retrieval via EID exposes interfaces associated with
+  #       Scopus Abstract API. API key in this example was setup
+  #       with authorized CORS domains.
+  #     operationId: AbstractRetrievalEID
+  #     parameters:
+  #       - description: eid value
+  #         in: path
+  #         name: eid
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: 2-s2.0-0037070197
+  #       - description: Your API key
+  #         in: query
+  #         name: apiKey
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: 7f59af901d2d86f78a1fd60c1bf9426a
+  #       - description: 'Requested content type, overrides HTTP header value'
+  #         in: query
+  #         name: httpAccept
+  #         required: false
+  #         schema:
+  #           type: string
+  #     responses:
+  #       '200':
+  #         description: No response was specified
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/stream'
+  #           application/xml:
+  #             schema:
+  #               $ref: '#/components/schemas/stream'
+  #           text/xml:
+  #             schema:
+  #               $ref: '#/components/schemas/stream'
+  #     summary: Abstract Retrieval API
+  # '/abstract/pii/{pii}':
+  #   get:
+  #     deprecated: true
+  #     tags:
+  #       - Abstract_Retrieval
+  #     description: >-
+  #       Abstract retrieval via PII exposes interfaces associated with
+  #       Scopus Abstract API. API key in this example was setup
+  #       with authorized CORS domains.
+  #     operationId: AbstractRetrieval1
+  #     parameters:
+  #       - description: pii value
+  #         in: path
+  #         name: pii
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: S0014579301033130
+  #       - description: Your API key
+  #         in: query
+  #         name: apiKey
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: 7f59af901d2d86f78a1fd60c1bf9426a
+  #       - description: 'Requested content type, overrides HTTP header value'
+  #         in: query
+  #         name: httpAccept
+  #         required: false
+  #         schema:
+  #           type: string
+  #     responses:
+  #       '200':
+  #         description: No response was specified
+  #         content:
+  #           text/xml:
+  #             schema:
+  #               items: {}
+  #               type: array
+  #           application/xml:
+  #             schema:
+  #               items: {}
+  #               type: array
+  #           application/json:
+  #             schema:
+  #               items: {}
+  #               type: array
+  #           application/rdf+xml:
+  #             schema:
+  #               items: {}
+  #               type: array
+  #     summary: Abstract Retrieval API
+  # '/abstract/pubmed_id/{pubmed_id}':
+  #   get:
+  #     deprecated: true
+  #     tags:
+  #       - Abstract_Retrieval
+  #     description: >-
+  #       Abstract retrieval via Medline/Pubmed ID exposes interfaces
+  #       associated with Scopus Abstract API. API key in this
+  #       example was setup with authorized CORS domains.
+  #     operationId: AbstractRetrieval2
+  #     parameters:
+  #       - description: pubmed_id value
+  #         in: path
+  #         name: pubmed_id
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: '11852050'
+  #       - description: Your API key
+  #         in: query
+  #         name: apiKey
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: 7f59af901d2d86f78a1fd60c1bf9426a
+  #       - description: 'Requested content type, overrides HTTP header value'
+  #         in: query
+  #         name: httpAccept
+  #         required: false
+  #         schema:
+  #           type: string
+  #     responses:
+  #       '200':
+  #         description: No response was specified
+  #         content:
+  #           text/xml:
+  #             schema:
+  #               items: {}
+  #               type: array
+  #           application/xml:
+  #             schema:
+  #               items: {}
+  #               type: array
+  #           application/json:
+  #             schema:
+  #               items: {}
+  #               type: array
+  #           application/rdf+xml:
+  #             schema:
+  #               items: {}
+  #               type: array
+  #     summary: Abstract Retrieval API
+  # '/abstract/pui/{pui}':
+  #   get:
+  #     deprecated: true
+  #     tags:
+  #       - Abstract_Retrieval
+  #     description: >-
+  #       Abstract retrieval vi PUI exposes interfaces associated with
+  #       Scopus Abstract API. API key in this example was setup
+  #       with authorized CORS domains.
+  #     operationId: AbstractRetrieval3
+  #     parameters:
+  #       - description: pui value
+  #         in: path
+  #         name: pui
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: '34164449'
+  #       - description: Your API key
+  #         in: query
+  #         name: apiKey
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: 7f59af901d2d86f78a1fd60c1bf9426a
+  #       - description: 'Requested content type, overrides HTTP header value'
+  #         in: query
+  #         name: httpAccept
+  #         required: false
+  #         schema:
+  #           type: string
+  #     responses:
+  #       '200':
+  #         description: No response was specified
+  #         content:
+  #           text/xml:
+  #             schema:
+  #               items: {}
+  #               type: array
+  #           application/xml:
+  #             schema:
+  #               items: {}
+  #               type: array
+  #           application/json:
+  #             schema:
+  #               items: {}
+  #               type: array
+  #           application/rdf+xml:
+  #             schema:
+  #               items: {}
+  #               type: array
+  #     summary: Abstract Retrieval API
+  # '/affiliation/affiliation_id/{affiliation_id}':
+  #   get:
+  #     deprecated: true
+  #     tags:
+  #       - Affiliation_Retrieval
+  #     description: >-
+  #       Affiliation retrieval via affiliation_id exposes interfaces
+  #       associated with Scopus Affiliation Retrieval API. API key
+  #       in this example was setup with authorized CORS domains.
+  #     operationId: AffiliationRetrieval
+  #     parameters:
+  #       - description: affiliation_id value
+  #         in: path
+  #         name: affiliation_id
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: '60016849'
+  #       - description: Your API key
+  #         in: query
+  #         name: apiKey
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: 7f59af901d2d86f78a1fd60c1bf9426a
+  #       - description: 'Requested content type, overrides HTTP header value'
+  #         in: query
+  #         name: httpAccept
+  #         required: false
+  #         schema:
+  #           type: string
+  #           default: text/xml
+  #     responses:
+  #       '200':
+  #         description: No response was specified
+  #         content:
+  #           text/xml:
+  #             schema: {}
+  #           application/xml:
+  #             schema: {}
+  #           application/json:
+  #             schema: {}
+  #           application/rdf+xml:
+  #             schema: {}
+  #     summary: Affiliation Retrieval API
+  # '/affiliation/eid/{eid}':
+  #   get:
+  #     deprecated: true
+  #     tags:
+  #       - Affiliation_Retrieval
+  #     description: >-
+  #       Affiliation retrieval via EID exposes interfaces associated with
+  #       Scopus Affiliation Retrieval API. API key in this example
+  #       was setup with authorized CORS domains.
+  #     operationId: AffiliationRetrieval5
+  #     parameters:
+  #       - description: eid value
+  #         in: path
+  #         name: eid
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: 10-s2.0-60016849
+  #       - description: Your API key
+  #         in: query
+  #         name: apiKey
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: 7f59af901d2d86f78a1fd60c1bf9426a
+  #       - description: 'Requested content type, overrides HTTP header value'
+  #         in: query
+  #         name: httpAccept
+  #         required: false
+  #         schema:
+  #           type: string
+  #           default: text/xml
+  #     responses:
+  #       '200':
+  #         description: No response was specified
+  #         content:
+  #           text/xml:
+  #             schema: {}
+  #           application/xml:
+  #             schema: {}
+  #           application/json:
+  #             schema: {}
+  #           application/rdf+xml:
+  #             schema: {}
+  #     summary: Affiliation Retrieval API
+  # '/author/eid/{eid}':
+  #   get:
+  #     deprecated: true
+  #     tags:
+  #       - Author_Retrieval
+  #     description: >-
+  #       Author retrieval via profile EID exposes interfaces associated
+  #       with Scopus Author profile. API key in this example was
+  #       setup with authorized CORS domains.
+  #     operationId: AuthorRetrieval
+  #     parameters:
+  #       - description: eid value
+  #         in: path
+  #         name: eid
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: 9-s2.0-22988279600
+  #       - description: Your API key
+  #         in: query
+  #         name: apiKey
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: 7f59af901d2d86f78a1fd60c1bf9426a
+  #       - description: 'Requested content type, overrides HTTP header value'
+  #         in: query
+  #         name: httpAccept
+  #         required: false
+  #         schema:
+  #           type: string
+  #           default: text/xml
+  #     responses:
+  #       '200':
+  #         description: No response was specified
+  #         content:
+  #           text/xml:
+  #             schema: {}
+  #           application/xml:
+  #             schema: {}
+  #           application/json:
+  #             schema: {}
+  #           application/rdf+xml:
+  #             schema: {}
+  #     summary: Author Retrieval API
+  # '/abstract/citation-count':
+  #   get:
+  #     deprecated: true
+  #     tags:
+  #       - Abstract_Citation_Count
+  #     description: >-
+  #       Abstract Citation Count API retrieves Cited by in Scopus image
+  #       given one of the article identifiers (DOI, PII, pubmed_ID) passed in as
+  #       query parameter. Optionally, an arbitrary combination of applicable
+  #       ISSN, ISBN, volume, issue, title, page parameters can be provided to
+  #       identify the article. API key in this example was setup
+  #       with authorized CORS domains.
+  #     operationId: AbstractCitationCount
+  #     parameters:
+  #       - description: 'DOI document identifier. Example: 10.1016/S0014-5793(01)03313-0'
+  #         in: query
+  #         name: doi
+  #         required: false
+  #         schema:
+  #           type: string
+  #           default: 10.1016/S0014-5793(01)03313-0
+  #       - description: 'PII document identifier. Example: S0014579301033130'
+  #         in: query
+  #         name: pii
+  #         required: false
+  #         schema:
+  #           type: string
+  #       - description: 'MEDLINE/pubmed_id document identifier. Example: 11852050'
+  #         in: query
+  #         name: pubmed_id
+  #         required: false
+  #         schema:
+  #           type: string
+  #       - description: Your API key
+  #         in: query
+  #         name: apiKey
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: 7f59af901d2d86f78a1fd60c1bf9426a
+  #       - description: 'Requested content type, overrides HTTP header value'
+  #         in: query
+  #         name: httpAccept
+  #         required: false
+  #         schema:
+  #           type: string
+  #     responses:
+  #       '200':
+  #         description: No response was specified
+  #         content:
+  #           image/jpeg:
+  #             schema:
+  #               $ref: '#/components/schemas/stream'
+  #     summary: Cited by in Scopus image
+  # '/abstract/citations':
+  #   get:
+  #     deprecated: true
+  #     tags:
+  #       - Citations_Overview
+  #     description: >-
+  #       Abstract Citation API allows to retrieve citations given one of
+  #       the document identifiers (DOI, PII, scopus_id or
+  #       pubmed_id). API key in this example was setup with
+  #       authorized CORS domains.
+  #     operationId: CitationsOverview
+  #     parameters:
+  #       - description: 'DOI document identifier. Example: 10.1016/S0014-5793(01)03313-0'
+  #         in: query
+  #         name: doi
+  #         required: false
+  #         schema:
+  #           type: string
+  #           default: 10.1016/S0014-5793(01)03313-0
+  #       - description: 'PII document identifier. Example: S0014579301033130'
+  #         in: query
+  #         name: pii
+  #         required: false
+  #         schema:
+  #           type: string
+  #       - description: 'Scopus ID document identifier. Example: 0037070197'
+  #         in: query
+  #         name: scopus_id
+  #         required: false
+  #         schema:
+  #           type: string
+  #       - description: 'MEDLINE/pubmed_id document identifier. Example: 11852050'
+  #         in: query
+  #         name: pubmed_id
+  #         required: false
+  #         schema:
+  #           type: string
+  #       - description: Your API key
+  #         in: query
+  #         name: apiKey
+  #         required: true
+  #         schema:
+  #           type: string
+  #           default: 7f59af901d2d86f78a1fd60c1bf9426a
+  #       - description: 'Requested content type, overrides HTTP header value'
+  #         in: query
+  #         name: httpAccept
+  #         required: false
+  #         schema:
+  #           type: string
+  #           default: application/json
+  #     responses:
+  #       '200':
+  #         description: No response was specified
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/stream'
+  #           application/xml:
+  #             schema:
+  #               $ref: '#/components/schemas/stream'
+  #           text/xml:
+  #             schema:
+  #               $ref: '#/components/schemas/stream'
+  #     summary: Citations Overview
+  
+  
+  # Endpoints used for R00
+  '/search/author':
+    get:
+      tags:
+        - Author_Search
+      description: >-
+        Author search exposes interfaces associated with Scopus-based
+        author profiles. API key in this example was setup with
+        authorized CORS domains.
+      operationId: AuthorSearch
+      parameters:
+        - description: Search query string
+          in: query
+          name: query
+          required: true
+          schema:
+            type: string
+            default: authlast(Einstein) and authfirst(Albert) and affil(Princeton)
+        - description: Your API key
+          in: query
+          name: apiKey
+          required: true
+          schema:
+            type: string
+            default: 7f59af901d2d86f78a1fd60c1bf9426a
+        - description: 'Requested content type, overrides HTTP header value'
+          in: query
+          name: httpAccept
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: No response was specified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/author'
+            application/atom+xml:
+              schema:
+                $ref: '#/components/schemas/author'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/author'
+          links:
+            AuthorSearch_AuthorRetrievalid:
+              $ref: '#/components/links/AuthorSearch_AuthorRetrievalid'
+      summary: Author Search API    
+  '/author/author_id/{author_id}':
+    get:
+      tags:
+        - Author_Retrieval
+      description: >-
+        Author retrieval exposes interfaces associated with Scopus
+        Author profile. API key in this example was setup with
+        authorized CORS domains.
+      operationId: AuthorRetrievalid
+      parameters:
+        - description: author_id value
+          in: path
+          name: author_id
+          required: true
+          schema:
+            type: string
+            default: '22988279600'
+        - description: Your API key
+          in: query
+          name: apiKey
+          required: true
+          schema:
+            type: string
+            default: 7f59af901d2d86f78a1fd60c1bf9426a
+        - description: 'Requested content type, overrides HTTP header value'
+          in: query
+          name: httpAccept
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: No response was specified
+          content:
+            text/xml:
+              schema: {}
+            application/xml:
+              schema: {}
+            application/json:
+              schema: {}
+            application/rdf+xml:
+              schema: {}
+          links:
+            AuthorRetrievalid__ScopusSearch:
+              $ref: '#/components/links/AuthorRetrievalid__ScopusSearch'
+      summary: Author Retrieval API    
+  '/search/scopus':
+    get:
+      tags:
+        - Scopus_Search
+      description: >-
+        Scopus search exposes interfaces associated with Scopus search
+        API. API key in this example was setup with authorized
+        CORS domains.
+      operationId: ScopusSearch
+      parameters:
+        - description: Scopus search query string
+          in: query
+          name: query
+          required: true
+          schema:
+            type: string
+            default: all(gene)
+        - description: Your API key
+          in: query
+          name: apiKey
+          required: true
+          schema:
+            type: string
+            default: 7f59af901d2d86f78a1fd60c1bf9426a
+        - description: 'Requested content type, overrides HTTP header value'
+          in: query
+          name: httpAccept
+          required: false
+          schema:
+            type: string
+        - description: 'Start number'
+          in: query
+          name: start
+          required: false
+          schema:
+            type: string            
+      responses:
+        '200':
+          description: No response was specified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/scopus'
+            application/atom+xml:
+              schema:
+                $ref: '#/components/schemas/scopus'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/scopus'
+          links:
+            ScopusSearch_ScopusSearch:
+              $ref: '#/components/links/ScopusSearch_ScopusSearch'
+            ScopusSearch_AbstractRetrieval4:
+              $ref: '#/components/links/ScopusSearch_AbstractRetrieval4'
+      summary: Scopus Search API    
+  '/abstract/scopus_id/{scopus_id}':
+    get:
+      tags:
+        - Abstract_Retrieval
+      description: >-
+        Abstract retrieval via Scopus ID exposes interfaces associated
+        with Scopus Abstract API. API key in this example was
+        setup with authorized CORS domains.
+      operationId: AbstractRetrieval4
+      parameters:
+        - description: scopus_id value
+          in: path
+          name: scopus_id
+          required: true
+          schema:
+            type: string
+            default: 0037070197
+        - description: Your API key
+          in: query
+          name: apiKey
+          required: true
+          schema:
+            type: string
+            default: 7f59af901d2d86f78a1fd60c1bf9426a
+        - description: 'Requested content type, overrides HTTP header value'
+          in: query
+          name: httpAccept
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: No response was specified
+          content:
+            text/xml:
+              schema:
+                items: {}
+                type: array
+            application/xml:
+              schema:
+                items: {}
+                type: array
+            application/json:
+              schema:
+                items: {}
+                type: array
+            application/rdf+xml:
+              schema:
+                items: {}
+                type: array
+          links:
+            AbstractRetrieval4_SerialTitleMetadata:
+              $ref: '#/components/links/AbstractRetrieval4_SerialTitleMetadata'
+            AbstractRetrieval4_SerialTitleSearch:
+              $ref: '#/components/links/AbstractRetrieval4_SerialTitleSearch'
+      summary: Abstract Retrieval API
+  '/serial/title/issn/{issn}':
+    get:
+      tags:
+        - Serial_Title
+      description: >-
+        Single serial title (Science Direct content) identified by ISSN.
+        Returns either the metadata for that title or the cover
+        image. API key in this example was setup with authorized
+        CORS domains.
+      operationId: SerialTitleMetadata
+      parameters:
+        - description: 'ISSN source identifier. Example: 03781119'
+          in: path
+          name: issn
+          required: true
+          schema:
+            type: string
+            default: 03781119
+        - description: Your API key
+          in: query
+          name: apiKey
+          required: true
+          schema:
+            type: string
+            default: 7f59af901d2d86f78a1fd60c1bf9426a
+        - description: >-
+            Requested content type, overrides HTTP header value. To retrieve
+            cover image use image/gif
+          in: query
+          name: httpAccept
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: No response was specified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/stream'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/stream'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/stream'
+            image/gif:
+              schema:
+                $ref: '#/components/schemas/stream'
+      summary: Serial Title Metadata
+  '/serial/title':
+    get:
+      tags:
+        - Serial_Title
+      description: >-
+        Serial Metadata API represents a search against the serial
+        titles (Science Direct content). API key in this example
+        was setup with authorized CORS domains.
+      operationId: SerialTitleSearch
+      parameters:
+        - description: 'Partial or complete serial title. Example: gene'
+          in: query
+          name: title
+          required: false
+          schema:
+            type: string
+        - description: 'One or more source identifiers. Example: 03781119,07350651'
+          in: query
+          name: issn
+          required: false
+          schema:
+            type: string
+            default: 03781119
+        - description: >-
+            ScienceDirect subject area abbreviation associated with the content
+            category. Example: mathsgen
+          in: query
+          name: subj
+          required: false
+          schema:
+            type: string
+        - description: >-
+            Specifies the amount of data to be returned in the response.
+            Example: citescore
+          in: query
+          name: view
+          required: false
+          schema:
+            type: string
+        - description: >-
+            Specifies a year or range of years for which to return yearly metric
+            data. Example: 2014-2016
+          in: query
+          name: date
+          required: false
+          schema:
+            type: string
+        - description: Your API key
+          in: query
+          name: apiKey
+          required: true
+          schema:
+            type: string
+            default: 7f59af901d2d86f78a1fd60c1bf9426a
+        - description: 'Requested content type, overrides HTTP header value'
+          in: query
+          name: httpAccept
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: No response was specified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/stream'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/stream'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/stream'
+            image/gif:
+              schema:
+                $ref: '#/components/schemas/stream'
+      summary: Serial Title Search
+components:
+  links:
+    AuthorSearch_AuthorRetrievalid:
+      operationId: AuthorRetrievalid
+      parameters:
+        author_id: $response.body#/search-results/entry/0/dc:identifier
+
+    AuthorRetrievalid__ScopusSearch:
+      operationId: ScopusSearch
+      parameters:
+        query: AU-ID({$response.body#/author-retrival-response/coredata/dc:identifier})
+
+    ScopusSearch_ScopusSearch:
+      operationId: ScopusSearch
+      parameters:
+        start: $response.body#/search-results/opensearch:totalResults
+    
+    ScopusSearch_AbstractRetrieval4:
+      operationId: AbstractRetrieval4
+      parameters:
+        # In fact, 0 should be susbtituted by the index in the whole array of publications
+        scopus_id: $response.body#/search-results/entry/0/dc:identifier
+    
+    AbstractRetrieval4_SerialTitleMetadata:
+      operationId: ScopusSearch
+      parameters:
+        issn: $response.body#/abstract-retrieval-response/coredata/prims:issn
+        
+    AbstractRetrieval4_SerialTitleSearch:
+      operationId: ScopusSearch
+      parameters:
+        title: $response.body#/abstract-retrieval-response/coredata/prims:publicationName
+        
+  schemas:
+    scopus:
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        tag:
+          type: string
+    affiliation:
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        tag:
+          type: string
+    author:
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        tag:
+          type: string
+    stream:
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        tag:
+          type: string

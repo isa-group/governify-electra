@@ -1,0 +1,189 @@
+digraph restalk { 
+
+ rankdir=LR;
+
+
+
+subgraph "scopus" {
+node [shape=box]
+node [ style=rounded, shape=box, label = "<scopus> GET /search/author" ] "AuthorSearch"
+limits_AuthorSearch [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>non-subscriber</b></td>
+<td><b>subscriber</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>5000 req weekly</td>
+<td>5000 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>3 req secondly</td>
+<td>3 req secondly</td>
+</tr>
+</table>
+>];
+AuthorSearch -> limits_AuthorSearch[ style=dashed, color=black, penwidth=0.5 ];
+node [ style=rounded, shape=box, label = "<scopus> GET /author/author_id/:author_id" ] "AuthorRetrievalid"
+limits_AuthorRetrievalid [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>non-subscriber</b></td>
+<td><b>subscriber</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>5000 req weekly</td>
+<td>5000 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>3 req secondly</td>
+<td>3 req secondly</td>
+</tr>
+</table>
+>];
+AuthorRetrievalid -> limits_AuthorRetrievalid[ style=dashed, color=black, penwidth=0.5 ];
+node [ style=rounded, shape=box, label = "<scopus> GET /search/scopus" ] "ScopusSearch"
+limits_ScopusSearch [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>non-subscriber</b></td>
+<td><b>subscriber</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>20000 req weekly</td>
+<td>20000 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>6 req secondly</td>
+<td>6 req secondly</td>
+</tr>
+</table>
+>];
+ScopusSearch -> limits_ScopusSearch[ style=dashed, color=black, penwidth=0.5 ];
+node [ style=rounded, shape=box, label = "<scopus> GET /abstract/scopus_id/:scopus_id" ] "AbstractRetrieval4"
+limits_AbstractRetrieval4 [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>non-subscriber</b></td>
+<td><b>subscriber</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>10000 req weekly</td>
+<td>10000 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>6 req secondly</td>
+<td>6 req secondly</td>
+</tr>
+</table>
+>];
+AbstractRetrieval4 -> limits_AbstractRetrieval4[ style=dashed, color=black, penwidth=0.5 ];
+node [ style=rounded, shape=box, label = "<scopus> GET /serial/title/issn/:issn" ] "SerialTitleMetadata"
+limits_SerialTitleMetadata [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>non-subscriber</b></td>
+<td><b>subscriber</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>20000 req weekly</td>
+<td>20000 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>3 req secondly</td>
+<td>3 req secondly</td>
+</tr>
+</table>
+>];
+SerialTitleMetadata -> limits_SerialTitleMetadata[ style=dashed, color=black, penwidth=0.5 ];
+node [ style=rounded, shape=box, label = "<scopus> GET /serial/title" ] "SerialTitleSearch"
+limits_SerialTitleSearch [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>non-subscriber</b></td>
+<td><b>subscriber</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>20000 req weekly</td>
+<td>20000 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>3 req secondly</td>
+<td>3 req secondly</td>
+</tr>
+</table>
+>];
+SerialTitleSearch -> limits_SerialTitleSearch[ style=dashed, color=black, penwidth=0.5 ];
+}
+
+
+
+subgraph "sabius-publication-data" {
+node [shape=box]
+node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors" ] "getAuthor"
+node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors" ] "getAuthor"
+node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors/:authorId/metrics" ] "getAuthorMetrics"
+node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors/:authorId/metrics" ] "getAuthorMetrics"
+node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors/:authorId/documents" ] "getDocumentsByAuthor"
+node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors/:authorId/documents" ] "getDocumentsByAuthor"
+}
+
+params [shape=note, style=filled, fillcolor="#F0F8FF" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td><b>Param name</b></td><td><b>Param value</b></td>
+</tr>
+<tr>
+<td><b>researchers</b></td>
+<td>1512</td>
+</tr>
+<tr>
+<td><b>pageSize</b></td>
+<td>200</td>
+</tr>
+<tr>
+<td><b>numPublications</b></td>
+<td>37</td>
+</tr>
+<tr>
+<td><b>numPublicationsTypeJournal</b></td>
+<td>24</td>
+</tr>
+<tr>
+<td><b>numPublicationsTypeConference</b></td>
+<td>13</td>
+</tr>
+</table>
+>];
+node [ style="rounded,filled", fillcolor="#E6E6E6", shape=circle, xlabel = "researchers" ] "boundary";
+getAuthor -> AuthorSearch [ color=red, penwidth=2.0, label="[R=1]" ];
+getAuthor -> AuthorRetrievalid [ color=red, penwidth=2.0, label="[R=1]" ];
+boundary -> getAuthor [ color=grey, penwidth=2.0, label="[R=1]" ];
+getAuthorMetrics -> AuthorRetrievalid [ color=red, penwidth=2.0, label="[R=1]" ];
+boundary -> getAuthorMetrics [ color=grey, penwidth=2.0, label="[R=1]" ];
+getDocumentsByAuthor -> ScopusSearch [ color=red, penwidth=2.0, label="[R=ceil(numPublications/pageSize)]" ];
+getDocumentsByAuthor -> AbstractRetrieval4 [ color=red, penwidth=2.0, label="[R=numPublications]" ];
+getDocumentsByAuthor -> SerialTitleMetadata [ color=red, penwidth=2.0, label="[R=numPublicationsTypeJournal, GW=xor, p=numPublicationsTypeJournal/numPublications]" ];
+getDocumentsByAuthor -> SerialTitleSearch [ color=red, penwidth=2.0, label="[R=numPublicationsTypeConference, GW=xor, p=numPublicationsTypeConference/numPublications]" ];
+boundary -> getDocumentsByAuthor [ color=grey, penwidth=2.0, label="[R=1]" ];
+
+
+}
