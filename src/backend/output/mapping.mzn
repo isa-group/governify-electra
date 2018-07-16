@@ -1,9 +1,9 @@
 %% -------- BEGIN CONSTANTS DEFINITION --------
 string: size = "max_value";
 string: selectedPlan = "Usage limitations";
-string: param1 = "1";
-string: param2 = "1";
-string: param3 = "1";
+float: param1 = "1";
+float: param2 = "1";
+float: param3 = "1";
 %% -------- END CONSTANTS DEFINITION --------
 
 
