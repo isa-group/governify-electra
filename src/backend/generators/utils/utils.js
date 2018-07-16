@@ -100,20 +100,20 @@ function getGatewayProb(oas, mapping, inputOperationId, outputOperationId) {
                             if (probIsSupported) {
                                 prob = probIsSupported && !probIsDefined && gwOne ? 1 : singleOutput.gateway.prob;
                             } else {
-                                logger.infoerror('Gateway %s is not supported yet', gatewayType);
+                                logger.error('Gateway %s is not supported yet', gatewayType);
                             }
                         }
                     }
                 } else {
                     if (singleMapping.input && singleMapping.input.gateway.type) {
                         let gatewayType = singleMapping.input.gateway.type.toLowerCase();
-                        let gwOne = ['sequential', 'and'].includes(gatewayType)
+                        let gwOne = ['sequential', 'and'].includes(gatewayType);
                         let probIsDefined = singleMapping.input.gateway.prob != undefined;
                         let probIsSupported = ['sequential', 'and', 'xor', 'or'].includes(gatewayType);
                         if (probIsSupported) {
                             prob = probIsSupported && !probIsDefined && gwOne ? 1 : singleMapping.input.gateway.prob;
                         } else {
-                            logger.infoerror('Gateway %s is not supported yet', gatewayType);
+                            logger.error('Gateway %s is not supported yet', gatewayType);
                         }
                     }
                 }

@@ -118,7 +118,7 @@ module.exports.generateDOT = function (filePath, graphvizPath, name, INPUT_SUBFO
 
 
     } catch (e) {
-        logger.infoerror(e);
+        logger.error(e);
     }
 
 };

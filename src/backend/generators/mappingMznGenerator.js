@@ -323,14 +323,14 @@ module.exports.generateMZN = function (mappingFilePath, name, selectedPlan, mznM
             let question = mznModules[mznModuleName](sla, mapping, oas, selectedPlan, sizeVarName);
             mznData = mznData.concat(question);
         } catch (e) {
-            logger.infoerror("Error while invoking module %s: %s", mznModuleName, e);
+            logger.error("Error while invoking module %s: %s", mznModuleName, e);
         }
 
         mznData = mznData.concat('%% -------- END QUESTIONS DEFINITION --------').concat('\n');
 
         fs.writeFileSync(mappingFilePath.replace("yaml", "mzn").replace(INPUT_SUBFOLDER_NAME, OUTPUT_SUBFOLDER_NAME), mznData, 'utf8');
     } catch (e) {
-        logger.infoerror(e);
+        logger.error(e);
     }
 
 };
