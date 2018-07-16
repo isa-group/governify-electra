@@ -14,6 +14,7 @@
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="assets/css/main.css" />
     <link rel="stylesheet" href="assets/js/monaco/min/vs/editor/editor.main.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 </head>
 
 <body class="is-preload">
@@ -170,8 +171,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.1/plugins/sigma.parsers.json.min.js"></script> -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.12.0/js-yaml.min.js"></script>
-
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <!-- <script>
         sigma.parsers.json('data/data.json', {
             container: 'graphcontainer',
@@ -198,6 +198,26 @@
     <script src="assets/js/monaco/min/vs/editor/editor.main.js"></script>
 
     <script>
+
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+
         $.get('data/' + localStorage.getItem('mapping') + '.yaml', function (data) {
             var editor = monaco.editor.create(document.getElementById('container'), {
                 value: data,
@@ -208,7 +228,7 @@
         function loadData() {
             $.get('data/' + localStorage.getItem('mapping') + '.yaml', function (data) {
                 //data is the JSON string
-                monaco.editor.setModel(monaco.editor.createModel(data, 'yaml'));
+                monaco.editor.getModels()[0].setValue(data);
             });
         }
 
@@ -231,7 +251,7 @@
                 type: "GET",
                 url: "exec?mapping=" + localStorage.getItem('mapping'),
                 success: function (data) {
-                    alert(data);
+                    toastr["info"](data, "Usage limitations")
                 }
             });
         }
