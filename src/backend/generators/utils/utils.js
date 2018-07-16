@@ -28,6 +28,7 @@ function getMznShowConstraint(left, op, right) {
 
 
 function getPlan(sla, plan, type, path, method) {
+    path = path.replace(/\?.*$/, "");
     if (sla && sla.plans && sla.plans[plan] && sla.plans[plan][type]) {
 
         let res;
@@ -53,6 +54,7 @@ function getPlan(sla, plan, type, path, method) {
 
 function findOperationId(oas, path, method) {
     method = method.toLowerCase();
+    path = path.replace(/\?.*$/, "");
     if (oas !== undefined && oas.paths !== undefined && oas.paths[path] !== undefined && oas.paths[path][method] !== undefined) {
         return oas.paths[path][method]["operationId"];
     } else {
