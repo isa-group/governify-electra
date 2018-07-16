@@ -35,17 +35,22 @@ module.exports.generateMZN = function (mappingFilePath, name, selectedPlan, mznM
         sizeVarName = sizeVarName ? sizeVarName : mapping.params.size.value;
         Object.entries(mapping.params).forEach(([paramName, paramObj]) => {
             if (paramObj.value) {
-                let paramObjValueNumber = Number(paramObj.value);
-                let mznParamType = typeof paramObj.value === "string" && isNaN(paramObjValueNumber) ? 'string' : 'float'; //TODO: warning if type not supported
-                let mznParamValue = typeof paramObj.value !== "string" && !isNaN(paramObjValueNumber) ? paramObj.value : '"' + paramObj.value + '"';
+                let value = paramObj.value;
+                let paramObjValueNumber = Number(value);
+                let isNotNumber = typeof value === "string" && isNaN(paramObjValueNumber);
+                let mznParamType = isNotNumber ? 'string' : 'float'; //TODO: warning if type not supported
+                let mznParamValue = isNotNumber ? '"' + value + '"' : value;
                 mznData = mznData.concat(mznParamType).concat(': ').concat(paramName).concat(' = ').concat(mznParamValue).concat(';').concat('\n');
             } else if (paramObj.plans) {
                 let plans = utils.getAllPlanNames(sla, mapping);
                 plans.forEach(planName => {
                     let planNameVar = planName.replace(regex, ''); //remove special characters
                     if (planName === selectedPlan || planNameVar === selectedPlan) {
-                        let mznParamType = typeof paramObj.plans[planName].value === "string" ? 'string' : 'float'; //TODO: warning if type not supported
-                        let mznParamValue = typeof paramObj.plans[planName].value !== "string" ? paramObj.plans[planName].value : '"' + paramObj.plans[planName].value + '"';
+                        let value = paramObj.plans[planName].value;
+                        let paramObjValueNumber = Number(value);
+                        let isNotNumber = typeof value === "string" && isNaN(paramObjValueNumber);
+                        let mznParamType = isNotNumber ? 'string' : 'float'; //TODO: warning if type not supported
+                        let mznParamValue = isNotNumber ? '"' + value + '"' : value;
                         mznData = mznData.concat(mznParamType).concat(': ').concat(paramName).concat(' = ').concat(mznParamValue).concat(';').concat('\n');
                     }
                 });
