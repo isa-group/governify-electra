@@ -6,94 +6,80 @@ params:
   rootOperation:
     value: getReportR00
   researchers:
-    value: 1512
+    value: '1512'
   pageSize:
     plans:
       non-subscriber:
-        value: 25
+        value: '25'
       subscriber:
-        value: 200
+        value: '200'
   numPublications:
-    value: 37
+    value: '37'
   numPublicationsTypeJournal:
-    value: 24
+    value: '24'
   numPublicationsTypeConference:
-    value: 13
+    value: '13'
 services:
   scopus: ./scopus-oas.yaml
   sabius-publication-data: ./sabius-publication-data-oas.yaml
   sabius-reports: ./sabius-reports-oas.yaml
 mappings:
-
   - input:
       service: sabius-reports
-      path: '/api/reports/r00'
+      path: /api/reports/r00
       method: GET
-
     output:
       - service: sabius-publication-data
         path: '/v1/{snapshot}/authors'
         method: GET
-        count: 1
-
+        count: '1'
       - service: sabius-publication-data
         path: '/v1/{snapshot}/authors/{authorId}/metrics'
         method: GET
-        count: 1
-
+        count: '1'
       - service: sabius-publication-data
         path: '/v1/{snapshot}/authors/{authorId}/documents'
         method: GET
-        count: 1
-  
+        count: '1'
   - input:
       service: sabius-publication-data
       path: '/v1/{snapshot}/authors'
       method: GET
-
     output:
       - service: scopus
         path: /search/author
         method: GET
-        count: 1
-
+        count: '1'
       - service: scopus
         path: '/author/author_id/{author_id}'
         method: GET
-        count: 1
-
+        count: '1'
   - input:
       service: sabius-publication-data
       path: '/v1/{snapshot}/authors/{authorId}/metrics'
       method: GET
-
     output:
       - service: scopus
         path: '/author/author_id/{author_id}'
         method: GET
-        count: 1
-
+        count: '1'
   - input:
       service: sabius-publication-data
       path: '/v1/{snapshot}/authors/{authorId}/documents'
       method: GET
-
     output:
       - service: scopus
         path: /search/scopus
         method: GET
         count: ceil(numPublications/pageSize)
-
       - service: scopus
         path: '/abstract/scopus_id/{scopus_id}'
         method: GET
         count: numPublications
-
       - service: scopus
         path: '/serial/title/issn/{issn}'
         method: GET
         count: numPublicationsTypeJournal
-
       - service: scopus
         path: /serial/title
         method: GET

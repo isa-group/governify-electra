@@ -15,7 +15,7 @@ limits_b1m1 [shape=note, style=filled, fillcolor="#F1D991" label=<
 </tr>
 <tr>
 <td><b>Quota</b></td>
-<td>6 req weekly</td>
+<td>33 req weekly</td>
 </tr>
 <tr>
 <td><b>Rate</b></td>
@@ -158,9 +158,9 @@ params [shape=note, style=filled, fillcolor="#F0F8FF" label=<
 <tr><td><b>Boundary service op.</b></td><td>b1m1</td></tr>
 </table>
 >];
-b1m1 -> s1m1 [ color=red, penwidth=2.0, label="[R=10]" ];
+b1m1 -> s1m1 [ color=red, penwidth=2.0, label="[R=1]" ];
 b1m1 -> s1m2 [ color=red, penwidth=2.0, label="[R=1]" ];
-b1m1 -> s2m4 [ color=red, penwidth=2.0, label="[R=4]" ];
+b1m1 -> s2m4 [ color=red, penwidth=2.0, label="[R=1]" ];
 s1m1 -> s2m1 [ color=red, penwidth=2.0, label="[R=1]" ];
 s1m2 -> s2m1 [ color=red, penwidth=2.0, label="[R=1]" ];
 s2m1 -> s2m2 [ color=red, penwidth=2.0, label="[R=1]" ];

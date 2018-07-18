@@ -18,7 +18,7 @@ mappings:
       - service: s1
         path: /api/s1/m1
         method: GET
-        count: '10'
+        count: '1'
       - service: s1
         path: /api/s1/m2
         method: GET
@@ -26,7 +26,7 @@ mappings:
       - service: s2
         path: /api/s2/m4
         method: GET
-        count: '4'
+        count: '1'
   - input:
       service: s1
       path: /api/s1/m1

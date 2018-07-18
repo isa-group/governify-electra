@@ -21,7 +21,7 @@ string: selectedPlan = "Usage limitations";
 	%method: GET
 
 %Mapping
-float: count_b1m1_s1m1 = 10;
+float: count_b1m1_s1m1 = 1;
 	%BEGIN LIMITS FOR: s1m1
 		%Plan: Usage limitations
 		float: quota_Usagelimitations_s1m1_value = 100;
@@ -81,7 +81,7 @@ float: count_b1m1_s1m2 = 1;
 	%method: GET
 
 %Mapping
-float: count_b1m1_s2m4 = 4;
+float: count_b1m1_s2m4 = 1;
 	%BEGIN LIMITS FOR: s2m4
 		%Plan: Usage limitations
 		float: quota_Usagelimitations_s2m4_value = 100;

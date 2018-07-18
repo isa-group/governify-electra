@@ -40,7 +40,7 @@ module.exports.generateMappingDOT = function (mappingFilePath, name, INPUT_SUBFO
             concat('<td><b>Param value</b></td>').concat('\n');
 
             Object.entries(mapping.params).forEach(([param, value]) => {
-                if (param && param !== 'sizeVarName' && param !== 'selectedPlan') {
+                if (param && !['sizeVarName', 'selectedPlan', 'rootOperation'].includes(param)) {
                     graphvizContent = graphvizContent.concat('</tr>').concat('\n')
                         .concat('<tr>').concat('\n')
                         .concat('<td><b>').concat(param).concat('</b></td>').concat('\n');

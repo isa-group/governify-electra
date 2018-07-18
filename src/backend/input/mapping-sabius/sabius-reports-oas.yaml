@@ -7,7 +7,7 @@ info:
   termsOfService: ''
   contact:
     email: ''
-  # x-sla: './sabius-reports-plans.yaml'
+  x-sla: './sabius-reports-plans.yaml'
 paths:
   /api/reports/r00:
     get:

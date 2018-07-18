@@ -20,17 +20,16 @@ pricing:
 availability: 'R/00:00:00Z/15:00:00Z'
 configuration: {}
 plans:
-  "default":
+  subscriber:
     quotas:
       /api/reports/r00:
         get:
           requests:
-            - max: 100
+            - max: 50
               period: weekly
-
     rates:
       /api/reports/r00:
         get:
           requests:
-            - max: 1
+            - max: unlimited
               period: secondly

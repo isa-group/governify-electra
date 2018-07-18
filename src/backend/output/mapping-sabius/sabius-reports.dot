@@ -1,4 +1,21 @@
 subgraph "sabius-reports" {
 node [shape=box]
 node [ style=rounded, shape=box, label = "<sabius-reports> GET /api/reports/r00" ] "getReportR00"
+limits_getReportR00 [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>subscriber</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>50 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>unlimited req secondly</td>
+</tr>
+</table>
+>];
+getReportR00 -> limits_getReportR00[ style=dashed, color=black, penwidth=0.5 ];
 }

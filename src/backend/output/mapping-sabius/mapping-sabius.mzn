@@ -448,10 +448,12 @@ float: count_getDocumentsByAuthor_SerialTitleSearch = numPublicationsTypeConfere
 var int: researchers_subscriber_maximize;
 constraint  researchers_subscriber_maximize >= 0;
 
-constraint researchers_subscriber_maximize * count_getAuthor_AuthorSearch <= quota_subscriber_AuthorSearch_value;
-output ["researchers_subscriber_maximize * count_getAuthor_AuthorSearch = ",show(researchers_subscriber_maximize * count_getAuthor_AuthorSearch)];
+constraint researchers_subscriber_maximize * count_getReportR00_getAuthor * count_getAuthor_AuthorSearch <= quota_subscriber_AuthorSearch_value;
+output ["researchers_subscriber_maximize * count_getReportR00_getAuthor * count_getAuthor_AuthorSearch = ",show(researchers_subscriber_maximize * count_getReportR00_getAuthor * count_getAuthor_AuthorSearch)];
 output ["\n"];
 output ["researchers_subscriber_maximize = ",show(researchers_subscriber_maximize)];
+output ["\n"];
+output ["count_getReportR00_getAuthor = ",show(count_getReportR00_getAuthor)];
 output ["\n"];
 output ["count_getAuthor_AuthorSearch = ",show(count_getAuthor_AuthorSearch)];
 output ["\n"];
@@ -460,22 +462,28 @@ output ["\n"];
 output ["\n"];
 
 
-constraint researchers_subscriber_maximize * ( (  count_getAuthor_AuthorRetrievalid  ) + (  count_getAuthorMetrics_AuthorRetrievalid  ) ) <= quota_subscriber_AuthorRetrievalid_value;
-output ["researchers_subscriber_maximize * ( (  count_getAuthor_AuthorRetrievalid  ) + (  count_getAuthorMetrics_AuthorRetrievalid  ) ) = ",show(researchers_subscriber_maximize * ( (  count_getAuthor_AuthorRetrievalid  ) + (  count_getAuthorMetrics_AuthorRetrievalid  ) ))];
+constraint researchers_subscriber_maximize * ( (  count_getReportR00_getAuthor * count_getAuthor_AuthorRetrievalid  ) + (  count_getReportR00_getAuthorMetrics * count_getAuthorMetrics_AuthorRetrievalid  ) ) <= quota_subscriber_AuthorRetrievalid_value;
+output ["researchers_subscriber_maximize * ( (  count_getReportR00_getAuthor * count_getAuthor_AuthorRetrievalid  ) + (  count_getReportR00_getAuthorMetrics * count_getAuthorMetrics_AuthorRetrievalid  ) ) = ",show(researchers_subscriber_maximize * ( (  count_getReportR00_getAuthor * count_getAuthor_AuthorRetrievalid  ) + (  count_getReportR00_getAuthorMetrics * count_getAuthorMetrics_AuthorRetrievalid  ) ))];
 output ["\n"];
 output ["researchers_subscriber_maximize = ",show(researchers_subscriber_maximize)];
 output ["\n"];
-output ["count_getAuthor_AuthorRetrievalid   +   count_getAuthorMetrics_AuthorRetrievalid = ",show(count_getAuthor_AuthorRetrievalid   +   count_getAuthorMetrics_AuthorRetrievalid)];
+output ["count_getReportR00_getAuthor = ",show(count_getReportR00_getAuthor)];
+output ["\n"];
+output ["count_getAuthor_AuthorRetrievalid   +   count_getReportR00_getAuthorMetrics = ",show(count_getAuthor_AuthorRetrievalid   +   count_getReportR00_getAuthorMetrics)];
+output ["\n"];
+output ["count_getAuthorMetrics_AuthorRetrievalid = ",show(count_getAuthorMetrics_AuthorRetrievalid)];
 output ["\n"];
 output ["quota_subscriber_AuthorRetrievalid_value = ",show(quota_subscriber_AuthorRetrievalid_value)];
 output ["\n"];
 output ["\n"];
 
 
-constraint researchers_subscriber_maximize * count_getDocumentsByAuthor_ScopusSearch <= quota_subscriber_ScopusSearch_value;
-output ["researchers_subscriber_maximize * count_getDocumentsByAuthor_ScopusSearch = ",show(researchers_subscriber_maximize * count_getDocumentsByAuthor_ScopusSearch)];
+constraint researchers_subscriber_maximize * count_getReportR00_getDocumentsByAuthor * count_getDocumentsByAuthor_ScopusSearch <= quota_subscriber_ScopusSearch_value;
+output ["researchers_subscriber_maximize * count_getReportR00_getDocumentsByAuthor * count_getDocumentsByAuthor_ScopusSearch = ",show(researchers_subscriber_maximize * count_getReportR00_getDocumentsByAuthor * count_getDocumentsByAuthor_ScopusSearch)];
 output ["\n"];
 output ["researchers_subscriber_maximize = ",show(researchers_subscriber_maximize)];
+output ["\n"];
+output ["count_getReportR00_getDocumentsByAuthor = ",show(count_getReportR00_getDocumentsByAuthor)];
 output ["\n"];
 output ["count_getDocumentsByAuthor_ScopusSearch = ",show(count_getDocumentsByAuthor_ScopusSearch)];
 output ["\n"];
@@ -484,10 +492,12 @@ output ["\n"];
 output ["\n"];
 
 
-constraint researchers_subscriber_maximize * count_getDocumentsByAuthor_AbstractRetrieval4 <= quota_subscriber_AbstractRetrieval4_value;
-output ["researchers_subscriber_maximize * count_getDocumentsByAuthor_AbstractRetrieval4 = ",show(researchers_subscriber_maximize * count_getDocumentsByAuthor_AbstractRetrieval4)];
+constraint researchers_subscriber_maximize * count_getReportR00_getDocumentsByAuthor * count_getDocumentsByAuthor_AbstractRetrieval4 <= quota_subscriber_AbstractRetrieval4_value;
+output ["researchers_subscriber_maximize * count_getReportR00_getDocumentsByAuthor * count_getDocumentsByAuthor_AbstractRetrieval4 = ",show(researchers_subscriber_maximize * count_getReportR00_getDocumentsByAuthor * count_getDocumentsByAuthor_AbstractRetrieval4)];
 output ["\n"];
 output ["researchers_subscriber_maximize = ",show(researchers_subscriber_maximize)];
+output ["\n"];
+output ["count_getReportR00_getDocumentsByAuthor = ",show(count_getReportR00_getDocumentsByAuthor)];
 output ["\n"];
 output ["count_getDocumentsByAuthor_AbstractRetrieval4 = ",show(count_getDocumentsByAuthor_AbstractRetrieval4)];
 output ["\n"];
@@ -496,10 +506,12 @@ output ["\n"];
 output ["\n"];
 
 
-constraint researchers_subscriber_maximize * count_getDocumentsByAuthor_SerialTitleMetadata <= quota_subscriber_SerialTitleMetadata_value;
-output ["researchers_subscriber_maximize * count_getDocumentsByAuthor_SerialTitleMetadata = ",show(researchers_subscriber_maximize * count_getDocumentsByAuthor_SerialTitleMetadata)];
+constraint researchers_subscriber_maximize * count_getReportR00_getDocumentsByAuthor * count_getDocumentsByAuthor_SerialTitleMetadata <= quota_subscriber_SerialTitleMetadata_value;
+output ["researchers_subscriber_maximize * count_getReportR00_getDocumentsByAuthor * count_getDocumentsByAuthor_SerialTitleMetadata = ",show(researchers_subscriber_maximize * count_getReportR00_getDocumentsByAuthor * count_getDocumentsByAuthor_SerialTitleMetadata)];
 output ["\n"];
 output ["researchers_subscriber_maximize = ",show(researchers_subscriber_maximize)];
+output ["\n"];
+output ["count_getReportR00_getDocumentsByAuthor = ",show(count_getReportR00_getDocumentsByAuthor)];
 output ["\n"];
 output ["count_getDocumentsByAuthor_SerialTitleMetadata = ",show(count_getDocumentsByAuthor_SerialTitleMetadata)];
 output ["\n"];
@@ -508,10 +520,12 @@ output ["\n"];
 output ["\n"];
 
 
-constraint researchers_subscriber_maximize * count_getDocumentsByAuthor_SerialTitleSearch <= quota_subscriber_SerialTitleSearch_value;
-output ["researchers_subscriber_maximize * count_getDocumentsByAuthor_SerialTitleSearch = ",show(researchers_subscriber_maximize * count_getDocumentsByAuthor_SerialTitleSearch)];
+constraint researchers_subscriber_maximize * count_getReportR00_getDocumentsByAuthor * count_getDocumentsByAuthor_SerialTitleSearch <= quota_subscriber_SerialTitleSearch_value;
+output ["researchers_subscriber_maximize * count_getReportR00_getDocumentsByAuthor * count_getDocumentsByAuthor_SerialTitleSearch = ",show(researchers_subscriber_maximize * count_getReportR00_getDocumentsByAuthor * count_getDocumentsByAuthor_SerialTitleSearch)];
 output ["\n"];
 output ["researchers_subscriber_maximize = ",show(researchers_subscriber_maximize)];
+output ["\n"];
+output ["count_getReportR00_getDocumentsByAuthor = ",show(count_getReportR00_getDocumentsByAuthor)];
 output ["\n"];
 output ["count_getDocumentsByAuthor_SerialTitleSearch = ",show(count_getDocumentsByAuthor_SerialTitleSearch)];
 output ["\n"];

@@ -1,8 +1,10 @@
 params:
-  size:
+  sizeVarName:
     value: researchers
   selectedPlan:
     value: subscriber
+  rootOperation:
+    value: getReportR00
   researchers:
     value: '1512'
   pageSize:
@@ -20,90 +22,65 @@ params:
 services:
   scopus: ./scopus-oas.yaml
   sabius-publication-data: ./sabius-publication-data-oas.yaml
+  sabius-reports: ./sabius-reports-oas.yaml
 mappings:
+  - input:
+      service: sabius-reports
+      path: /api/reports/r00
+      method: GET
+    output:
+      - service: sabius-publication-data
+        path: '/v1/{snapshot}/authors'
+        method: GET
+        count: '1'
+      - service: sabius-publication-data
+        path: '/v1/{snapshot}/authors/{authorId}/metrics'
+        method: GET
+        count: '1'
+      - service: sabius-publication-data
+        path: '/v1/{snapshot}/authors/{authorId}/documents'
+        method: GET
+        count: '1'
   - input:
       service: sabius-publication-data
       path: '/v1/{snapshot}/authors'
       method: GET
-      size: '1'
-      gateway:
-        type: sequential
-        id: ''
-        prob: ''
     output:
       - service: scopus
         path: /search/author
         method: GET
-        size: '1'
-        gateway:
-          type: sequential
-          id: ''
-          prob: ''
+        count: '1'
       - service: scopus
         path: '/author/author_id/{author_id}'
         method: GET
-        size: '1'
-        gateway:
-          type: sequential
-          id: ''
-          prob: ''
+        count: '1'
   - input:
       service: sabius-publication-data
       path: '/v1/{snapshot}/authors/{authorId}/metrics'
       method: GET
-      size: '1'
-      gateway:
-        type: and
-        id: and_o_1
-        prob: ''
     output:
       - service: scopus
         path: '/author/author_id/{author_id}'
         method: GET
-        size: '1'
-        gateway:
-          type: sequential
-          id: ''
-          prob: ''
+        count: '1'
   - input:
       service: sabius-publication-data
       path: '/v1/{snapshot}/authors/{authorId}/documents'
       method: GET
-      size: '1'
-      gateway:
-        type: and
-        id: and_o_1
-        prob: ''
     output:
       - service: scopus
         path: /search/scopus
         method: GET
-        size: ceil(numPublications/pageSize)
-        gateway:
-          type: sequential
-          id: ''
-          prob: ''
+        count: ceil(numPublications/pageSize)
       - service: scopus
         path: '/abstract/scopus_id/{scopus_id}'
         method: GET
-        size: numPublications
-        gateway:
-          type: sequential
-          id: ''
-          prob: ''
+        count: numPublications
       - service: scopus
         path: '/serial/title/issn/{issn}'
         method: GET
-        size: numPublicationsTypeJournal
-        gateway:
-          type: xor
-          id: xor_i_1
-          prob: numPublicationsTypeJournal/numPublications
+        count: numPublicationsTypeJournal
       - service: scopus
         path: /serial/title
         method: GET
-        size: numPublicationsTypeConference
-        gateway:
-          type: xor
-          id: xor_i_1
-          prob: numPublicationsTypeConference/numPublications
+        count: numPublicationsTypeConference
