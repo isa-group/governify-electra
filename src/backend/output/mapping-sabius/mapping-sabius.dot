@@ -146,10 +146,21 @@ node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:sna
 node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors/:authorId/documents" ] "getDocumentsByAuthor"
 }
 
+
+
+subgraph "sabius-reports" {
+node [shape=box]
+node [ style=rounded, shape=box, label = "<sabius-reports> GET /api/reports/r00" ] "getReportR00"
+}
+
 params [shape=note, style=filled, fillcolor="#F0F8FF" label=<
 <table border="0" cellborder="1" cellpadding="2" cellspacing="0">
 <tr>
 <td><b>Param name</b></td><td><b>Param value</b></td>
+</tr>
+<tr>
+<td><b>rootOperation</b></td>
+<td>getReportR00</td>
 </tr>
 <tr>
 <td><b>researchers</b></td>
@@ -171,19 +182,19 @@ params [shape=note, style=filled, fillcolor="#F0F8FF" label=<
 <td><b>numPublicationsTypeConference</b></td>
 <td>13</td>
 </tr>
+<tr><td><b>Boundary service op.</b></td><td>getReportR00</td></tr>
 </table>
 >];
-node [ style="rounded,filled", fillcolor="#E6E6E6", shape=circle, xlabel = "researchers" ] "boundary";
+getReportR00 -> getAuthor [ color=red, penwidth=2.0, label="[R=1]" ];
+getReportR00 -> getAuthorMetrics [ color=red, penwidth=2.0, label="[R=1]" ];
+getReportR00 -> getDocumentsByAuthor [ color=red, penwidth=2.0, label="[R=1]" ];
 getAuthor -> AuthorSearch [ color=red, penwidth=2.0, label="[R=1]" ];
 getAuthor -> AuthorRetrievalid [ color=red, penwidth=2.0, label="[R=1]" ];
-boundary -> getAuthor [ color=grey, penwidth=2.0, label="[R=1]" ];
 getAuthorMetrics -> AuthorRetrievalid [ color=red, penwidth=2.0, label="[R=1]" ];
-boundary -> getAuthorMetrics [ color=grey, penwidth=2.0, label="[R=1]" ];
 getDocumentsByAuthor -> ScopusSearch [ color=red, penwidth=2.0, label="[R=ceil(numPublications/pageSize)]" ];
 getDocumentsByAuthor -> AbstractRetrieval4 [ color=red, penwidth=2.0, label="[R=numPublications]" ];
-getDocumentsByAuthor -> SerialTitleMetadata [ color=red, penwidth=2.0, label="[R=numPublicationsTypeJournal, GW=xor, p=numPublicationsTypeJournal/numPublications]" ];
-getDocumentsByAuthor -> SerialTitleSearch [ color=red, penwidth=2.0, label="[R=numPublicationsTypeConference, GW=xor, p=numPublicationsTypeConference/numPublications]" ];
-boundary -> getDocumentsByAuthor [ color=grey, penwidth=2.0, label="[R=1]" ];
+getDocumentsByAuthor -> SerialTitleMetadata [ color=red, penwidth=2.0, label="[R=numPublicationsTypeJournal]" ];
+getDocumentsByAuthor -> SerialTitleSearch [ color=red, penwidth=2.0, label="[R=numPublicationsTypeConference]" ];
 
 
 }

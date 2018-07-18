@@ -1,0 +1,4 @@
+subgraph "sabius-reports" {
+node [shape=box]
+node [ style=rounded, shape=box, label = "<sabius-reports> GET /api/reports/r00" ] "getReportR00"
+}

@@ -1,14 +1,20 @@
 'use strict';
 
+const path = require('path');
+const fs = require('fs');
+const jsyaml = require('js-yaml');
+
 const logger = require('./../../logger');
 
 function getAllPlanNames(sla, mapping) {
     const planNamesSet = new Set();
     mapping.mappings.forEach(singleMapping => {
         singleMapping.output.forEach(singleOutput => {
-            Object.entries(sla[singleOutput.service].plans).forEach(([planName, plan]) => {
-                planNamesSet.add(planName);
-            });
+            if (sla[singleOutput.service] && sla[singleOutput.service].plans) {
+                Object.entries(sla[singleOutput.service].plans).forEach(([planName, plan]) => {
+                    planNamesSet.add(planName);
+                });
+            }
         });
     });
     return planNamesSet;
@@ -28,37 +34,41 @@ function getMznShowConstraint(left, op, right) {
 
 
 function getPlan(sla, plan, type, path, method) {
-    path = path.replace(/\?.*$/, "");
+    path = path.replace(/\?.*$/, '');
     if (sla && sla.plans && sla.plans[plan] && sla.plans[plan][type]) {
 
         let res;
         Object.entries(sla.plans[plan][type]).forEach(([slaPath, slaPathObject]) => {
-            if (slaPath === path || slaPath.replace(/\{/g, ":").replace(/\}/g, "") === path) {
+            if (slaPath === path || slaPath.replace(/\{/g, ":").replace(/\}/g, '') === path) {
                 method = method.toLowerCase();
                 if (sla.plans[plan][type][slaPath] && sla.plans[plan][type][slaPath][method]) {
                     res = sla.plans[plan][type][slaPath][method];
                 } else {
-                    logger.info("%s not found for plan %s and path %s and method %s", type, plan, path, method);
+                    logger.info('%s not found for plan %s and path %s and method %s (sla.plans[plan][type][slaPath][method])', type, plan, path, method);
                 }
             }
         });
         if (res) {
             return res;
         } else {
-            logger.info("%s not found for plan %s and path %s and method %s", type, plan, path, method);
+            logger.info('%s not found for plan %s and path %s and method %s (res)', type, plan, path, method);
         }
     } else {
-        logger.info("%s not found for plan %s and path %s and method %s", type, plan, path, method);
+        logger.info('%s not found for plan %s and path %s and method %s (sla.plans[plan][type])', type, plan, path, method);
     }
 }
 
 function findOperationId(oas, path, method) {
-    method = method.toLowerCase();
-    path = path.replace(/\?.*$/, "");
-    if (oas !== undefined && oas.paths !== undefined && oas.paths[path] !== undefined && oas.paths[path][method] !== undefined) {
-        return oas.paths[path][method]["operationId"];
+    if (oas && path && method) {
+        method = method.toLowerCase();
+        path = path.replace(/\?.*$/, '');
+        if (oas !== undefined && oas.paths !== undefined && oas.paths[path] !== undefined && oas.paths[path][method] !== undefined) {
+            return oas.paths[path][method]['operationId'];
+        } else {
+            logger.info('operationId not found for path %s and method %s in %s', path, method, oas.info.title);
+        }
     } else {
-        logger.info("operationId not found for path %s and method %s", path, method);
+        logger.info('oas %s or path %s or method %s not OK', oas, path, method);
     }
 }
 
@@ -78,10 +88,32 @@ function findPathAndMethod(oas, operationId) {
         if (pathMethod) {
             return pathMethod;
         } else {
-            logger.info("path/method not found for operationId %s", operationId);
+            logger.debug('path/method not found for operationId %s in %s', operationId, oas.info.title);
         }
     } else {
-        logger.info("OAS document not OK %s", oas);
+        logger.info('OAS document not OK %s', oas);
+    }
+}
+
+function isDirectlyConnected(oas, mapping, inputOp, outputOp) {
+
+    const inputMappings = mapping.mappings.filter(inputMapping => {
+        let operationId = findOperationId(oas[inputMapping.input.service], inputMapping.input.path, inputMapping.input.method);
+        return operationId === inputOp;
+    });
+
+    if (inputMappings.length === 1) {
+        const outputMappings = inputMappings[0].output.filter(outputMapping => {
+            let operationId = findOperationId(oas[outputMapping.service], outputMapping.path, outputMapping.method);
+            return operationId === outputOp;
+        });
+        return outputMappings.length > 0;
+    } else if (inputMappings.length > 1) {
+        logger.info('Multiple input mappings have been defined');
+        return false;
+
+    } else {
+        return false;
     }
 }
 
@@ -107,7 +139,7 @@ function getGatewayProb(oas, mapping, inputOperationId, outputOperationId) {
                         }
                     }
                 } else {
-                    if (singleMapping.input && singleMapping.input.gateway.type) {
+                    if (singleMapping.input && singleMapping.input.gateway && singleMapping.input.gateway.type) {
                         let gatewayType = singleMapping.input.gateway.type.toLowerCase();
                         let gwOne = ['sequential', 'and'].includes(gatewayType);
                         let probIsDefined = singleMapping.input.gateway.prob != undefined;
@@ -127,7 +159,7 @@ function getGatewayProb(oas, mapping, inputOperationId, outputOperationId) {
     if (prob) {
         return prob;
     } else {
-        logger.info('prob not found for inputOperationId %s and outputOperationId %s. USING DEFAULT=1', inputOperationId, outputOperationId);
+        logger.debug('prob not found for inputOperationId %s and outputOperationId %s. USING DEFAULT=1', inputOperationId, outputOperationId);
         return 1;
     }
 }
@@ -170,6 +202,50 @@ function getGatewayInputAmount(oas, mapping, gatewayId) {
     }
 }
 
+function setQuotaValueFromCSP(mappingFileName, cspVariable, cspValue) {
+    //TODO: is just a mock method, not generic at all
+
+    // mappingFileName = "mapping"
+    // cspVariable = "inputSize_Usagelimitations_maximize"
+    // cspValue = 2
+
+    let planCSP = cspVariable.split('_')[1];
+    const regex = /[^\wsmi]/gi;
+
+    let boundaryOperationPlanFile;
+    let boundaryOperationPath;
+    let boundaryOperationMethod;
+
+    switch (mappingFileName) {
+        case 'mapping':
+            boundaryOperationPlanFile = path.join(__dirname, '..', '..', 'input', mappingFileName, 'b1-plans.yaml');
+            boundaryOperationPath = '/api/b1/m1';
+            boundaryOperationMethod = 'get';
+            break;
+        case 'mapping-sabius':
+            boundaryOperationPlanFile = path.join(__dirname, '..', '..', 'input', mappingFileName, 'sabius-reports-plans.yaml');
+            boundaryOperationPath = '/api/reports/r00';
+            boundaryOperationMethod = 'get';
+            break;
+        default:
+            logger.info('mappingFileName not supported yet');
+            break;
+    }
+
+    let plans = jsyaml.safeLoad(fs.readFileSync(boundaryOperationPlanFile, 'utf8'));
+
+    Object.entries(plans.plans).forEach(entry => {
+        if (entry[0].replace(regex, '') === planCSP) {
+            entry[1]['quotas'][boundaryOperationPath][boundaryOperationMethod]['requests'][0]['max'] = cspValue;
+            plans.plans[entry[0]] = entry[1];
+            logger.info('Updated plan %s', boundaryOperationPlanFile);
+        }
+    });
+    fs.writeFileSync(boundaryOperationPlanFile, jsyaml.safeDump(plans), 'utf8');
+}
+
+
+
 module.exports = {
     'getAllPlanNames': getAllPlanNames,
     'getMznBreakLine': getMznBreakLine,
@@ -180,5 +256,7 @@ module.exports = {
     'getMznShowConstraint': getMznShowConstraint,
     'getGatewayProb': getGatewayProb,
     'getGatewayId': getGatewayId,
-    'getGatewayInputAmount': getGatewayInputAmount
-}
+    'getGatewayInputAmount': getGatewayInputAmount,
+    'isDirectlyConnected': isDirectlyConnected,
+    'setQuotaValueFromCSP': setQuotaValueFromCSP
+};

@@ -9,7 +9,7 @@ info:
     email: ''
   x-sla: './s2-plans.yaml'
 paths:
-  /api/s2/method1:
+  /api/s2/m1:
     get:
       summary: ''
       description: ''
@@ -18,12 +18,30 @@ paths:
       responses:
         default:
           description: ''
-  /api/s2/method2:
+  /api/s2/m2:
     get:
       summary: ''
       description: ''
       parameters: []
       operationId: 's2m2'
+      responses:
+        default:
+          description: ''
+  /api/s2/m3:
+    get:
+      summary: ''
+      description: ''
+      parameters: []
+      operationId: 's2m3'
+      responses:
+        default:
+          description: ''
+  /api/s2/m4:
+    get:
+      summary: ''
+      description: ''
+      parameters: []
+      operationId: 's2m4'
       responses:
         default:
           description: ''

@@ -45,7 +45,7 @@ function _addConfiguration(uri, encoding) {
     var configString = null;
 
     if (!uri) {
-        throw new Error("Parameter URI is required");
+        throw new Error('Parameter URI is required');
     } else {
         configString = fs.readFileSync(path.join(__dirname, uri), encoding);
     }

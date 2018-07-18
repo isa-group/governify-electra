@@ -1,7 +1,7 @@
-subgraph "s3" {
+subgraph "s1" {
 node [shape=box]
-node [ style=rounded, shape=box, label = "<s3> GET /api/s3/method1" ] "s3m1"
-limits_s3m1 [shape=note, style=filled, fillcolor="#F1D991" label=<
+node [ style=rounded, shape=box, label = "<s1> GET /api/s1/m1" ] "s1m1"
+limits_s1m1 [shape=note, style=filled, fillcolor="#F1D991" label=<
 <table border="0" cellborder="1" cellpadding="2" cellspacing="0">
 <tr>
 <td></td>
@@ -17,9 +17,9 @@ limits_s3m1 [shape=note, style=filled, fillcolor="#F1D991" label=<
 </tr>
 </table>
 >];
-s3m1 -> limits_s3m1[ style=dashed, color=black, penwidth=0.5 ];
-node [ style=rounded, shape=box, label = "<s3> GET /api/s3/method2" ] "s3m2"
-limits_s3m2 [shape=note, style=filled, fillcolor="#F1D991" label=<
+s1m1 -> limits_s1m1[ style=dashed, color=black, penwidth=0.5 ];
+node [ style=rounded, shape=box, label = "<s1> GET /api/s1/m2" ] "s1m2"
+limits_s1m2 [shape=note, style=filled, fillcolor="#F1D991" label=<
 <table border="0" cellborder="1" cellpadding="2" cellspacing="0">
 <tr>
 <td></td>
@@ -35,5 +35,5 @@ limits_s3m2 [shape=note, style=filled, fillcolor="#F1D991" label=<
 </tr>
 </table>
 >];
-s3m2 -> limits_s3m2[ style=dashed, color=black, penwidth=0.5 ];
+s1m2 -> limits_s1m2[ style=dashed, color=black, penwidth=0.5 ];
 }

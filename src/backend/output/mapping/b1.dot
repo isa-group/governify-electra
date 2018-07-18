@@ -1,0 +1,21 @@
+subgraph "b1" {
+node [shape=box]
+node [ style=rounded, shape=box, label = "<b1> GET /api/b1/m1" ] "b1m1"
+limits_b1m1 [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>Usage limitations</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>6 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>unlimited req secondly</td>
+</tr>
+</table>
+>];
+b1m1 -> limits_b1m1[ style=dashed, color=black, penwidth=0.5 ];
+}

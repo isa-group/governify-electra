@@ -3,27 +3,27 @@ servers: []
 info:
   description: ''
   version: 1.0.0
-  title: S1
+  title: s4
   termsOfService: ''
   contact:
     email: ''
-  x-sla: './s1-plans.yaml'
+  x-sla: './s4-plans.yaml'
 paths:
-  /api/s1/method1:
+  /api/s4/m1:
     get:
       summary: ''
       description: ''
       parameters: []
-      operationId: 's1m1'
+      operationId: 's4m1'
       responses:
         default:
           description: ''
-  /api/s1/method2:
+  /api/s4/m2:
     get:
       summary: ''
       description: ''
       parameters: []
-      operationId: 's1m2'
+      operationId: 's4m2'
       responses:
         default:
           description: ''

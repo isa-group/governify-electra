@@ -1,0 +1,20 @@
+openapi: 3.0.0
+servers: []
+info:
+  description: ''
+  version: 1.0.0
+  title: sabius-reports
+  termsOfService: ''
+  contact:
+    email: ''
+  # x-sla: './sabius-reports-plans.yaml'
+paths:
+  /api/reports/r00:
+    get:
+      summary: ''
+      description: ''
+      parameters: []
+      operationId: 'getReportR00'
+      responses:
+        default:
+          description: ''

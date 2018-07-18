@@ -93,6 +93,6 @@ function save(fn) {
 
 
 module.exports = {
-    "paths": paths,
-    "nodes": nodes
+    'paths': paths,
+    'nodes': nodes
 }

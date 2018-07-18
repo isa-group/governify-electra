@@ -1,10 +1,14 @@
 params:
   rootOperation:
-    value: b1m1
+    value: b1s1
   sizeVarName:
-    value: inputSize
+    value: "inputSize"
   selectedPlan:
-    value: Usage limitations
+    value: "Usage limitations"
+  param1:
+    value: 1
+  param2:
+    value: 100
 services:
   b1: ./b1-oas.yaml
   s1: ./s1-oas.yaml
@@ -18,15 +22,11 @@ mappings:
       - service: s1
         path: /api/s1/m1
         method: GET
-        count: '10'
+        count: param1
       - service: s1
         path: /api/s1/m2
         method: GET
-        count: '1'
-      - service: s2
-        path: /api/s2/m4
-        method: GET
-        count: '4'
+        count: param1
   - input:
       service: s1
       path: /api/s1/m1
@@ -35,7 +35,7 @@ mappings:
       - service: s2
         path: /api/s2/m1
         method: GET
-        count: '1'
+        count: param1
   - input:
       service: s1
       path: /api/s1/m2
@@ -44,7 +44,8 @@ mappings:
       - service: s2
         path: /api/s2/m1
         method: GET
-        count: '1'
+        count: param1
+##added
   - input:
       service: s2
       path: /api/s2/m1
@@ -53,18 +54,4 @@ mappings:
       - service: s2
         path: /api/s2/m2
         method: GET
-        count: '1'
-  - input:
-      service: s2
-      path: /api/s2/m2
-      method: GET
-      count: '1'
-    output:
-      - service: s2
-        path: /api/s2/m3
-        method: GET
-        count: '1'
-      - service: s2
-        path: /api/s2/m4
-        method: GET
-        count: '1'
+        count: 1

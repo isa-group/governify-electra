@@ -2,7 +2,7 @@ context:
   id: plans
   sla: '1.0'
   type: plans
-  api: ./s4-oas.yaml
+  api: ./b1-oas.yaml
   provider: ISA Group
 infrastructure:
   supervisor: 'http://supervisor.oai.governify.io/api/v2'
@@ -22,27 +22,14 @@ configuration: {}
 plans:
   "Usage limitations":
     quotas:
-      /api/s4/method1:
+      /api/b1/m1:
         get:
           requests:
-            - max: 100
+            - max: unlimited #inputSize_Usagelimitations_maximize
               period: weekly
-      /api/s4/method2:
-        get:
-          requests:
-            - max: 100
-              period: weekly
-    
     rates:
-      /api/s4/method1:
+      /api/b1/m1:
         get:
           requests:
-            - max: 1
+            - max: unlimited
               period: secondly
-      /api/s4/method2:
-        get:
-          requests:
-            - max: 1
-              period: secondly
-
-     

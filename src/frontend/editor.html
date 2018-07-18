@@ -60,6 +60,9 @@
                                 <a href="#main" title="You should save the model before running this operation" class="button primary" onclick="exec();">Calculate usage limitations</a>
                             </li>
                             <li>
+                                <a href="#main" title="This operation will also save the model" class="button" onclick="save();">Refresh graph</a>
+                            </li>
+                            <li>
                                 <a href="#container" class="button" onclick="loadData();">Refresh editor</a>
                             </li>
                         </ul>
@@ -198,7 +201,6 @@
     <script src="assets/js/monaco/min/vs/editor/editor.main.js"></script>
 
     <script>
-
         toastr.options = {
             "closeButton": true,
             "debug": false,

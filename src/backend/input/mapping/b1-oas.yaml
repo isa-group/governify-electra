@@ -1,0 +1,20 @@
+openapi: 3.0.0
+servers: []
+info:
+  description: ''
+  version: 1.0.0
+  title: B1
+  termsOfService: ''
+  contact:
+    email: ''
+  x-sla: './b1-plans.yaml'
+paths:
+  /api/b1/m1:
+    get:
+      summary: ''
+      description: ''
+      parameters: []
+      operationId: 'b1m1'
+      responses:
+        default:
+          description: ''
