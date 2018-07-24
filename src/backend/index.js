@@ -153,6 +153,7 @@ app.get('/exec', function (req, res) {
   try {
     execMZN().then(msg => {
       logger.info('GET /exec... OK');
+      fs.copyFileSync(path.join(__dirname, '../', '..', OUTPUT_SUBFOLDER_NAME, FILE_NAME, FILE_NAME.concat('.mzn')), path.join(__dirname, '../', '..', 'src/frontend/data', FILE_NAME.concat('.mzn')));
       res.send(msg);
     });
   } catch (e) {
