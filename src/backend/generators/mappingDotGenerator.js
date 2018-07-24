@@ -37,7 +37,7 @@ module.exports.generateMappingDOT = function (mappingFilePath, name, INPUT_SUBFO
                 .concat('<table border="0" cellborder="1" cellpadding="2" cellspacing="0">').concat('\n')
                 .concat('<tr>').concat('\n')
                 .concat('<td><b>Param name</b></td>').
-            concat('<td><b>Param value</b></td>').concat('\n');
+                concat('<td><b>Param value</b></td>').concat('\n');
 
             Object.entries(mapping.params).forEach(([param, value]) => {
                 if (param && !['sizeVarName', 'selectedPlan', 'rootOperation'].includes(param)) {
@@ -65,7 +65,7 @@ module.exports.generateMappingDOT = function (mappingFilePath, name, INPUT_SUBFO
                 } else {
                     edgeInnerLabel = edgeInnerLabel.concat(']');
                 }
-                graphvizContent = graphvizContent.concat(inputOperationId).concat(' -> ').concat(outputOperationId).concat(' [ color=red, penwidth=2.0, label="').concat(edgeInnerLabel).concat('" ]').concat(';').concat('\n');
+                graphvizContent = graphvizContent.concat(inputOperationId).concat(' -> ').concat(outputOperationId).concat(' [ color="#7a7a7a", penwidth=2.0, label="').concat(edgeInnerLabel).concat('" ]').concat(';').concat('\n');
             });
 
             // graphvizContent = graphvizContent.concat('boundary'.concat(START_NODE_NAME)).concat(' -> ').concat(inputOperationId).concat(' [ color=grey, penwidth=2.0, label="').concat(edgeOuterLabel).concat('" ]').concat(';').concat('\n');
@@ -84,6 +84,8 @@ module.exports.generateMappingDOT = function (mappingFilePath, name, INPUT_SUBFO
         fs.appendFileSync(combinedFilePath, 'digraph restalk \{ \n\n rankdir=LR;\n\n');
         Object.entries(oas).forEach(([serviceName, service]) => {
             let serviceContent = fs.readFileSync(path.join(__dirname, '../', OUTPUT_SUBFOLDER_NAME, name, serviceName.concat('.dot')), "utf8");
+            // Change color to SLA of the boundary operation
+            serviceContent = serviceContent.replace('limits_'.concat(START_NODE_NAME).concat(' [shape=note, style=filled, fillcolor="#F1D991" label=<'), 'limits_'.concat(START_NODE_NAME).concat(' [shape=note, style=filled, fillcolor="#F0F8FF" label=<'));
             fs.appendFileSync(combinedFilePath, '\n\n'.concat(serviceContent).concat('\n\n'));
         });
         fs.appendFileSync(combinedFilePath, graphvizContent.concat('\n\n').concat('}'));
