@@ -4,20 +4,37 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 const path = require('path');
 const $SyncRefParser = require('json-schema-ref-parser-sync');
+const downloadFileSync = require('download-file-sync');
 
 const utils = require('./utils/utils');
 const logger = require('./../logger');
 
-module.exports.generateDOT = function (filePath, graphvizPath, name, serviceName, INPUT_SUBFOLDER_NAME, START_NODE_NAME) {
+module.exports.generateDOT = function (oasPath, graphvizPath, name, serviceName, INPUT_SUBFOLDER_NAME, START_NODE_NAME) {
 
     try {
-        const oasDocRef = yaml.safeLoad(fs.readFileSync(filePath, 'utf8'));
+
+
+        let oasDocRef = '';
+        if (oasPath.includes('http')) {
+            logger.info('DOWNLOADING OAS from %s', oasPath);
+            oasDocRef = yaml.safeLoad(downloadFileSync(oasPath));
+        } else if (oasPath.includes('./')) {
+            oasDocRef = yaml.safeLoad(fs.readFileSync(oasPath, 'utf8'));
+        }
         const oasDoc = $SyncRefParser.dereference(oasDocRef);
 
         let sla;
         if (oasDoc.info["x-sla"]) {
-            let slaFilePath = path.join(__dirname, '../', INPUT_SUBFOLDER_NAME, name, oasDoc.info["x-sla"]);
-            const slaRef = yaml.safeLoad(fs.readFileSync(slaFilePath, 'utf8'));
+            let slaFilePath = oasDoc.info["x-sla"];
+            let slaRef = '';
+            if (slaFilePath.includes('http')) {
+                logger.info('DOWNLOADING SLA from %s', slaFilePath);
+                slaRef = yaml.safeLoad(downloadFileSync(slaFilePath));
+            } else if (slaFilePath.includes('./')) {
+                slaFilePath = path.join(__dirname, '../', INPUT_SUBFOLDER_NAME, name, oasDoc.info["x-sla"]);
+                slaRef = yaml.safeLoad(fs.readFileSync(slaFilePath, 'utf8'));
+            }
+
             sla = $SyncRefParser.dereference(slaRef);
         }
 

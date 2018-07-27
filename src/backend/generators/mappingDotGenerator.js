@@ -23,21 +23,23 @@ module.exports.generateMappingDOT = function (mappingFilePath, name, INPUT_SUBFO
 
             try {
                 let docRef = '';
+                let oasDocPath = '';
                 if (oasPath.includes('http')) {
                     logger.info('DOWNLOADING OAS from %s', oasPath);
                     docRef = yaml.safeLoad(downloadFileSync(oasPath));
+                    oasDocPath = oasPath;
                 } else if (oasPath.includes('./')) {
                     let oasFilePath = path.join(__dirname, '../', INPUT_SUBFOLDER_NAME, name, oasPath);
                     docRef = yaml.safeLoad(fs.readFileSync(oasFilePath, 'utf8'));
+                    oasDocPath = path.join(__dirname, '../', INPUT_SUBFOLDER_NAME, name, serviceName.concat('-oas.yaml'));
                 }
                 oas[serviceName] = $SyncRefParser.dereference(docRef);
+
+                let graphDocPath = path.join(__dirname, '../', OUTPUT_SUBFOLDER_NAME, name, serviceName.concat('.dot'));
+                OASDotGenerator.generateDOT(oasDocPath, graphDocPath, name, serviceName, INPUT_SUBFOLDER_NAME, OUTPUT_SUBFOLDER_NAME, START_NODE_NAME);
             } catch (e) {
                 logger.error('Error ', e);
             }
-
-            let oasDocPath = path.join(__dirname, '../', INPUT_SUBFOLDER_NAME, name, serviceName.concat('-oas.yaml'));
-            let graphDocPath = path.join(__dirname, '../', OUTPUT_SUBFOLDER_NAME, name, serviceName.concat('.dot'));
-            OASDotGenerator.generateDOT(oasDocPath, graphDocPath, name, serviceName, INPUT_SUBFOLDER_NAME, OUTPUT_SUBFOLDER_NAME, START_NODE_NAME);
         });
         // logger.info(oas)
         // logger.info(mapping)

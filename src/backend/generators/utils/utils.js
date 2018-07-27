@@ -216,14 +216,15 @@ function setQuotaValueFromCSP(mappingFileName, cspVariable, cspValue) {
     let boundaryOperationPath;
     let boundaryOperationMethod;
 
+    const basePath = path.join(__dirname, "../", "../", "../", "frontend/data/sla4oai");
     switch (mappingFileName) {
         case 'mapping-simple':
-            boundaryOperationPlanFile = path.join(__dirname, '..', '..', 'input', mappingFileName, 'b1-plans.yaml');
+            boundaryOperationPlanFile = path.join(basePath, 'b1-plans.yaml');
             boundaryOperationPath = '/api/b1/m1';
             boundaryOperationMethod = 'get';
             break;
         case 'mapping-complex':
-            boundaryOperationPlanFile = path.join(__dirname, '..', '..', 'input', mappingFileName, 'sabius-reports-plans.yaml');
+            boundaryOperationPlanFile = path.join(basePath, 'sabius-reports-plans.yaml');
             boundaryOperationPath = '/api/reports/r00';
             boundaryOperationMethod = 'get';
             break;
