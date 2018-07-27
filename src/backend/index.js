@@ -9,7 +9,6 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
-const formidable = require('formidable');
 const path = require('path');
 const util = require('util');
 const fs = require('fs');
@@ -21,16 +20,6 @@ const mappingMznGenerator = require('./generators/mappingMznGenerator');
 const config = require('./configurations');
 const utils = require('./generators/utils/utils');
 const logger = require('./logger');
-
-const uploadDir = path.join(__dirname, 'data/');
-const INPUT_SUBFOLDER_NAME = 'input';
-const OUTPUT_SUBFOLDER_NAME = 'output';
-const PUBLIC_SUBFOLDER_PATH = 'src/frontend/data';
-const OUTPUT_SUBFOLDER_PATH = 'src/backend/'.concat(OUTPUT_SUBFOLDER_NAME);
-const INPUT_SUBFOLDER_PATH = 'src/backend/'.concat(INPUT_SUBFOLDER_NAME);
-const SELECTED_ANALYSIS_MODULE = 'module_5';
-const DEFAULT_MAPPING = 'mapping-simple';
-
 
 
 const app = express();
@@ -81,23 +70,23 @@ app.get('/generate', function (req, res) {
   const mzn = req.query.mzn;
 
   function generate(dot, mzn) {
-    const FILE_NAME = req.query.mapping ? req.query.mapping : DEFAULT_MAPPING;
+    const FILE_NAME = req.query.mapping ? req.query.mapping : config.app.DEFAULT_MAPPING;
     const START_NODE_NAME = req.query.start ? req.query.start : null;
 
     const SELECTED_PLAN = null; // used the default in mapping file
     const SIZE_NAME = null; // used the default in mapping file
     try {
-      const mappingFilePath = path.join(__dirname, INPUT_SUBFOLDER_NAME, FILE_NAME, FILE_NAME.concat('.yaml'));
+      const mappingFilePath = path.join(__dirname, config.app.INPUT_SUBFOLDER_NAME, FILE_NAME, FILE_NAME.concat('.yaml'));
       if (dot) {
         logger.info('Generating DOT...');
-        mappingDotGenerator.generateMappingDOT(mappingFilePath, FILE_NAME, INPUT_SUBFOLDER_NAME, OUTPUT_SUBFOLDER_NAME, START_NODE_NAME);
+        mappingDotGenerator.generateMappingDOT(mappingFilePath, FILE_NAME, config.app.INPUT_SUBFOLDER_NAME, config.app.OUTPUT_SUBFOLDER_NAME, START_NODE_NAME);
         //TODO: cmd only works on Windows, fix it
-        exec('dot %CD%\\src\\backend\\'.concat(OUTPUT_SUBFOLDER_NAME).concat('\\').concat(FILE_NAME).concat('\\').concat(FILE_NAME).concat('.dot -Tpng -o %CD%\\src\\frontend\\data').concat('\\').concat(FILE_NAME).concat('.png'));
+        exec('dot %CD%\\src\\backend\\'.concat(config.app.OUTPUT_SUBFOLDER_NAME).concat('\\').concat(FILE_NAME).concat('\\').concat(FILE_NAME).concat('.dot -Tpng -o %CD%\\src\\frontend\\data').concat('\\').concat(FILE_NAME).concat('.png'));
         logger.info('Generating DOT OK');
       }
       if (mzn) {
         logger.info('Generating MZN...');
-        mappingMznGenerator.generateMZN(mappingFilePath, FILE_NAME, SELECTED_PLAN, SELECTED_ANALYSIS_MODULE, SIZE_NAME, INPUT_SUBFOLDER_NAME, OUTPUT_SUBFOLDER_NAME, START_NODE_NAME);
+        mappingMznGenerator.generateMZN(mappingFilePath, FILE_NAME, SELECTED_PLAN, config.app.SELECTED_ANALYSIS_MODULE, SIZE_NAME, config.app.INPUT_SUBFOLDER_NAME, config.app.OUTPUT_SUBFOLDER_NAME, START_NODE_NAME);
         logger.info('Generating MZN OK');
       }
     } catch (e) {
@@ -129,13 +118,13 @@ app.get('/exec', function (req, res) {
   logger.info('GET /exec...');
 
 
-  const FILE_NAME = req.query.mapping ? req.query.mapping : DEFAULT_MAPPING;
+  const FILE_NAME = req.query.mapping ? req.query.mapping : config.app.DEFAULT_MAPPING;
 
   async function execMZN() {
     const {
       stdout,
       stderr
-    } = await exec('mzn-fzn --solver fzn-gecode %CD%\\'.concat(OUTPUT_SUBFOLDER_PATH).concat('\\').concat(FILE_NAME).concat('\\').concat(FILE_NAME).concat('.mzn'));
+    } = await exec('mzn-fzn --solver fzn-gecode %CD%\\'.concat(config.app.OUTPUT_SUBFOLDER_PATH).concat('\\').concat(FILE_NAME).concat('\\').concat(FILE_NAME).concat('.mzn'));
 
     let stdoutArray = stdout.split(/\r|\n/);
     let msg = stdoutArray[stdoutArray.length - 7];
@@ -153,7 +142,7 @@ app.get('/exec', function (req, res) {
   try {
     execMZN().then(msg => {
       logger.info('GET /exec... OK');
-      fs.copyFileSync(path.join(__dirname, '../', '..', OUTPUT_SUBFOLDER_PATH, FILE_NAME, FILE_NAME.concat('.mzn')), path.join(__dirname, '../', '..', PUBLIC_SUBFOLDER_PATH, FILE_NAME.concat('.mzn')));
+      fs.copyFileSync(path.join(__dirname, '../', '..', config.app.OUTPUT_SUBFOLDER_PATH, FILE_NAME, FILE_NAME.concat('.mzn')), path.join(__dirname, '../', '..', config.app.PUBLIC_SUBFOLDER_PATH, FILE_NAME.concat('.mzn')));
       res.send(msg);
     });
   } catch (e) {
@@ -167,11 +156,11 @@ app.get('/exec', function (req, res) {
 app.post('/postMapping', function (req, res) {
   logger.info('POST /postMapping...');
 
-  const FILE_NAME = req.query.mapping ? req.query.mapping : DEFAULT_MAPPING;
+  const FILE_NAME = req.query.mapping ? req.query.mapping : config.app.DEFAULT_MAPPING;
 
   const fileContent = req.body;
-  const internalPath = path.join(__dirname, INPUT_SUBFOLDER_NAME, FILE_NAME, FILE_NAME.concat('.yaml'));
-  const publicPath = path.join(__dirname, '../', '../', PUBLIC_SUBFOLDER_PATH, FILE_NAME.concat('.yaml'));
+  const internalPath = path.join(__dirname, config.app.INPUT_SUBFOLDER_NAME, FILE_NAME, FILE_NAME.concat('.yaml'));
+  const publicPath = path.join(__dirname, '../', '../', config.app.PUBLIC_SUBFOLDER_PATH, FILE_NAME.concat('.yaml'));
   fs.writeFileSync(internalPath, jsyaml.safeDump(fileContent));
   fs.writeFileSync(publicPath, jsyaml.safeDump(fileContent));
   logger.info('POST /postMapping... OK');

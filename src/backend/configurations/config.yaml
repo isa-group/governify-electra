@@ -3,7 +3,13 @@ production:
     port: 8080
     bypassCORS: true
     useHelmet: true
-
+  app:
+    INPUT_SUBFOLDER_NAME: input
+    OUTPUT_SUBFOLDER_NAME: output
+    PUBLIC_SUBFOLDER_PATH: src/frontend/data
+    INPUT_SUBFOLDER_PATH: src/backend/input
+    OUTPUT_SUBFOLDER_PATH: src/backend/output
+    SELECTED_ANALYSIS_MODULE: module_5
   log:
     level: info
     file: './logs/pro-logs.log' #Where log file will be saved. Date will be concatenated before the name.
@@ -15,7 +21,13 @@ development:
     port: 8080
     bypassCORS: true
     useHelmet: true
-    
+  app:
+    INPUT_SUBFOLDER_NAME: input
+    OUTPUT_SUBFOLDER_NAME: output
+    PUBLIC_SUBFOLDER_PATH: src/frontend/data
+    INPUT_SUBFOLDER_PATH: src/backend/input
+    OUTPUT_SUBFOLDER_PATH: src/backend/output
+    SELECTED_ANALYSIS_MODULE: module_5
   log:
     level: debug
     file: './logs/dev-logs.log' #Where log file will be saved. Date will be concatenated before the name.
@@ -27,6 +39,13 @@ testing:
     port: 8080
     bypassCORS: true
     useHelmet: true
+  app:
+    INPUT_SUBFOLDER_NAME: input
+    OUTPUT_SUBFOLDER_NAME: output
+    PUBLIC_SUBFOLDER_PATH: src/frontend/data
+    INPUT_SUBFOLDER_PATH: src/backend/input
+    OUTPUT_SUBFOLDER_PATH: src/backend/output
+    SELECTED_ANALYSIS_MODULE: module_5
 
   log:
     file: './logs/test-logs.log' #Where log file will be saved. Date will be concatenated before the name.
