@@ -4,6 +4,7 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 const path = require('path');
 const $SyncRefParser = require('json-schema-ref-parser-sync');
+const downloadFileSync = require('download-file-sync');
 
 const mznModules = require('./utils/mznModules');
 const utils = require('./utils/utils');
@@ -22,13 +23,35 @@ module.exports.generateMZN = function (mappingFilePath, name, selectedPlan, mznM
         START_NODE_NAME = START_NODE_NAME ? START_NODE_NAME : mapping.params.rootOperation.value;
 
 
-        Object.entries(mapping.services).forEach(([serviceName, servicePath]) => {
-            let docRef = yaml.safeLoad(fs.readFileSync(path.join(__dirname, '../', INPUT_SUBFOLDER_NAME, name, servicePath), 'utf8'));
-            oas[serviceName] = $SyncRefParser.dereference(docRef);
-            if (oas[serviceName].info['x-sla']) {
-                let slaFilePath = path.join(__dirname, '../', INPUT_SUBFOLDER_NAME, name, oas[serviceName].info['x-sla']);
-                const slaRef = yaml.safeLoad(fs.readFileSync(slaFilePath, 'utf8'));
-                sla[serviceName] = $SyncRefParser.dereference(slaRef);
+        Object.entries(mapping['services']).forEach(([serviceName, oasPath]) => {
+            try {
+                let docRef = '';
+                if (oasPath.includes('http')) {
+                    logger.info('DOWNLOADING OAS from %s', oasPath);
+                    docRef = yaml.safeLoad(downloadFileSync(oasPath));
+                } else if (oasPath.includes('./')) {
+                    let oasFilePath = path.join(__dirname, '../', INPUT_SUBFOLDER_NAME, name, oasPath);
+                    docRef = yaml.safeLoad(fs.readFileSync(oasFilePath, 'utf8'));
+                }
+                oas[serviceName] = $SyncRefParser.dereference(docRef);
+            } catch (e) {
+                logger.error('Error ', e);
+            }
+            const slaPath = oas[serviceName].info['x-sla'];
+            if (slaPath) {
+                try {
+                    let slaRef = '';
+                    if (slaPath.includes('http')) {
+                        logger.info('DOWNLOADING SLA from %s', slaPath);
+                        slaRef = yaml.safeLoad(downloadFileSync(slaPath));
+                    } else if (slaPath.includes('./')) {
+                        let slaFilePath = path.join(__dirname, '../', INPUT_SUBFOLDER_NAME, name, slaPath);
+                        slaRef = yaml.safeLoad(fs.readFileSync(slaFilePath, 'utf8'));
+                    }
+                    sla[serviceName] = $SyncRefParser.dereference(slaRef);
+                } catch (e) {
+                    logger.error('Error ', e);
+                }
             }
         });
         mznData = mznData.concat('%% -------- BEGIN CONSTANTS DEFINITION --------').concat('\n');
@@ -294,7 +317,7 @@ module.exports.generateMZN = function (mappingFilePath, name, selectedPlan, mznM
                 }
 
             }
-            // END OUTER SERVICE COMPOSITION CREATION. TODO: WE ARE SUPPONSING EVERYTHING IS SEQUENTIAL
+            // END OUTER SERVICE COMPOSITION CREATION. TODO: WE ARE SUPPOSING EVERYTHING IS SEQUENTIAL
 
         }); // end single mapping
         mznData = mznData.concat('%% -------- END SERVICES DEFINITION --------').concat('\n');

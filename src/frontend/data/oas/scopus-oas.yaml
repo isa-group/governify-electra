@@ -4,7 +4,7 @@ info:
   title: Scopus API
   version: '2.0'
   description: 'See https://dev.elsevier.com/api_key_settings.html for detailed information.'
-  x-sla: ./scopus-plans.yaml
+  x-sla: 'http://antgamdiapc.lsi.us.es/data/sla4oai/scopus-plans.yaml'
 tags:
   - name: Scopus_Search
     description: Scopus Search API

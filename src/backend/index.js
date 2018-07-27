@@ -23,10 +23,17 @@ const utils = require('./generators/utils/utils');
 const logger = require('./logger');
 
 const uploadDir = path.join(__dirname, 'data/');
+const INPUT_SUBFOLDER_NAME = 'input';
+const OUTPUT_SUBFOLDER_NAME = 'output';
+const PUBLIC_SUBFOLDER_PATH = 'src/frontend/data';
+const OUTPUT_SUBFOLDER_PATH = 'src/backend/'.concat(OUTPUT_SUBFOLDER_NAME);
+const INPUT_SUBFOLDER_PATH = 'src/backend/'.concat(INPUT_SUBFOLDER_NAME);
+const SELECTED_ANALYSIS_MODULE = 'module_5';
+const DEFAULT_MAPPING = 'mapping-simple';
+
 
 
 const app = express();
-
 
 app.use(compression());
 
@@ -74,15 +81,8 @@ app.get('/generate', function (req, res) {
   const mzn = req.query.mzn;
 
   function generate(dot, mzn) {
-
-    //TODO: extract to confi
-    // const INPUT_SUBFOLDER_NAME = 'inputSABIUS';
-    const INPUT_SUBFOLDER_NAME = 'input';
-    const OUTPUT_SUBFOLDER_NAME = 'output';
-
-    const FILE_NAME = req.query.mapping ? req.query.mapping : 'mapping';
+    const FILE_NAME = req.query.mapping ? req.query.mapping : DEFAULT_MAPPING;
     const START_NODE_NAME = req.query.start ? req.query.start : null;
-    const SELECTED_ANALYSIS_MODULE = 'module_5';
 
     const SELECTED_PLAN = null; // used the default in mapping file
     const SIZE_NAME = null; // used the default in mapping file
@@ -91,6 +91,7 @@ app.get('/generate', function (req, res) {
       if (dot) {
         logger.info('Generating DOT...');
         mappingDotGenerator.generateMappingDOT(mappingFilePath, FILE_NAME, INPUT_SUBFOLDER_NAME, OUTPUT_SUBFOLDER_NAME, START_NODE_NAME);
+        //TODO: cmd only works on Windows, fix it
         exec('dot %CD%\\src\\backend\\'.concat(OUTPUT_SUBFOLDER_NAME).concat('\\').concat(FILE_NAME).concat('\\').concat(FILE_NAME).concat('.dot -Tpng -o %CD%\\src\\frontend\\data').concat('\\').concat(FILE_NAME).concat('.png'));
         logger.info('Generating DOT OK');
       }
@@ -127,15 +128,14 @@ app.get('/generate', function (req, res) {
 app.get('/exec', function (req, res) {
   logger.info('GET /exec...');
 
-  //TODO: extract to config
-  const OUTPUT_SUBFOLDER_NAME = 'src/backend/output';
-  const FILE_NAME = req.query.mapping ? req.query.mapping : 'mapping';
+
+  const FILE_NAME = req.query.mapping ? req.query.mapping : DEFAULT_MAPPING;
 
   async function execMZN() {
     const {
       stdout,
       stderr
-    } = await exec('mzn-fzn --solver fzn-gecode %CD%\\'.concat(OUTPUT_SUBFOLDER_NAME).concat('\\').concat(FILE_NAME).concat('\\').concat(FILE_NAME).concat('.mzn'));
+    } = await exec('mzn-fzn --solver fzn-gecode %CD%\\'.concat(OUTPUT_SUBFOLDER_PATH).concat('\\').concat(FILE_NAME).concat('\\').concat(FILE_NAME).concat('.mzn'));
 
     let stdoutArray = stdout.split(/\r|\n/);
     let msg = stdoutArray[stdoutArray.length - 7];
@@ -153,7 +153,7 @@ app.get('/exec', function (req, res) {
   try {
     execMZN().then(msg => {
       logger.info('GET /exec... OK');
-      fs.copyFileSync(path.join(__dirname, '../', '..', OUTPUT_SUBFOLDER_NAME, FILE_NAME, FILE_NAME.concat('.mzn')), path.join(__dirname, '../', '..', 'src/frontend/data', FILE_NAME.concat('.mzn')));
+      fs.copyFileSync(path.join(__dirname, '../', '..', OUTPUT_SUBFOLDER_PATH, FILE_NAME, FILE_NAME.concat('.mzn')), path.join(__dirname, '../', '..', PUBLIC_SUBFOLDER_PATH, FILE_NAME.concat('.mzn')));
       res.send(msg);
     });
   } catch (e) {
@@ -166,39 +166,16 @@ app.get('/exec', function (req, res) {
 
 app.post('/postMapping', function (req, res) {
   logger.info('POST /postMapping...');
-  //TODO: extract to config
-  // const INPUT_SUBFOLDER_NAME = 'inputSABIUS';
-  const FILE_NAME = req.query.mapping ? req.query.mapping : 'mapping';
-  const INPUT_SUBFOLDER_NAME = 'input';
+
+  const FILE_NAME = req.query.mapping ? req.query.mapping : DEFAULT_MAPPING;
 
   const fileContent = req.body;
   const internalPath = path.join(__dirname, INPUT_SUBFOLDER_NAME, FILE_NAME, FILE_NAME.concat('.yaml'));
-  const publicPath = path.join(__dirname, '../frontend/data', FILE_NAME.concat('.yaml'));
+  const publicPath = path.join(__dirname, '../', '../', PUBLIC_SUBFOLDER_PATH, FILE_NAME.concat('.yaml'));
   fs.writeFileSync(internalPath, jsyaml.safeDump(fileContent));
   fs.writeFileSync(publicPath, jsyaml.safeDump(fileContent));
   logger.info('POST /postMapping... OK');
   res.send('OK');
-});
-
-//old
-app.post('/doUpload', function (req, res) {
-  var form = new formidable.IncomingForm();
-  form.multiples = true;
-  form.keepExtensions = true;
-  form.uploadDir = uploadDir;
-  form.parse(req, (err, fields, files) => {
-    if (err) {
-      return res.status(500).json({
-        error: err
-      });
-    } else {
-      res.redirect('./exec?filename='.concat(files.file.name));
-    }
-  });
-  form.on('fileBegin', function (name, file) {
-    const [fileName, fileExt] = file.name.split('.');
-    file.path = path.join(uploadDir, `${fileName}.${fileExt}`);
-  });
 });
 
 

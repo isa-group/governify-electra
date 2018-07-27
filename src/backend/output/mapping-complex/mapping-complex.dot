@@ -151,7 +151,7 @@ node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:sna
 subgraph "sabius-reports" {
 node [shape=box]
 node [ style=rounded, shape=box, label = "<sabius-reports> GET /api/reports/r00" ] "getReportR00"
-limits_getReportR00 [shape=note, style=filled, fillcolor="#F1D991" label=<
+limits_getReportR00 [shape=note, style=filled, fillcolor="#F0F8FF" label=<
 <table border="0" cellborder="1" cellpadding="2" cellspacing="0">
 <tr>
 <td></td>
@@ -198,16 +198,16 @@ params [shape=note, style=filled, fillcolor="#F0F8FF" label=<
 <tr><td><b>Boundary service op.</b></td><td>getReportR00</td></tr>
 </table>
 >];
-getReportR00 -> getAuthor [ color=red, penwidth=2.0, label="[R=1]" ];
-getReportR00 -> getAuthorMetrics [ color=red, penwidth=2.0, label="[R=1]" ];
-getReportR00 -> getDocumentsByAuthor [ color=red, penwidth=2.0, label="[R=1]" ];
-getAuthor -> AuthorSearch [ color=red, penwidth=2.0, label="[R=1]" ];
-getAuthor -> AuthorRetrievalid [ color=red, penwidth=2.0, label="[R=1]" ];
-getAuthorMetrics -> AuthorRetrievalid [ color=red, penwidth=2.0, label="[R=1]" ];
-getDocumentsByAuthor -> ScopusSearch [ color=red, penwidth=2.0, label="[R=ceil(numPublications/pageSize)]" ];
-getDocumentsByAuthor -> AbstractRetrieval4 [ color=red, penwidth=2.0, label="[R=numPublications]" ];
-getDocumentsByAuthor -> SerialTitleMetadata [ color=red, penwidth=2.0, label="[R=numPublicationsTypeJournal]" ];
-getDocumentsByAuthor -> SerialTitleSearch [ color=red, penwidth=2.0, label="[R=numPublicationsTypeConference]" ];
+getReportR00 -> getAuthor [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
+getReportR00 -> getAuthorMetrics [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
+getReportR00 -> getDocumentsByAuthor [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
+getAuthor -> AuthorSearch [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
+getAuthor -> AuthorRetrievalid [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
+getAuthorMetrics -> AuthorRetrievalid [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
+getDocumentsByAuthor -> ScopusSearch [ color="#7a7a7a", penwidth=2.0, label="[R=ceil(numPublications/pageSize)]" ];
+getDocumentsByAuthor -> AbstractRetrieval4 [ color="#7a7a7a", penwidth=2.0, label="[R=numPublications]" ];
+getDocumentsByAuthor -> SerialTitleMetadata [ color="#7a7a7a", penwidth=2.0, label="[R=numPublicationsTypeJournal]" ];
+getDocumentsByAuthor -> SerialTitleSearch [ color="#7a7a7a", penwidth=2.0, label="[R=numPublicationsTypeConference]" ];
 
 
 }

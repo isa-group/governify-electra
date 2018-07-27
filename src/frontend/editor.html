@@ -71,10 +71,10 @@
                         <h3>Examples</h3>
                         <ul class="actions">
                             <li>
-                                <a href="#main" class="button" onclick="change('mapping')">Synthetic</a>
+                                <a href="#main" class="button" onclick="change('mapping-simple')">Simple</a>
                             </li>
                             <li>
-                                <a href="#main" class="button" onclick="change('mapping-sabius')">SABIUS</a>
+                                <a href="#main" class="button" onclick="change('mapping-complex')">Complex</a>
                             </li>
 
                         </ul>
@@ -83,13 +83,13 @@
                         <h3>CSOP mapping</h3>
                         <ul class="actions">
                             <!-- <li>
-                                <a href="#main" class="button" >Synthetic</a>
+                                <a href="#main" class="button" >Simple</a>
                             </li> -->
                             <li>
-                                <a href="data/mapping.mzn" target="_blank" class="button">Synthetic</a>
+                                <a href="data/mapping-simple.mzn" target="_blank" class="button">Simple</a>
                             </li>
                             <li>
-                                <a href="data/mapping-sabius.mzn" target="_blank" class="button">SABIUS</a>
+                                <a href="data/mapping-complex.mzn" target="_blank" class="button">Complex</a>
                             </li>
 
                         </ul>
@@ -98,10 +98,10 @@
                         <h3>RESTalk</h3>
                         <ul class="actions">
                             <!-- <li>
-                                <a href="#main" class="button" >Synthetic</a>
+                                <a href="#main" class="button" >Simple</a>
                             </li> -->
                             <li>
-                                <a href="data/restalk-sabius.pdf" target="_blank" class="button">SABIUS</a>
+                                <a href="data/restalk-complex.pdf" target="_blank" class="button">Complex</a>
                             </li>
 
                         </ul>
@@ -201,7 +201,7 @@
 
     <script>
         if (!localStorage.getItem('mapping')) {
-            localStorage.setItem('mapping', "mapping");
+            localStorage.setItem('mapping', "mapping-simple");
         }
         document.getElementById('graphcontainerImg').src = 'data/' + localStorage.getItem('mapping') + '.png';
 

@@ -7,7 +7,7 @@ info:
   termsOfService: ''
   contact:
     email: ''
-  x-sla: './s4-plans.yaml'
+  x-sla: 'http://antgamdiapc.lsi.us.es/data/sla4oai/s4-plans.yaml'
 paths:
   /api/s4/m1:
     get:

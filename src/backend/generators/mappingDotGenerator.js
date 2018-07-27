@@ -4,6 +4,7 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 const path = require('path');
 const $SyncRefParser = require('json-schema-ref-parser-sync');
+const downloadFileSync = require('download-file-sync');
 const OASDotGenerator = require('./OASDotGenerator');
 const utils = require('./utils/utils');
 const logger = require('./../logger');
@@ -18,9 +19,22 @@ module.exports.generateMappingDOT = function (mappingFilePath, name, INPUT_SUBFO
 
         START_NODE_NAME = START_NODE_NAME ? START_NODE_NAME : mapping.params.rootOperation.value;
 
-        Object.entries(mapping.services).forEach(([serviceName, servicePath]) => {
-            let docRef = yaml.safeLoad(fs.readFileSync(path.join(__dirname, '../', INPUT_SUBFOLDER_NAME, name, servicePath), 'utf8'));
-            oas[serviceName] = $SyncRefParser.dereference(docRef);
+        Object.entries(mapping['services']).forEach(([serviceName, oasPath]) => {
+
+            try {
+                let docRef = '';
+                if (oasPath.includes('http')) {
+                    logger.info('DOWNLOADING OAS from %s', oasPath);
+                    docRef = yaml.safeLoad(downloadFileSync(oasPath));
+                } else if (oasPath.includes('./')) {
+                    let oasFilePath = path.join(__dirname, '../', INPUT_SUBFOLDER_NAME, name, oasPath);
+                    docRef = yaml.safeLoad(fs.readFileSync(oasFilePath, 'utf8'));
+                }
+                oas[serviceName] = $SyncRefParser.dereference(docRef);
+            } catch (e) {
+                logger.error('Error ', e);
+            }
+
             let oasDocPath = path.join(__dirname, '../', INPUT_SUBFOLDER_NAME, name, serviceName.concat('-oas.yaml'));
             let graphDocPath = path.join(__dirname, '../', OUTPUT_SUBFOLDER_NAME, name, serviceName.concat('.dot'));
             OASDotGenerator.generateDOT(oasDocPath, graphDocPath, name, serviceName, INPUT_SUBFOLDER_NAME, OUTPUT_SUBFOLDER_NAME, START_NODE_NAME);

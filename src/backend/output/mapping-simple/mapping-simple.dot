@@ -7,7 +7,7 @@ digraph restalk {
 subgraph "b1" {
 node [shape=box]
 node [ style=rounded, shape=box, label = "<b1> GET /api/b1/m1" ] "b1m1"
-limits_b1m1 [shape=note, style=filled, fillcolor="#F1D991" label=<
+limits_b1m1 [shape=note, style=filled, fillcolor="#F0F8FF" label=<
 <table border="0" cellborder="1" cellpadding="2" cellspacing="0">
 <tr>
 <td></td>
@@ -151,21 +151,17 @@ params [shape=note, style=filled, fillcolor="#F0F8FF" label=<
 <tr>
 <td><b>Param name</b></td><td><b>Param value</b></td>
 </tr>
-<tr>
-<td><b>rootOperation</b></td>
-<td>b1m1</td>
-</tr>
 <tr><td><b>Boundary service op.</b></td><td>b1m1</td></tr>
 </table>
 >];
-b1m1 -> s1m1 [ color=red, penwidth=2.0, label="[R=1]" ];
-b1m1 -> s1m2 [ color=red, penwidth=2.0, label="[R=1]" ];
-b1m1 -> s2m4 [ color=red, penwidth=2.0, label="[R=1]" ];
-s1m1 -> s2m1 [ color=red, penwidth=2.0, label="[R=1]" ];
-s1m2 -> s2m1 [ color=red, penwidth=2.0, label="[R=1]" ];
-s2m1 -> s2m2 [ color=red, penwidth=2.0, label="[R=1]" ];
-s2m2 -> s2m3 [ color=red, penwidth=2.0, label="[R=1]" ];
-s2m2 -> s2m4 [ color=red, penwidth=2.0, label="[R=1]" ];
+b1m1 -> s1m1 [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
+b1m1 -> s1m2 [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
+b1m1 -> s2m4 [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
+s1m1 -> s2m1 [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
+s1m2 -> s2m1 [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
+s2m1 -> s2m2 [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
+s2m2 -> s2m3 [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
+s2m2 -> s2m4 [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
 
 
 }

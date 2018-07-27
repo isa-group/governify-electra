@@ -3,18 +3,18 @@ servers: []
 info:
   description: ''
   version: 1.0.0
-  title: B1
+  title: sabius-reports
   termsOfService: ''
   contact:
     email: ''
-  x-sla: './b1-plans.yaml'
+  x-sla: 'http://antgamdiapc.lsi.us.es/data/sla4oai/sabius-reports-plans.yaml'
 paths:
-  /api/b1/m1:
+  /api/reports/r00:
     get:
       summary: ''
       description: ''
       parameters: []
-      operationId: 'b1m1'
+      operationId: 'getReportR00'
       responses:
         default:
           description: ''

@@ -16,6 +16,7 @@
     "body-parser": "^1.18.3",
     "compression": "^1.7.2",
     "cors": "^2.8.3",
+    "download-file-sync": "^1.0.4",
     "express": "^4.16.2",
     "formidable": "^1.2.1",
     "helmet": "^3.11.0",
