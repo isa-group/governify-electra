@@ -12,6 +12,7 @@ const compression = require('compression');
 const path = require('path');
 const util = require('util');
 const fs = require('fs');
+const os = require('os');
 const exec = util.promisify(require('child_process').exec);
 var jsyaml = require('js-yaml');
 
@@ -80,8 +81,19 @@ app.get('/generate', function (req, res) {
       if (dot) {
         logger.info('Generating DOT...');
         mappingDotGenerator.generateMappingDOT(mappingFilePath, FILE_NAME, config.app.INPUT_SUBFOLDER_NAME, config.app.OUTPUT_SUBFOLDER_NAME, START_NODE_NAME);
-        //TODO: cmd only works on Windows, fix it
-        exec('dot %CD%\\src\\backend\\'.concat(config.app.OUTPUT_SUBFOLDER_NAME).concat('\\').concat(FILE_NAME).concat('\\').concat(FILE_NAME).concat('.dot -Tpng -o %CD%\\src\\frontend\\data').concat('\\').concat(FILE_NAME).concat('.png'));
+        //TODO: hardcoded paths, fix it
+        let dotInput = '';
+        let pngOutput = '';
+        if (process.platform === "win32") {
+          dotInput = dotInput.concat('%CD%//src//backend//').concat(config.app.OUTPUT_SUBFOLDER_NAME).concat('//').concat(FILE_NAME).concat('//').concat(FILE_NAME).concat('.dot');
+          pngOutput = pngOutput.concat('%CD%//src//frontend//data').concat('//').concat(FILE_NAME).concat('.png');
+        } else {
+          dotInput = dotInput.concat('/opt/app/src/backend/').concat(config.app.OUTPUT_SUBFOLDER_NAME).concat('/').concat(FILE_NAME).concat('/').concat(FILE_NAME).concat('.dot');
+          pngOutput = pngOutput.concat('/opt/app/src/frontend/data').concat('/').concat(FILE_NAME).concat('.png');
+        }
+        const cmd = 'dot '.concat(dotInput).concat(' -Tpng -o ').concat(pngOutput);
+        logger.info("Executing %s", cmd);
+        exec(cmd);
         logger.info('Generating DOT OK');
       }
       if (mzn) {
@@ -121,11 +133,16 @@ app.get('/exec', function (req, res) {
   const FILE_NAME = req.query.mapping ? req.query.mapping : config.app.DEFAULT_MAPPING;
 
   async function execMZN() {
-    const {
-      stdout,
-      stderr
-    } = await exec('mzn-fzn --solver fzn-gecode %CD%\\'.concat(config.app.OUTPUT_SUBFOLDER_PATH).concat('\\').concat(FILE_NAME).concat('\\').concat(FILE_NAME).concat('.mzn'));
-
+    //TODO: hardcoded paths, fix it
+    let mznFilePath = '';
+    if (process.platform === "win32") {
+      mznFilePath = mznFilePath.concat('%CD%//').concat(config.app.OUTPUT_SUBFOLDER_PATH).concat('//').concat(FILE_NAME).concat('//').concat(FILE_NAME).concat('.mzn');
+    } else {
+      mznFilePath = mznFilePath.concat('/opt/app/').concat(config.app.OUTPUT_SUBFOLDER_PATH).concat('/').concat(FILE_NAME).concat('/').concat(FILE_NAME).concat('.mzn')
+    }
+    const cmd = 'mzn-fzn --solver fzn-gecode '.concat(mznFilePath);
+    logger.info('Executing: "%s"', cmd);
+    const { stdout, stderr } = await exec(cmd);
     let stdoutArray = stdout.split(/\r|\n/);
     let msg = stdoutArray[stdoutArray.length - 7];
     logger.info('Minizinc: "%s"', msg);
