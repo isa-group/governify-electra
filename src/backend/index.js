@@ -105,7 +105,7 @@ app.get('/generate', function (req, res) {
   let resp = generate(dot, mzn);
   if (resp.status > 0) {
     logger.info('GET /generate... OK');
-    res.redirect('editor.html#main');
+    res.redirect('index.html#main');
     // res.send('OK');
   } else {
     logger.info('GET /generate... ERROR');
