@@ -1,7 +1,7 @@
 {
-  "name": "governify-api-limitations-calculator",
+  "name": "governify-electra",
   "version": "1.0.0",
-  "description": "governify-api-limitations-calculator",
+  "description": "governify-electra",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
