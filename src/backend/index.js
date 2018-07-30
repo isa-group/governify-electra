@@ -12,7 +12,6 @@ const compression = require('compression');
 const path = require('path');
 const util = require('util');
 const fs = require('fs');
-const os = require('os');
 const exec = util.promisify(require('child_process').exec);
 var jsyaml = require('js-yaml');
 
@@ -138,21 +137,24 @@ app.get('/exec', function (req, res) {
     if (process.platform === "win32") {
       mznFilePath = mznFilePath.concat('%CD%//').concat(config.app.OUTPUT_SUBFOLDER_PATH).concat('//').concat(FILE_NAME).concat('//').concat(FILE_NAME).concat('.mzn');
     } else {
-      mznFilePath = mznFilePath.concat('/opt/app/').concat(config.app.OUTPUT_SUBFOLDER_PATH).concat('/').concat(FILE_NAME).concat('/').concat(FILE_NAME).concat('.mzn')
+      mznFilePath = mznFilePath.concat('/opt/app/').concat(config.app.OUTPUT_SUBFOLDER_PATH).concat('/').concat(FILE_NAME).concat('/').concat(FILE_NAME).concat('.mzn');
     }
     const cmd = 'mzn-fzn --solver fzn-gecode '.concat(mznFilePath);
     logger.info('Executing: "%s"', cmd);
     const { stdout, stderr } = await exec(cmd);
-    let stdoutArray = stdout.split(/\r|\n/);
-    let msg = stdoutArray[stdoutArray.length - 7];
-    logger.info('Minizinc: "%s"', msg);
+    logger.info('Minizinc stout: "%s"', stdout);
 
     //TODO: improve this awful way to do this!
-    let cspVariable = msg.split(' = ')[0];
-    let cspValue = Number(msg.split(' = ')[1]);
-    utils.setQuotaValueFromCSP(FILE_NAME, cspVariable, cspValue);
+    let matches = stdout.match(/(.*)_maximize\s?=\s?\d+/gi); //get the _maximize matches
+    let msg = matches[matches.length - 1]; // get the last one
+    logger.info('Minizinc: "%s"', msg);
 
-    logger.info('The quota for %s is %s', cspVariable, cspValue);
+    let cspVariable = msg.split((/\s?=\s?/));
+    let cspVariableName = cspVariable[0];
+    let cspVariableValue = Number(cspVariable[1]);
+    logger.info('The quota for %s is %s', cspVariableName, cspVariableValue);
+
+    utils.setQuotaValueFromCSP(FILE_NAME, cspVariableName, cspVariableValue);
     return msg;
   }
 
