@@ -2,7 +2,7 @@ version: '2.2'
 services:
   governify_electra:
     container_name: governify-electra
-    image: isagroup/electra
+    image: isagroup/governify-electra
     environment:
       - NODE_ENV=production
       - PORT=80
