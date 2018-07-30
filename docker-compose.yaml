@@ -1,0 +1,11 @@
+version: '2.2'
+services:
+  governify_api_limitations_calculator:
+    container_name: governify-api-limitations-calculator
+    image: usage-limitations-calculator
+    environment:
+      - NODE_ENV=production
+      - PORT=80
+    restart: 'on-failure:5'
+    ports: 
+      - 8080:80
