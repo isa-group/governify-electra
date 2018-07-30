@@ -1,29 +1,48 @@
-FROM node:9-alpine
+FROM node:10
 
-LABEL maintainer="Software Institute - USI"
+LABEL maintainer="Antonio Gamez <antoniogamez@us.es>"
+
+# RUN apk --update add --virtual alpine-sdk
+RUN apt-get update
+RUN apt-get install -y build-essential 
+RUN apt-get install -y openssl 
+RUN apt-get install -y graphviz 
+RUN apt-get install -y ttf-freefont 
+RUN apt-get install -y perl 
+
+WORKDIR /usr/local
+RUN wget -O minizinc-2.1.6-linux64.tar.gz https://github.com/MiniZinc/libminizinc/releases/download/2.1.6/minizinc-2.1.6-linux64.tar.gz
+RUN tar xfz minizinc-2.1.6-linux64.tar.gz 
+RUN cp minizinc-2.1.6/bin/* bin/ 
+RUN cp -ra minizinc-2.1.6/share/* share/ 
+RUN rm -rf minizinc-* 
+RUN rm -rf /var/cache/apk/*
+
+WORKDIR /tmp
+RUN wget -O gecode-6.0.0.tar.gz http://www.gecode.org/download/gecode-6.0.0.tar.gz
+RUN tar xfz gecode-6.0.0.tar.gz
+WORKDIR /tmp/gecode-6.0.0
+RUN ./configure && make -j4 && make install
+WORKDIR /tmp
+RUN rm -rf gecode*
+
 
 RUN mkdir -p /opt/app
 
-# set our node environment, either development or production
-# defaults to production, compose overrides this to development on build and run
 ARG NODE_ENV=production
-ENV NODE_ENV $NODE_ENV
-
-# default to port 80 for node
 ARG PORT=80
+
+ENV LD_LIBRARY_PATH=/usr/local/lib
+ENV NODE_ENV $NODE_ENV
 ENV PORT $PORT
+
 EXPOSE $PORT
 
-# check every 30s to ensure this service returns HTTP 200
-#HEALTHCHECK CMD curl -fs http://localhost:$PORT || exit 1
-
-# install dependencies first, in a different location for easier app bind mounting for local development
 WORKDIR /opt
 COPY package.json package-lock.json* ./
 RUN npm install && npm cache clean --force
 ENV PATH /opt/node_modules/.bin:$PATH
 
-# copy in our source code last, as it changes the most
 WORKDIR /opt/app
 COPY . /opt/app
 
