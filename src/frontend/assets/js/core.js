@@ -1,3 +1,5 @@
+'use strict';
+
 toastr.options = {
     "closeButton": true,
     "debug": false,
@@ -28,13 +30,13 @@ $.get('data/' + localStorage.getItem('mapping') + '.yaml', function (data) {
         automaticLayout: true
     });
     var oasEditor = monaco.editor.create(oasEditorHTML, {
-        value: "Select a service",
+        value: "Select a service from the dropdown above. This editor view is read-only yet.",
         language: 'yaml',
         readOnly: true,
         automaticLayout: true
     });
     var sla4oaiEditor = monaco.editor.create(sla4oaiEditorHTML, {
-        value: "Select a service",
+        value: "Select a service from the dropdown above. This editor view is read-only yet.",
         language: 'yaml',
         readOnly: true,
         automaticLayout: true
@@ -82,7 +84,7 @@ $.get('data/' + localStorage.getItem('mapping') + '.yaml', function (data) {
     });
 
     var tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 1; i < tabcontent.length; i++) {
+    for (var i = 1; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
     }
 
@@ -178,7 +180,7 @@ function loadServiceModels(select) {
                 monaco.editor.getModels()[2].setValue(sla4oai);
             });
         } else {
-            monaco.editor.getModels()[2].setValue("No SLA4OAI for this service");
+            monaco.editor.getModels()[2].setValue("There is no SLA4OAI definition for this service");
         }
 
     });
