@@ -31,5 +31,5 @@ plans:
       /api/b1/m1:
         get:
           requests:
-            - max: unlimited
+            - max: unrestricted
               period: secondly

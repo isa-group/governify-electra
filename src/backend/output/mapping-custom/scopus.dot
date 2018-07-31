@@ -1,9 +1,3 @@
-digraph restalk { 
-
- rankdir=LR;
-
-
-
 subgraph "scopus" {
 node [shape=box]
 node [ style=rounded, shape=box, label = "<scopus> GET /search/scopus" ] "ScopusSearch"
@@ -90,64 +84,4 @@ limits_SerialTitleSearch [shape=note, style=filled, fillcolor="#F1D991" label=<
 </table>
 >];
 SerialTitleSearch -> limits_SerialTitleSearch[ style=dashed, color=black, penwidth=0.5 ];
-}
-
-
-
-subgraph "sabius-publication-data" {
-node [shape=box]
-node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors/:authorId/documents" ] "getDocumentsByAuthor"
-limits_getDocumentsByAuthor [shape=note, style=filled, fillcolor="#F0F8FF" label=<
-<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
-<tr>
-<td></td>
-<td><b>subscriber</b></td>
-</tr>
-<tr>
-<td><b>Quota</b></td>
-<td>270 req weekly</td>
-</tr>
-<tr>
-<td><b>Rate</b></td>
-<td>unrestricted req secondly</td>
-</tr>
-</table>
->];
-getDocumentsByAuthor -> limits_getDocumentsByAuthor[ style=dashed, color=black, penwidth=0.5 ];
-}
-
-params [shape=note, style=filled, fillcolor="#F0F8FF" label=<
-<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
-<tr>
-<td><b>Param name</b></td><td><b>Param value</b></td>
-</tr>
-<tr>
-<td><b>researchers</b></td>
-<td>1512</td>
-</tr>
-<tr>
-<td><b>pageSize</b></td>
-<td>200</td>
-</tr>
-<tr>
-<td><b>numPublications</b></td>
-<td>37</td>
-</tr>
-<tr>
-<td><b>numPublicationsTypeJournal</b></td>
-<td>24</td>
-</tr>
-<tr>
-<td><b>numPublicationsTypeConference</b></td>
-<td>13</td>
-</tr>
-<tr><td><b>Root operation</b></td><td>getDocumentsByAuthor</td></tr>
-</table>
->];
-getDocumentsByAuthor -> ScopusSearch [ color="#7a7a7a", penwidth=2.0, label="[R=ceil(numPublications/pageSize)]" ];
-getDocumentsByAuthor -> AbstractRetrieval4 [ color="#7a7a7a", penwidth=2.0, label="[R=numPublications]" ];
-getDocumentsByAuthor -> SerialTitleMetadata [ color="#7a7a7a", penwidth=2.0, label="[R=numPublicationsTypeJournal]" ];
-getDocumentsByAuthor -> SerialTitleSearch [ color="#7a7a7a", penwidth=2.0, label="[R=numPublicationsTypeConference]" ];
-
-
 }

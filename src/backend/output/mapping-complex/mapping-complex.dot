@@ -139,10 +139,7 @@ SerialTitleSearch -> limits_SerialTitleSearch[ style=dashed, color=black, penwid
 subgraph "sabius-publication-data" {
 node [shape=box]
 node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors" ] "getAuthor"
-node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors" ] "getAuthor"
 node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors/:authorId/metrics" ] "getAuthorMetrics"
-node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors/:authorId/metrics" ] "getAuthorMetrics"
-node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors/:authorId/documents" ] "getDocumentsByAuthor"
 node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors/:authorId/documents" ] "getDocumentsByAuthor"
 }
 
@@ -159,11 +156,11 @@ limits_getReportR00 [shape=note, style=filled, fillcolor="#F0F8FF" label=<
 </tr>
 <tr>
 <td><b>Quota</b></td>
-<td>unlimited req weekly</td>
+<td>? req weekly</td>
 </tr>
 <tr>
 <td><b>Rate</b></td>
-<td>unlimited req secondly</td>
+<td>unrestricted req secondly</td>
 </tr>
 </table>
 >];
@@ -195,7 +192,7 @@ params [shape=note, style=filled, fillcolor="#F0F8FF" label=<
 <td><b>numPublicationsTypeConference</b></td>
 <td>13</td>
 </tr>
-<tr><td><b>Boundary service op.</b></td><td>getReportR00</td></tr>
+<tr><td><b>Root operation</b></td><td>getReportR00</td></tr>
 </table>
 >];
 getReportR00 -> getAuthor [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];

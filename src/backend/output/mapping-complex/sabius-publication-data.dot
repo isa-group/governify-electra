@@ -1,9 +1,6 @@
 subgraph "sabius-publication-data" {
 node [shape=box]
 node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors" ] "getAuthor"
-node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors" ] "getAuthor"
 node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors/:authorId/metrics" ] "getAuthorMetrics"
-node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors/:authorId/metrics" ] "getAuthorMetrics"
-node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors/:authorId/documents" ] "getDocumentsByAuthor"
 node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors/:authorId/documents" ] "getDocumentsByAuthor"
 }

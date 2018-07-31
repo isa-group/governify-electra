@@ -18,4 +18,22 @@ limits_getDocumentsByAuthor [shape=note, style=filled, fillcolor="#F1D991" label
 </table>
 >];
 getDocumentsByAuthor -> limits_getDocumentsByAuthor[ style=dashed, color=black, penwidth=0.5 ];
+node [ style=rounded, shape=box, label = "<sabius-publication-data> GET /v1/:snapshot/authors/:authorId/documents" ] "getDocumentsByAuthor"
+limits_getDocumentsByAuthor [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>subscriber</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>270 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>unrestricted req secondly</td>
+</tr>
+</table>
+>];
+getDocumentsByAuthor -> limits_getDocumentsByAuthor[ style=dashed, color=black, penwidth=0.5 ];
 }

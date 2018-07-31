@@ -25,11 +25,11 @@ plans:
       '/v1/{snapshot}/authors/{authorId}/documents':
         get:
           requests:
-            - max: unlimited
+            - max: '?'
               period: weekly
     rates:
       '/v1/{snapshot}/authors/{authorId}/documents':
         get:
           requests:
-            - max: unlimited
+            - max: unrestricted
               period: secondly

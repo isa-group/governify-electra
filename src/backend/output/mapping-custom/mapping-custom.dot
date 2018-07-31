@@ -15,7 +15,7 @@ limits_b1m1 [shape=note, style=filled, fillcolor="#F0F8FF" label=<
 </tr>
 <tr>
 <td><b>Quota</b></td>
-<td>33 req weekly</td>
+<td>inputSize_Usagelimitations_maximize req weekly</td>
 </tr>
 <tr>
 <td><b>Rate</b></td>
@@ -109,7 +109,7 @@ params [shape=note, style=filled, fillcolor="#F0F8FF" label=<
 <tr>
 <td><b>Param name</b></td><td><b>Param value</b></td>
 </tr>
-<tr><td><b>Boundary service op.</b></td><td>b1m1</td></tr>
+<tr><td><b>Root operation</b></td><td>b1m1</td></tr>
 </table>
 >];
 b1m1 -> s2m1 [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
