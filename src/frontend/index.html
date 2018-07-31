@@ -21,10 +21,9 @@
 
     <!-- Header -->
     <header id="header">
-        <a class="logo" href="index.html">ELeCTRA: induced usage limitations calculation in RESTful APIs</a>
-        <nav>
-            <a href="#menu">Menu</a>
-        </nav>
+        <a class="logo" href="index.html">ELeCTRA: induced usage limitations calculation in RESTful APIs
+        </a>
+
     </header>
 
     <!-- Nav -->
@@ -44,7 +43,7 @@
 
     <!-- Heading -->
     <div id="heading">
-        <h1>ELeCTRA: induc<b>e</b>d usage <b>l</b>imitations <b>c</b>alcula<b>t</b>ion in <b>R</b>ESTful <b>A</b>PIs</h1>
+        <h1>ELeCTRA</h1>
     </div>
 
     <!-- Main -->
@@ -52,25 +51,8 @@
         <div class="inner">
             <div class="content">
 
-                <div id="graphcontainer"></div>
-
-                <!-- Elements -->
-                <div class="row">
-                    <div class="col col-5-xlarge col-12-large col-12-medium col-12-small">
-                        <h3>Actions</h3>
-                        <ul class="actions">
-                            <li>
-                                <a href="#main" title="You should save the model before running this operation" class="button primary  icon fa-gears" onclick="exec();">Calculate usage limitations</a>
-                            </li>
-                            <li>
-                                <a href="#main" title="This operation will also save the model" class="button  icon fa-refresh" onclick="saveMapping();">Refresh graph</a>
-                            </li>
-                            <li>
-                                <a href="#mappingEditor" class="button  icon fa-edit" onclick="loadData();">Refresh editor</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col col-3-xlarge col-12-large col-12-medium col-12-small">
+                <div id="div-exampleTop" class="row">
+                    <div class="col col-6-xlarge col-6-large col-6-medium col-12-small">
                         <h3>Examples</h3>
                         <ul class="actions">
                             <li>
@@ -79,84 +61,60 @@
                             <li>
                                 <a href="#main" class="button mapping-complex" onclick="change('mapping-complex')">Complex</a>
                             </li>
-                            <li>
-                                <a href="#main" class="button mapping-custom" onclick="change('mapping-custom')">Custom</a>
-                            </li>
-
                         </ul>
                     </div>
-                    <div class="col col-3-xlarge col-12-large col-12-medium col-12-small">
-                        <h3>CSOP mapping</h3>
+                    <div class="col col-6-xlarge col-6-large col-6-medium col-12-small">
+                        <h3>Custom scenario</h3>
                         <ul class="actions">
-                            <!-- <li>
-                                <a href="#main" class="button" >Simple</a>
-                            </li> -->
                             <li>
-                                <a href="data/mapping-simple.mzn" target="_blank" class="button mapping-simple">Simple</a>
+                                <a href="#main" class="button mapping-custom" onclick="change('mapping-custom')">Load</a>
                             </li>
-                            <li>
-                                <a href="data/mapping-complex.mzn" target="_blank" class="button mapping-complex">Complex</a>
-                            </li>
-                            <li>
-                                <a href="data/mapping-custom.mzn" target="_blank" class="button mapping-custom">Custom</a>
-                            </li>
-
                         </ul>
                     </div>
-                    <!-- <div class="col col-1-xlarge col-12-large col-12-medium col-12-small">
-                        <h3>RESTalk</h3>
-                        <ul class="actions">
-                             <li>
-                                <a href="#main" class="button" >Simple</a>
-                            </li> 
-                            <li>
-                                <a href="data/restalk-complex.pdf" target="_blank" class="button">Complex</a>
-                            </li>
-
-                        </ul>
-                    </div> -->
                 </div>
+
                 <div class="row mapping-custom-hidable hide">
                     <div class="col col-12-xlarge col-12-large col-12-medium col-12-small">
                         <h3>How to load a custom scenario</h3>
                         <ol>
                             <li>Model the structure of the APIs using the
-                                <a href="https://openapis.org" target="_blank">OpenAPI Specification</a>. Next, model the usage limitations in every service by using the <a href="https://github.com/isa-group/SLA4OAI-Specification" target="_blank">SLA4OAI Specification</a>.</li>
-                            <li>Publish each of these files with a URL. For instance, <a href="https://gist.github.com/" target="_blank">Github Gist</a> service can be useful (<a href="https://gist.github.com/antgamdia/48895cef42b800e09e72a4b379449ddd" target="_blank">see an example</a>).</li>
-                            <li>Write the <i>X-Conversation</i> document in the editor below (an initial example is provided). Then, save the model.</li>
-							<li>Click in the  <i>calculate usage limitations</i> button.</li>
+                                <a href="https://openapis.org" target="_blank">OpenAPI Specification</a>. Next, model the usage limitations in every service by using the
+                                <a href="https://github.com/isa-group/SLA4OAI-Specification" target="_blank">SLA4OAI Specification</a>.</li>
+                            <li>Publish each of these files with an URL. For instance,
+                                <a href="https://gist.github.com/" target="_blank">Github Gist</a> service can be useful (
+                                <a href="https://gist.github.com/antgamdia/48895cef42b800e09e72a4b379449ddd" target="_blank">see an example</a>).</li>
+                            <li>Write the
+                                <i>X-Conversation</i> document in the editor below (an initial example is provided). Then, save
+                                the model.
+                            </li>
+                            <li>Click in the
+                                <i>calculate usage limitations</i> button.</li>
                         </ol>
                     </div>
                 </div>
-                <div class="row">
+
+                <div id="div-graph" class="row">
                     <div class="col col-12-xlarge col-12-large col-12-medium col-12-small">
                         <h3>Dependencies graph</h3>
                         <img src="" id="graphcontainerImg" width="100%">
                     </div>
                 </div>
-                <div class="row">
+
+                <div id="div-editor" class="row">
                     <div class="col col-12-xlarge col-12-large col-12-medium col-12-small">
-                        <h3>Actions</h3>
-                        <ul class="actions">
-                            <li>
-                                <a href="#mappingEditor" class="button primary  icon fa-save" onclick="saveMapping();">Save</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col col-12-xlarge col-12-large col-12-medium col-12-small">
-                        <h3>X-Conversation editor</h3>
+                        <h3>Editor</h3>
 
                         <div class="tab">
-                            <button class="tablinks icon fa-file-archive-o" onclick="openTab(event, 'mappingEditorTab')">Mapping</button>
-                            <button class="tablinks icon fa-file-archive-o" onclick="openTab(event, 'oasEditorTab')">OAS</button>
-                            <button class="tablinks icon fa-file-archive-o" onclick="openTab(event, 'sla4oaiEditorTab')">SLA4OAI</button>
+                            <button class="tablinks icon fa-file-archive-o" onclick="openTab(event, 'mappingEditorTab')">x-conversation</button>
+                            <button class="tablinks icon fa-file-archive-o" onclick="openTab(event, 'oasEditorTab')">OAS structure (read-only)</button>
+                            <button class="tablinks icon fa-file-archive-o" onclick="openTab(event, 'sla4oaiEditorTab')">x-sla (read-only)</button>
                         </div>
 
-                        <select id="serviceSelector" onchange="loadServiceModels(this);">
+                        <select id="serviceSelector" class="hide not-mappingEditorTab" onchange="loadServiceModels(this);">
                             <option>Select a service</option>
                         </select>
+
+                        <br>
 
                         <div id="mappingEditorTab" class="tabcontent">
                             <div id="mappingEditor" style="width: 70vmax; height: 30vmax; border:1px solid grey"></div>
@@ -169,22 +127,24 @@
                         <div id="sla4oaiEditorTab" class="tabcontent" style="visibility: hidden">
                             <div id="sla4oaiEditor" style="width: 70vmax; height: 30vmax; border:1px solid grey;"></div>
                         </div>
-
-
                     </div>
                 </div>
-                <!-- <div class="row">
+
+                <br>
+
+                <div id="div-actions" class="row">
                     <div class="col col-12-xlarge col-12-large col-12-medium col-12-small">
-                        <h3>Editor actions</h3>
                         <ul class="actions">
                             <li>
-                                <a href="#mappingEditor" class="button primary  icon fa-save" onclick="saveMapping();">Save</a>
+                                <a class="button primary  icon fa-save" onclick="saveAndCalculate();">Save and calculate usage limitations</a>
+                            </li>
+                            <li>
+                                <a id="CSOP_download" class="button  icon fa-save">Download CSOP mapping</a>
                             </li>
                         </ul>
                     </div>
-                </div> -->
+                </div>
             </div>
-        </div>
     </section>
 
     <!-- Footer -->
@@ -193,9 +153,7 @@
             <div class="content">
                 <section>
                     <h3>About ELeCTRA</h3>
-                    <p>ELeCTRA: "<i>induc<b>e</b>d usage <b>l</b>imitations <b>c</b>alcula<b>t</b>ion in <b>R</b>ESTful <b>A</b>PIs</i>" is our first step into the automatic discovering of usage limitations in RESTful
-                        APIs.
-                    </p>
+                    <p>ELeCTRA: "<i>induc<b>e</b>d usage <b>l</b>imitations <b>c</b>alcula<b>t</b>ion in <b>R</b>ESTful<b>A</b>PIs</i>" is our first step into the automatic discovering of usage limitations in RESTful APIs.</p>
                 </section>
 
                 <section>

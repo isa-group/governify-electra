@@ -175,7 +175,7 @@ header.special p {
 h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
   line-height: 1.5;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   margin: 0 0 1.5rem 0;
 }
 
@@ -2433,7 +2433,7 @@ ul.icons li .icon:before {
 /* Wrapper */
 
 .wrapper {
-  padding: 8rem 0 6rem 0;
+  padding: 2rem 0 6rem 0;
   position: relative;
   z-index: 1;
 }
@@ -2475,7 +2475,7 @@ ul.icons li .icon:before {
   -webkit-justify-content: center;
   -ms-justify-content: center;
   justify-content: center;
-  background-image: url("../../images/banner.jpg");
+  background-image: url("../../assets/images/banner.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -2795,7 +2795,7 @@ body.is-preload #banner:before {
   background-color: #ce1b28;
   color: rgba(255, 255, 255, 0.75);
   background-attachment: fixed;
-  background-image: linear-gradient(rgba(206, 27, 40, 0.25), rgba(206, 27, 40, 0.25)), url(../../images/cta01.jpg);
+  background-image: linear-gradient(rgba(206, 27, 40, 0.25), rgba(206, 27, 40, 0.25)), url(../../assets/images/cta01.jpg);
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: cover;
@@ -3227,7 +3227,7 @@ body {
 
 body:before {
   content: ' ';
-  background-image: url(../../images/bg.jpg);
+  background-image: url(../../assets/images/bg.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -3364,7 +3364,7 @@ body:before {
   -webkit-justify-content: center;
   -ms-justify-content: center;
   justify-content: center;
-  background-image: linear-gradient(rgba(17, 17, 17, 0.25), rgba(17, 17, 17, 0.25)), url("../../images/banner.jpg");
+  background-image: linear-gradient(rgba(17, 17, 17, 0.25), rgba(17, 17, 17, 0.25)), url("../../assets/images/banner.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -3774,4 +3774,10 @@ img {
 
 .hide {
   display: none;
+}
+
+#serviceSelector {
+  width: 30%;
+  border: 1px solid gray;
+  margin: 1rem 0rem 1rem 0rem
 }

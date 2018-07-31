@@ -16,8 +16,7 @@ toastr.options = {
     "hideEasing": "linear",
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
-}
-
+};
 
 $.get('data/' + localStorage.getItem('mapping') + '.yaml', function (data) {
     var mappingEditorHTML = document.getElementById('mappingEditor');
@@ -43,8 +42,9 @@ $.get('data/' + localStorage.getItem('mapping') + '.yaml', function (data) {
     });
 
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, function () {
-        saveMapping();
+        saveAndCalculate();
     });
+
     editor.addAction({
         id: 'refresh',
         label: 'Refresh document',
@@ -54,25 +54,16 @@ $.get('data/' + localStorage.getItem('mapping') + '.yaml', function (data) {
         contextMenuOrder: 1.5,
         run: loadData
     });
+
     editor.addAction({
         id: 'save',
-        label: 'Save document',
+        label: 'Save and calculate limitations',
         precondition: null,
         keybindingContext: null,
         contextMenuGroupId: 'navigation',
         contextMenuOrder: 1.5,
-        run: saveMapping
+        run: saveAndCalculate
     });
-    editor.addAction({
-        id: 'exec',
-        label: 'Calculate usage limitations',
-        precondition: null,
-        keybindingContext: null,
-        contextMenuGroupId: 'navigation',
-        contextMenuOrder: 1.5,
-        run: exec
-    });
-
 
     var svc = jsyaml.safeLoad(monaco.editor.getModels()[0].getValue()).services;
     var serviceSelector = document.getElementById("serviceSelector");
@@ -87,72 +78,83 @@ $.get('data/' + localStorage.getItem('mapping') + '.yaml', function (data) {
     for (var i = 1; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
     }
-
-
 });
 
 
 function loadData() {
     $.get('data/' + localStorage.getItem('mapping') + '.yaml', function (data) {
-        //data is the JSON string
         monaco.editor.getModels()[0].setValue(data);
     });
 }
 
-function saveMapping() {
+function saveAndCalculate() {
+    document.getElementById('graphcontainerImg').src = 'assets/images/spinner.gif';
     var text = monaco.editor.getModels()[0].getValue();
     $.ajax({
         type: "POST",
         url: "postMapping?mapping=" + localStorage.getItem('mapping'),
         data: jsyaml.safeLoad(text),
         success: function () {
-            console.log("OK saved");
-            window.location.replace("generate?mzn=true&dot=true&mapping=" + localStorage.getItem(
-                'mapping'));
-        }
-    });
-}
+            console.log("OK saved file");
+            $.ajax({
+                type: "GET",
+                url: "generate?mzn=true&dot=false&mapping=" + localStorage.getItem('mapping'),
+                success: function (data) {
+                    console.log("OK generated mzn");
+                    $.ajax({
+                        type: "GET",
+                        url: "exec?mapping=" + localStorage.getItem('mapping'),
+                        success: function (dataMZN) {
+                            console.log("OK executed mzn");
+                            $.ajax({
+                                type: "GET",
+                                url: "generate?mzn=false&dot=true&mapping=" + localStorage.getItem('mapping'),
+                                success: function (data) {
+                                    console.log("OK generated png");
+                                    $.ajax({
+                                        type: "GET",
+                                        url: 'data/' + localStorage.getItem('mapping') + '.png',
+                                        success: function (data) {
+                                            setTimeout(() => {
+                                                console.log("OK evict sync disk");
+                                                renderUI();
+                                                toastr["info"](dataMZN, "Usage limitations");
+                                                document.getElementById('graphcontainerImg').src = 'data/' + localStorage.getItem('mapping') + '.png';
+                                            }, 3000);
 
-// function saveOAS() {
-//     var text = monaco.editor.getModels()[1].getValue();
-//     $.ajax({
-//         type: "POST",
-//         url: "postOAS?service=algo&mapping=" + localStorage.getItem('mapping'),
-//         data: jsyaml.safeLoad(text),
-//         success: function () {
-//             console.log("OK saved");
-//             window.location.replace("generate?mzn=true&dot=true&mapping=" + localStorage.getItem(
-//                 'mapping'));
-//         }
-//     });
-// }
-// function saveOAS() {
-//     var text = monaco.editor.getModels()[2].getValue();
-//     $.ajax({
-//         type: "POST",
-//         url: "postSLA4OAI?service=algo&mapping=" + localStorage.getItem('mapping'),
-//         data: jsyaml.safeLoad(text),
-//         success: function () {
-//             console.log("OK saved");
-//             window.location.replace("generate?mzn=true&dot=true&mapping=" + localStorage.getItem(
-//                 'mapping'));
-//         }
-//     });
-// }
+                                        }
+                                    });
 
-function exec() {
-    $.ajax({
-        type: "GET",
-        url: "exec?mapping=" + localStorage.getItem('mapping'),
-        success: function (data) {
-            toastr["info"](data, "Usage limitations")
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         }
     });
 }
 
 function change(name) {
+    document.getElementById('graphcontainerImg').src = 'assets/images/spinner.gif';
     localStorage.setItem('mapping', name);
-    window.location.replace('generate?mzn=true&dot=true&mapping=' + localStorage.getItem('mapping'));
+    $.ajax({
+        type: "GET",
+        url: 'generate?mzn=false&dot=true&mapping=' + localStorage.getItem('mapping'),
+        success: function (data) {
+            console.log("OK generated");
+            $.ajax({
+                type: "GET",
+                url: 'data/' + localStorage.getItem('mapping') + '.yaml',
+                success: function (data) {
+                    console.log("OK loaded file");
+                    renderUI();
+                    monaco.editor.getModels()[0].setValue(data);
+                    document.getElementById('graphcontainerImg').src = 'data/' + localStorage.getItem('mapping') + '.png';
+                }
+            });
+        }
+    });
 }
 
 function openTab(event, idTab) {
@@ -168,6 +170,16 @@ function openTab(event, idTab) {
     document.getElementById(idTab).style.display = "block";
     document.getElementById(idTab).style.visibility = "initial";
     event.currentTarget.className += " active";
+
+    switch (idTab) {
+        case "mappingEditorTab":
+            $(".not-mappingEditorTab").addClass("hide");
+            break;
+
+        default:
+            $(".not-mappingEditorTab").removeClass("hide");
+            break;
+    }
 }
 
 function loadServiceModels(select) {
