@@ -25,7 +25,7 @@ plans:
       /api/b1/m1:
         get:
           requests:
-            - max: 100
+            - max: '?'
               period: weekly
     rates:
       /api/b1/m1:
