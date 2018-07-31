@@ -29,13 +29,13 @@ $.get('data/' + localStorage.getItem('mapping') + '.yaml', function (data) {
         automaticLayout: true
     });
     var oasEditor = monaco.editor.create(oasEditorHTML, {
-        value: "Select a service from the dropdown above. This editor view is read-only yet.",
+        value: "Select a service from the dropdown above. This editor view is read-only.",
         language: 'yaml',
         readOnly: true,
         automaticLayout: true
     });
     var sla4oaiEditor = monaco.editor.create(sla4oaiEditorHTML, {
-        value: "Select a service from the dropdown above. This editor view is read-only yet.",
+        value: "Select a service from the dropdown above. This editor view is read-only.",
         language: 'yaml',
         readOnly: true,
         automaticLayout: true
