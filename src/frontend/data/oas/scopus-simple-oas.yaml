@@ -4,7 +4,7 @@ info:
   title: Scopus API
   version: '2.0'
   description: 'See https://dev.elsevier.com/api_key_settings.html for detailed information.'
-  x-sla: 'http://antgamdiapc.lsi.us.es/data/sla4oai/scopus-plans.yaml'
+  x-sla: 'http://antgamdiapc.lsi.us.es/data/sla4oai/scopus-simple-plans.yaml'
 tags:
   - name: Scopus_Search
     description: Scopus Search API
@@ -25,99 +25,6 @@ tags:
   - name: Serial_Title
     description: Serial Title API
 paths:
-  '/search/author':
-    get:
-      tags:
-        - Author_Search
-      description: >-
-        Author search exposes interfaces associated with Scopus-based
-        author profiles. API key in this example was setup with
-        authorized CORS domains.
-      operationId: AuthorSearch
-      parameters:
-        - description: Search query string
-          in: query
-          name: query
-          required: true
-          schema:
-            type: string
-            default: authlast(Einstein) and authfirst(Albert) and affil(Princeton)
-        - description: Your API key
-          in: query
-          name: apiKey
-          required: true
-          schema:
-            type: string
-            default: 7f59af901d2d86f78a1fd60c1bf9426a
-        - description: 'Requested content type, overrides HTTP header value'
-          in: query
-          name: httpAccept
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: No response was specified
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/author'
-            application/atom+xml:
-              schema:
-                $ref: '#/components/schemas/author'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/author'
-          links:
-            AuthorSearch_AuthorRetrievalid:
-              $ref: '#/components/links/AuthorSearch_AuthorRetrievalid'
-      summary: Author Search API    
-  '/author/author_id/{author_id}':
-    get:
-      tags:
-        - Author_Retrieval
-      description: >-
-        Author retrieval exposes interfaces associated with Scopus
-        Author profile. API key in this example was setup with
-        authorized CORS domains.
-      operationId: AuthorRetrievalid
-      parameters:
-        - description: author_id value
-          in: path
-          name: author_id
-          required: true
-          schema:
-            type: string
-            default: '22988279600'
-        - description: Your API key
-          in: query
-          name: apiKey
-          required: true
-          schema:
-            type: string
-            default: 7f59af901d2d86f78a1fd60c1bf9426a
-        - description: 'Requested content type, overrides HTTP header value'
-          in: query
-          name: httpAccept
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: No response was specified
-          content:
-            text/xml:
-              schema: {}
-            application/xml:
-              schema: {}
-            application/json:
-              schema: {}
-            application/rdf+xml:
-              schema: {}
-          links:
-            AuthorRetrievalid__ScopusSearch:
-              $ref: '#/components/links/AuthorRetrievalid__ScopusSearch'
-      summary: Author Retrieval API    
   '/search/scopus':
     get:
       tags:

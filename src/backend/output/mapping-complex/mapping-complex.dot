@@ -159,7 +159,7 @@ limits_getReportR00 [shape=note, style=filled, fillcolor="#F0F8FF" label=<
 </tr>
 <tr>
 <td><b>Quota</b></td>
-<td>270 req weekly</td>
+<td>unlimited req weekly</td>
 </tr>
 <tr>
 <td><b>Rate</b></td>

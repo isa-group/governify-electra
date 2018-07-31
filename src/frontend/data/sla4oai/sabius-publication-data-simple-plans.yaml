@@ -2,7 +2,7 @@ context:
   id: plans
   sla: '1.0'
   type: plans
-  api: 'http://antgamdiapc.lsi.us.es/data/oas/sabius-reports-oas.yaml'
+  api: 'http://antgamdiapc.lsi.us.es/data/oas/sabius-publication-data-simple-plans'
   provider: ISA Group
 infrastructure:
   supervisor: 'http://supervisor.oai.governify.io/api/v2'
@@ -22,13 +22,13 @@ configuration: {}
 plans:
   subscriber:
     quotas:
-      /api/reports/r00:
+      '/v1/{snapshot}/authors/{authorId}/documents':
         get:
           requests:
             - max: unlimited
               period: weekly
     rates:
-      /api/reports/r00:
+      '/v1/{snapshot}/authors/{authorId}/documents':
         get:
           requests:
             - max: unlimited

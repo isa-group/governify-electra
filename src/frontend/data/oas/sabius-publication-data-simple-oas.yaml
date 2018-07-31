@@ -1,0 +1,53 @@
+swagger: '2.0'
+info:
+  x-sla: 'http://antgamdiapc.lsi.us.es/data/sla4oai/sabius-publication-data-simple-plans.yaml'
+  description: 'Publication data API'
+  version: 1.0.0
+  title: publications.data.sabius-alpha
+  termsOfService: www.isa.us.es
+  contact:
+    name: ISA Research Group
+    url: www.isa.us.es
+    email: isagroup.us@gmail.com
+  license:
+    name: MIT
+    url: 'http://opensource.org/licenses/MIT'
+host: publications.data.sabius-alpha.services.governify.io
+basePath: /api
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  '/v1/{snapshot}/authors/{authorId}/documents':
+    get:
+      tags:
+        - authors
+      description: 'Search a documents of the author '
+      operationId: getDocumentsByAuthor
+      parameters:
+        - name: authorId
+          in: path
+          description: The identifier of the author
+          required: true
+          type: string
+        - name: snapshot
+          in: path
+          description: The identifier of the snapshot
+          required: true
+          type: string
+        - name: forceSearch
+          in: query
+          description: forceSearch no cache
+          required: false
+          type: boolean
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+        '400':
+          description: Invalid status value
+      x-swagger-router-controller: Author
