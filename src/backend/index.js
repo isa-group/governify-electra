@@ -77,7 +77,7 @@ app.get('/generate', function (req, res) {
     const SIZE_NAME = null; // used the default in mapping file
     try {
       const mappingFilePath = path.join(__dirname, config.app.INPUT_SUBFOLDER_NAME, FILE_NAME, FILE_NAME.concat('.yaml'));
-      if (dot) {
+      if (dot && dot === "true") {
         logger.info('Generating DOT...');
         mappingDotGenerator.generateMappingDOT(mappingFilePath, FILE_NAME, config.app.INPUT_SUBFOLDER_NAME, config.app.OUTPUT_SUBFOLDER_NAME, START_NODE_NAME);
         //TODO: hardcoded paths, fix it
@@ -95,7 +95,7 @@ app.get('/generate', function (req, res) {
         exec(cmd);
         logger.info('Generating DOT OK');
       }
-      if (mzn) {
+      if (mzn && mzn === "true") {
         logger.info('Generating MZN...');
         mappingMznGenerator.generateMZN(mappingFilePath, FILE_NAME, SELECTED_PLAN, config.app.SELECTED_ANALYSIS_MODULE, SIZE_NAME, config.app.INPUT_SUBFOLDER_NAME, config.app.OUTPUT_SUBFOLDER_NAME, START_NODE_NAME);
         logger.info('Generating MZN OK');
@@ -116,8 +116,8 @@ app.get('/generate', function (req, res) {
   let resp = generate(dot, mzn);
   if (resp.status > 0) {
     logger.info('GET /generate... OK');
-    res.redirect('index.html#main');
-    // res.send('OK');
+    // res.redirect('index.html#main');
+    res.send('OK');
   } else {
     logger.info('GET /generate... ERROR');
     res.status(400).send(resp.reason);

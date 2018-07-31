@@ -58,78 +58,78 @@ module.exports.generateDOT = function (oasPath, graphvizPath, name, serviceName,
 
             Object.entries(apiOperations).forEach(([method, apiOperation]) => {
 
-                Object.entries(apiOperation.responses).forEach(([statusCode, response]) => {
+                //TODO: if below is enable, multiple plans fail for multiple responses
+                // Object.entries(apiOperation.responses).forEach(([statusCode, response]) => {
 
-                    // create REQUEST node
-                    graphvizContent = graphvizContent.concat('node [ style=rounded, shape=box, label = "').concat('<').concat(serviceName).concat('> ').concat(method.toUpperCase()).concat(' ').concat(apiPath).concat('" ] ').concat('"').concat(apiOperation.operationId).concat('"').concat("\n");
+                // create REQUEST node
+                graphvizContent = graphvizContent.concat('node [ style=rounded, shape=box, label = "').concat('<').concat(serviceName).concat('> ').concat(method.toUpperCase()).concat(' ').concat(apiPath).concat('" ] ').concat('"').concat(apiOperation.operationId).concat('"').concat("\n");
 
-                    // PLANS ATTACH
-                    if (sla) {
-                        // create SLA node
-                        graphvizContent = graphvizContent.concat('limits_'.concat(apiOperation.operationId)).concat(' [shape=note, style=filled, fillcolor="#F1D991" label=<').concat('\n')
-                            .concat('<table border="0" cellborder="1" cellpadding="2" cellspacing="0">').concat('\n')
-                            .concat('<tr>').concat('\n')
-                            .concat('<td></td>').concat('\n');
-                        Object.entries(sla.plans).forEach(([planName, plan]) => {
-                            graphvizContent = graphvizContent.concat('<td><b>').concat(planName).concat('</b></td>').concat('\n');
-                        });
-                        graphvizContent = graphvizContent.concat('</tr>').concat('\n')
-                            .concat('<tr>').concat('\n')
-                            .concat('<td><b>Quota</b></td>').concat('\n');
-                        Object.entries(sla.plans).forEach(([planName, plan]) => {
-                            let limitValue = utils.getPlan(sla, planName, "quotas", apiPath, method.toLowerCase());
-                            if (limitValue) {
-                                limitValue = limitValue["requests"][0]; //TODO: We only support "requests" so far with 1 element
-                                graphvizContent = graphvizContent.concat('<td>').concat(limitValue.max).concat(' req ').concat(limitValue.period).concat('</td>').concat('\n');
-                            }
-                        });
-                        graphvizContent = graphvizContent.concat('</tr>').concat('\n')
-                            .concat('<tr>').concat('\n')
-                            .concat('<td><b>Rate</b></td>').concat('\n');
-                        Object.entries(sla.plans).forEach(([planName, plan]) => {
-                            let limitValue = utils.getPlan(sla, planName, "rates", apiPath, method.toLowerCase());
-                            if (limitValue) {
-                                limitValue = limitValue["requests"][0]; //TODO: We only support "requests" so far with 1 element
-                                graphvizContent = graphvizContent.concat('<td>').concat(limitValue.max).concat(' req ').concat(limitValue.period).concat('</td>').concat('\n');
-                            }
-                        });
-                        graphvizContent = graphvizContent.concat('</tr>').concat('\n')
-                            .concat('</table>').concat('\n')
-                            .concat('>];').concat('\n');
+                // PLANS ATTACH
+                if (sla) {
+                    // create SLA node
+                    graphvizContent = graphvizContent.concat('limits_'.concat(apiOperation.operationId)).concat(' [shape=note, style=filled, fillcolor="#F1D991" label=<').concat('\n')
+                        .concat('<table border="0" cellborder="1" cellpadding="2" cellspacing="0">').concat('\n')
+                        .concat('<tr>').concat('\n')
+                        .concat('<td></td>').concat('\n');
+                    Object.entries(sla.plans).forEach(([planName, plan]) => {
+                        graphvizContent = graphvizContent.concat('<td><b>').concat(planName).concat('</b></td>').concat('\n');
+                    });
+                    graphvizContent = graphvizContent.concat('</tr>').concat('\n')
+                        .concat('<tr>').concat('\n')
+                        .concat('<td><b>Quota</b></td>').concat('\n');
+                    Object.entries(sla.plans).forEach(([planName, plan]) => {
+                        let limitValue = utils.getPlan(sla, planName, "quotas", apiPath, method.toLowerCase());
+                        if (limitValue) {
+                            limitValue = limitValue["requests"][0]; //TODO: We only support "requests" so far with 1 element
+                            graphvizContent = graphvizContent.concat('<td>').concat(limitValue.max).concat(' req ').concat(limitValue.period).concat('</td>').concat('\n');
+                        }
+                    });
+                    graphvizContent = graphvizContent.concat('</tr>').concat('\n')
+                        .concat('<tr>').concat('\n')
+                        .concat('<td><b>Rate</b></td>').concat('\n');
+                    Object.entries(sla.plans).forEach(([planName, plan]) => {
+                        let limitValue = utils.getPlan(sla, planName, "rates", apiPath, method.toLowerCase());
+                        if (limitValue) {
+                            limitValue = limitValue["requests"][0]; //TODO: We only support "requests" so far with 1 element
+                            graphvizContent = graphvizContent.concat('<td>').concat(limitValue.max).concat(' req ').concat(limitValue.period).concat('</td>').concat('\n');
+                        }
+                    });
+                    graphvizContent = graphvizContent.concat('</tr>').concat('\n')
+                        .concat('</table>').concat('\n')
+                        .concat('>];').concat('\n');
 
-                        // create SLA--REQUEST
-                        graphvizContent = graphvizContent.concat(apiOperation.operationId)
-                            .concat(" -> ")
-                            .concat('limits').concat('_').concat(apiOperation.operationId).concat('[ style=dashed, color=black, penwidth=0.5 ]').concat(';').concat('\n');
-                    }
+                    // create SLA--REQUEST
+                    graphvizContent = graphvizContent.concat(apiOperation.operationId)
+                        .concat(" -> ")
+                        .concat('limits').concat('_').concat(apiOperation.operationId).concat('[ style=dashed, color=black, penwidth=0.5 ]').concat(';').concat('\n');
+                }
 
-                    // // create RESPONSE node
-                    // graphvizContent = graphvizContent.concat('node [ style="rounded,filled", fillcolor="#E6E6E6", shape=box, label = "'.concat(statusCode).concat('" ] ')).concat('"').concat(apiOperation.operationId.concat(statusCode)).concat('"').concat('\n');
+                // // create RESPONSE node
+                // graphvizContent = graphvizContent.concat('node [ style="rounded,filled", fillcolor="#E6E6E6", shape=box, label = "'.concat(statusCode).concat('" ] ')).concat('"').concat(apiOperation.operationId.concat(statusCode)).concat('"').concat('\n');
 
-                    // if (Object.keys(apiOperation.responses).length > 1) {
-                    //     // create XOR_GATEWAY node
-                    //     graphvizContent = graphvizContent.concat('node [ style=filled, fillcolor=white, shape=diamond, label = "X" ] ').concat('"').concat('XOR_'.concat(apiOperation.operationId)).concat('"').concat('\n');
-                    //     if (Object.keys(apiOperation.responses).indexOf(statusCode) == 0) {
-                    //         // create REQUEST--XOR_GATEWAY
-                    //         graphvizContent = graphvizContent.concat(apiOperation.operationId).concat(" -> ").concat('XOR_'.concat(apiOperation.operationId)).concat(';').concat('\n');
-                    //     }
-                    //     // create XOR_GATEWAY--RESPONSE
-                    //     graphvizContent = graphvizContent.concat('XOR_'.concat(apiOperation.operationId)).concat(" -> ").concat(apiOperation.operationId.concat(statusCode)).concat(' [ style="rounded,filled" shape=box ] ').concat(';').concat('\n');
+                // if (Object.keys(apiOperation.responses).length > 1) {
+                //     // create XOR_GATEWAY node
+                //     graphvizContent = graphvizContent.concat('node [ style=filled, fillcolor=white, shape=diamond, label = "X" ] ').concat('"').concat('XOR_'.concat(apiOperation.operationId)).concat('"').concat('\n');
+                //     if (Object.keys(apiOperation.responses).indexOf(statusCode) == 0) {
+                //         // create REQUEST--XOR_GATEWAY
+                //         graphvizContent = graphvizContent.concat(apiOperation.operationId).concat(" -> ").concat('XOR_'.concat(apiOperation.operationId)).concat(';').concat('\n');
+                //     }
+                //     // create XOR_GATEWAY--RESPONSE
+                //     graphvizContent = graphvizContent.concat('XOR_'.concat(apiOperation.operationId)).concat(" -> ").concat(apiOperation.operationId.concat(statusCode)).concat(' [ style="rounded,filled" shape=box ] ').concat(';').concat('\n');
 
-                    //     if (response.links) {
-                    //         Object.entries(response.links).forEach(([linkName, link]) => {
-                    //             // create RESPONSE--LINKED_REQUEST
-                    //             graphvizContent = graphvizContent.concat(apiOperation.operationId.concat(statusCode)).concat(" -> ").concat(link.operationId).concat(' [ style=dashed ]').concat(';').concat('\n');
-                    //         });
-                    //     }
-                    // } else {
-                    //     // create REQUEST--RESPONSE
-                    //     graphvizContent = graphvizContent.concat(apiOperation.operationId).concat(" -> ").concat(apiOperation.operationId.concat(statusCode)).concat(';').concat('\n');
-                    // }
-                });
-
-
+                //     if (response.links) {
+                //         Object.entries(response.links).forEach(([linkName, link]) => {
+                //             // create RESPONSE--LINKED_REQUEST
+                //             graphvizContent = graphvizContent.concat(apiOperation.operationId.concat(statusCode)).concat(" -> ").concat(link.operationId).concat(' [ style=dashed ]').concat(';').concat('\n');
+                //         });
+                //     }
+                // } else {
+                //     // create REQUEST--RESPONSE
+                //     graphvizContent = graphvizContent.concat(apiOperation.operationId).concat(" -> ").concat(apiOperation.operationId.concat(statusCode)).concat(';').concat('\n');
+                // }
             });
+
+            // });
         });
         // graphvizContent = graphvizContent.concat("@enduml");
         graphvizContent = graphvizContent.concat("}");

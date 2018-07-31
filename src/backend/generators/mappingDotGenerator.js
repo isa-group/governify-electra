@@ -65,7 +65,7 @@ module.exports.generateMappingDOT = function (mappingFilePath, name, INPUT_SUBFO
                 }
             });
             graphvizContent = graphvizContent.concat('</tr>').concat('\n')
-                .concat('<tr><td><b>Boundary service op.</b></td><td>').concat(START_NODE_NAME).concat('</td></tr>').concat('\n')
+                .concat('<tr><td><b>Root operation</b></td><td>').concat(START_NODE_NAME).concat('</td></tr>').concat('\n')
                 .concat('</table>').concat('\n')
                 .concat('>];').concat('\n');
         }
