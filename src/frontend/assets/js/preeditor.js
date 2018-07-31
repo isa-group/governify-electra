@@ -10,16 +10,32 @@ switch (localStorage.getItem('mapping')) {
         $(".mapping-synthetic").addClass("primary");
         $(".mapping-simple").removeClass("primary");
         $(".mapping-complex").removeClass("primary");
+        $(".mapping-custom").removeClass("primary");
+        $(".mapping-custom-hidable").addClass("hide");
         break;
+
     case "mapping-simple":
         $(".mapping-synthetic").removeClass("primary");
         $(".mapping-simple").addClass("primary");
         $(".mapping-complex").removeClass("primary");
+        $(".mapping-custom").removeClass("primary");
+        $(".mapping-custom-hidable").addClass("hide");
         break;
+
     case "mapping-complex":
         $(".mapping-synthetic").removeClass("primary");
         $(".mapping-simple").removeClass("primary");
         $(".mapping-complex").addClass("primary");
+        $(".mapping-custom").removeClass("primary");
+        $(".mapping-custom-hidable").addClass("hide");
+        break;
+
+    case "mapping-custom":
+        $(".mapping-synthetic").removeClass("primary");
+        $(".mapping-simple").removeClass("primary");
+        $(".mapping-complex").removeClass("primary");
+        $(".mapping-custom").addClass("primary");
+        $(".mapping-custom-hidable").removeClass("hide");
         break;
 
     default:

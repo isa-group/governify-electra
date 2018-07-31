@@ -223,6 +223,11 @@ function setQuotaValueFromCSP(mappingFileName, cspVariable, cspValue) {
             boundaryOperationPath = '/api/b1/m1';
             boundaryOperationMethod = 'get';
             break;
+        case 'mapping-custom':
+            boundaryOperationPlanFile = path.join(basePath, 'b1-plans.yaml');
+            boundaryOperationPath = '/api/b1/m1';
+            boundaryOperationMethod = 'get';
+            break;
         case 'mapping-simple':
             boundaryOperationPlanFile = path.join(basePath, 'sabius-publication-data-simple-plans.yaml');
             boundaryOperationPath = '/v1/{snapshot}/authors/{authorId}/documents';

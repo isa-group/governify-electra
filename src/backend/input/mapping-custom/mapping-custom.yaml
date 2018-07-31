@@ -1,0 +1,34 @@
+params:
+  rootOperation:
+    value: b1m1
+  sizeVarName:
+    value: inputSize
+  selectedPlan:
+    value: Usage limitations
+services:
+  internalService: >-
+    https://gist.githubusercontent.com/antgamdia/48895cef42b800e09e72a4b379449ddd/raw/internalService-oas.yaml
+  externalService: >-
+    https://gist.githubusercontent.com/antgamdia/48895cef42b800e09e72a4b379449ddd/raw/externalService-oas.yaml
+mappings:
+  - input:
+      service: internalService
+      path: /api/b1/m1
+      method: GET
+    output:
+      - service: externalService
+        path: /api/s2/m1
+        method: GET
+        count: '1'
+      - service: externalService
+        path: /api/s2/m2
+        method: GET
+        count: '1'
+      - service: externalService
+        path: /api/s2/m3
+        method: GET
+        count: '1'
+      - service: externalService
+        path: /api/s2/m4
+        method: GET
+        count: '1'

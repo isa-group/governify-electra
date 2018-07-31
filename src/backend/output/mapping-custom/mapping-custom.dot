@@ -1,0 +1,121 @@
+digraph restalk { 
+
+ rankdir=LR;
+
+
+
+subgraph "internalService" {
+node [shape=box]
+node [ style=rounded, shape=box, label = "<internalService> GET /api/b1/m1" ] "b1m1"
+limits_b1m1 [shape=note, style=filled, fillcolor="#F0F8FF" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>Usage limitations</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>33 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>unlimited req secondly</td>
+</tr>
+</table>
+>];
+b1m1 -> limits_b1m1[ style=dashed, color=black, penwidth=0.5 ];
+}
+
+
+
+subgraph "externalService" {
+node [shape=box]
+node [ style=rounded, shape=box, label = "<externalService> GET /api/s2/m1" ] "s2m1"
+limits_s2m1 [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>Usage limitations</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>100 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>1 req secondly</td>
+</tr>
+</table>
+>];
+s2m1 -> limits_s2m1[ style=dashed, color=black, penwidth=0.5 ];
+node [ style=rounded, shape=box, label = "<externalService> GET /api/s2/m2" ] "s2m2"
+limits_s2m2 [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>Usage limitations</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>100 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>1 req secondly</td>
+</tr>
+</table>
+>];
+s2m2 -> limits_s2m2[ style=dashed, color=black, penwidth=0.5 ];
+node [ style=rounded, shape=box, label = "<externalService> GET /api/s2/m3" ] "s2m3"
+limits_s2m3 [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>Usage limitations</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>100 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>1 req secondly</td>
+</tr>
+</table>
+>];
+s2m3 -> limits_s2m3[ style=dashed, color=black, penwidth=0.5 ];
+node [ style=rounded, shape=box, label = "<externalService> GET /api/s2/m4" ] "s2m4"
+limits_s2m4 [shape=note, style=filled, fillcolor="#F1D991" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td></td>
+<td><b>Usage limitations</b></td>
+</tr>
+<tr>
+<td><b>Quota</b></td>
+<td>100 req weekly</td>
+</tr>
+<tr>
+<td><b>Rate</b></td>
+<td>1 req secondly</td>
+</tr>
+</table>
+>];
+s2m4 -> limits_s2m4[ style=dashed, color=black, penwidth=0.5 ];
+}
+
+params [shape=note, style=filled, fillcolor="#F0F8FF" label=<
+<table border="0" cellborder="1" cellpadding="2" cellspacing="0">
+<tr>
+<td><b>Param name</b></td><td><b>Param value</b></td>
+</tr>
+<tr><td><b>Boundary service op.</b></td><td>b1m1</td></tr>
+</table>
+>];
+b1m1 -> s2m1 [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
+b1m1 -> s2m2 [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
+b1m1 -> s2m3 [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
+b1m1 -> s2m4 [ color="#7a7a7a", penwidth=2.0, label="[R=1]" ];
+
+
+}
