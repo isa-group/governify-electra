@@ -9,12 +9,9 @@ limits_getDocumentsByAuthor [shape=note, style=filled, fillcolor="#F1D991" label
 </tr>
 <tr>
 <td><b>Quota</b></td>
-<td>? req weekly</td>
+<td>270 req weekly</td>
 </tr>
-<tr>
-<td><b>Rate</b></td>
-<td>unrestricted req secondly</td>
-</tr>
+
 </table>
 >];
 getDocumentsByAuthor -> limits_getDocumentsByAuthor[ style=dashed, color=black, penwidth=0.5 ];

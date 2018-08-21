@@ -27,9 +27,3 @@ plans:
           requests:
             - max: '?'
               period: weekly
-    rates:
-      '/v1/{snapshot}/authors/{authorId}/documents':
-        get:
-          requests:
-            - max: unrestricted
-              period: secondly

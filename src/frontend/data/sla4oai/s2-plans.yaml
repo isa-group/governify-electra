@@ -43,24 +43,24 @@ plans:
             - max: 100
               period: weekly
     
-    rates:
-      /api/s2/m1:
-        get:
-          requests:
-            - max: 1
-              period: secondly
-      /api/s2/m2:
-        get:
-          requests:
-            - max: 1
-              period: secondly
-      /api/s2/m3:
-        get:
-          requests:
-            - max: 1
-              period: secondly
-      /api/s2/m4:
-        get:
-          requests:
-            - max: 1
-              period: secondly
+    # rates:
+    #   /api/s2/m1:
+    #     get:
+    #       requests:
+    #         - max: 1
+    #           period: secondly
+    #   /api/s2/m2:
+    #     get:
+    #       requests:
+    #         - max: 1
+    #           period: secondly
+    #   /api/s2/m3:
+    #     get:
+    #       requests:
+    #         - max: 1
+    #           period: secondly
+    #   /api/s2/m4:
+    #     get:
+    #       requests:
+    #         - max: 1
+    #           period: secondly

@@ -37,92 +37,92 @@ plans:
   non-subscriber:
     pricing:
       cost: 25416
-    rates:
-      /serial/title:
-        get:
-          requests:
-            - max: 3
-              period: secondly
-      '/serial/title/issn/{issn}':
-        get:
-          requests:
-            - max: 3
-              period: secondly
-      /abstract/citation-count:
-        get:
-          requests:
-            - max: 18
-              period: secondly
-      /abstract/citations:
-        get:
-          requests:
-            - max: 3
-              period: secondly
-      '/abstract/doi/{doi}':
-        get:
-          requests:
-            - max: 6
-              period: secondly
-      '/abstract/eid/{eid}':
-        get:
-          requests:
-            - max: 6
-              period: secondly
-      '/abstract/pii/{pii}':
-        get:
-          requests:
-            - max: 6
-              period: secondly
-      '/abstract/pubmed_id/{pubmed_id}':
-        get:
-          requests:
-            - max: 6
-              period: secondly
-      '/abstract/pui/{pui}':
-        get:
-          requests:
-            - max: 6
-              period: secondly
-      '/abstract/scopus_id/{scopus_id}':
-        get:
-          requests:
-            - max: 6
-              period: secondly
-      '/affiliation/affiliation_id/{affiliation_id}':
-        get:
-          requests:
-            - max: 6
-              period: secondly
-      '/affiliation/eid/{eid}':
-        get:
-          requests:
-            - max: 6
-              period: secondly
-      '/author/eid/{eid}':
-        get:
-          requests:
-            - max: 3
-              period: secondly
-      '/author/author_id/{author_id}':
-        get:
-          requests:
-            - max: 3
-              period: secondly
-      /search/scopus:
-        get:
-          requests:
-            - max: 6
-              period: secondly
-      /search/affiliation:
-        get:
-          requests:
-            - max: 3
-              period: secondly
-      /search/author:
-        get:
-          requests:
-            - max: 3
-              period: secondly
+    # rates:
+    #   /serial/title:
+    #     get:
+    #       requests:
+    #         - max: 3
+    #           period: secondly
+    #   '/serial/title/issn/{issn}':
+    #     get:
+    #       requests:
+    #         - max: 3
+    #           period: secondly
+    #   /abstract/citation-count:
+    #     get:
+    #       requests:
+    #         - max: 18
+    #           period: secondly
+    #   /abstract/citations:
+    #     get:
+    #       requests:
+    #         - max: 3
+    #           period: secondly
+    #   '/abstract/doi/{doi}':
+    #     get:
+    #       requests:
+    #         - max: 6
+    #           period: secondly
+    #   '/abstract/eid/{eid}':
+    #     get:
+    #       requests:
+    #         - max: 6
+    #           period: secondly
+    #   '/abstract/pii/{pii}':
+    #     get:
+    #       requests:
+    #         - max: 6
+    #           period: secondly
+    #   '/abstract/pubmed_id/{pubmed_id}':
+    #     get:
+    #       requests:
+    #         - max: 6
+    #           period: secondly
+    #   '/abstract/pui/{pui}':
+    #     get:
+    #       requests:
+    #         - max: 6
+    #           period: secondly
+    #   '/abstract/scopus_id/{scopus_id}':
+    #     get:
+    #       requests:
+    #         - max: 6
+    #           period: secondly
+    #   '/affiliation/affiliation_id/{affiliation_id}':
+    #     get:
+    #       requests:
+    #         - max: 6
+    #           period: secondly
+    #   '/affiliation/eid/{eid}':
+    #     get:
+    #       requests:
+    #         - max: 6
+    #           period: secondly
+    #   '/author/eid/{eid}':
+    #     get:
+    #       requests:
+    #         - max: 3
+    #           period: secondly
+    #   '/author/author_id/{author_id}':
+    #     get:
+    #       requests:
+    #         - max: 3
+    #           period: secondly
+    #   /search/scopus:
+    #     get:
+    #       requests:
+    #         - max: 6
+    #           period: secondly
+    #   /search/affiliation:
+    #     get:
+    #       requests:
+    #         - max: 3
+    #           period: secondly
+    #   /search/author:
+    #     get:
+    #       requests:
+    #         - max: 3
+    #           period: secondly
     quotas:
       /serial/title:
         get:
@@ -213,92 +213,92 @@ plans:
   subscriber:
     pricing:
       cost: 25416
-    rates:
-      /serial/title:
-        get:
-          requests:
-            - max: 3
-              period: secondly
-      '/serial/title/issn/{issn}':
-        get:
-          requests:
-            - max: 3
-              period: secondly
-      /abstract/citation-count:
-        get:
-          requests:
-            - max: 18
-              period: secondly
-      /abstract/citations:
-        get:
-          requests:
-            - max: 3
-              period: secondly
-      '/abstract/doi/{doi}':
-        get:
-          requests:
-            - max: 6
-              period: secondly
-      '/abstract/eid/{eid}':
-        get:
-          requests:
-            - max: 6
-              period: secondly
-      '/abstract/pii/{pii}':
-        get:
-          requests:
-            - max: 6
-              period: secondly
-      '/abstract/pubmed_id/{pubmed_id}':
-        get:
-          requests:
-            - max: 6
-              period: secondly
-      '/abstract/pui/{pui}':
-        get:
-          requests:
-            - max: 6
-              period: secondly
-      '/abstract/scopus_id/{scopus_id}':
-        get:
-          requests:
-            - max: 6
-              period: secondly
-      '/affiliation/affiliation_id/{affiliation_id}':
-        get:
-          requests:
-            - max: 6
-              period: secondly
-      '/affiliation/eid/{eid}':
-        get:
-          requests:
-            - max: 6
-              period: secondly
-      '/author/eid/{eid}':
-        get:
-          requests:
-            - max: 3
-              period: secondly
-      '/author/author_id/{author_id}':
-        get:
-          requests:
-            - max: 3
-              period: secondly
-      /search/scopus:
-        get:
-          requests:
-            - max: 6
-              period: secondly
-      /search/affiliation:
-        get:
-          requests:
-            - max: 3
-              period: secondly
-      /search/author:
-        get:
-          requests:
-            - max: 3
-              period: secondly
+    # rates:
+    #   /serial/title:
+    #     get:
+    #       requests:
+    #         - max: 3
+    #           period: secondly
+    #   '/serial/title/issn/{issn}':
+    #     get:
+    #       requests:
+    #         - max: 3
+    #           period: secondly
+    #   /abstract/citation-count:
+    #     get:
+    #       requests:
+    #         - max: 18
+    #           period: secondly
+    #   /abstract/citations:
+    #     get:
+    #       requests:
+    #         - max: 3
+    #           period: secondly
+    #   '/abstract/doi/{doi}':
+    #     get:
+    #       requests:
+    #         - max: 6
+    #           period: secondly
+    #   '/abstract/eid/{eid}':
+    #     get:
+    #       requests:
+    #         - max: 6
+    #           period: secondly
+    #   '/abstract/pii/{pii}':
+    #     get:
+    #       requests:
+    #         - max: 6
+    #           period: secondly
+    #   '/abstract/pubmed_id/{pubmed_id}':
+    #     get:
+    #       requests:
+    #         - max: 6
+    #           period: secondly
+    #   '/abstract/pui/{pui}':
+    #     get:
+    #       requests:
+    #         - max: 6
+    #           period: secondly
+    #   '/abstract/scopus_id/{scopus_id}':
+    #     get:
+    #       requests:
+    #         - max: 6
+    #           period: secondly
+    #   '/affiliation/affiliation_id/{affiliation_id}':
+    #     get:
+    #       requests:
+    #         - max: 6
+    #           period: secondly
+    #   '/affiliation/eid/{eid}':
+    #     get:
+    #       requests:
+    #         - max: 6
+    #           period: secondly
+    #   '/author/eid/{eid}':
+    #     get:
+    #       requests:
+    #         - max: 3
+    #           period: secondly
+    #   '/author/author_id/{author_id}':
+    #     get:
+    #       requests:
+    #         - max: 3
+    #           period: secondly
+    #   /search/scopus:
+    #     get:
+    #       requests:
+    #         - max: 6
+    #           period: secondly
+    #   /search/affiliation:
+    #     get:
+    #       requests:
+    #         - max: 3
+    #           period: secondly
+    #   /search/author:
+    #     get:
+    #       requests:
+    #         - max: 3
+    #           period: secondly
     quotas:
       /serial/title:
         get:

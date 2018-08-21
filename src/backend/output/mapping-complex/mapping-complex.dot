@@ -19,11 +19,7 @@ limits_AuthorSearch [shape=note, style=filled, fillcolor="#F1D991" label=<
 <td>5000 req weekly</td>
 <td>5000 req weekly</td>
 </tr>
-<tr>
-<td><b>Rate</b></td>
-<td>3 req secondly</td>
-<td>3 req secondly</td>
-</tr>
+
 </table>
 >];
 AuthorSearch -> limits_AuthorSearch[ style=dashed, color=black, penwidth=0.5 ];
@@ -40,11 +36,7 @@ limits_AuthorRetrievalid [shape=note, style=filled, fillcolor="#F1D991" label=<
 <td>5000 req weekly</td>
 <td>5000 req weekly</td>
 </tr>
-<tr>
-<td><b>Rate</b></td>
-<td>3 req secondly</td>
-<td>3 req secondly</td>
-</tr>
+
 </table>
 >];
 AuthorRetrievalid -> limits_AuthorRetrievalid[ style=dashed, color=black, penwidth=0.5 ];
@@ -61,11 +53,7 @@ limits_ScopusSearch [shape=note, style=filled, fillcolor="#F1D991" label=<
 <td>20000 req weekly</td>
 <td>20000 req weekly</td>
 </tr>
-<tr>
-<td><b>Rate</b></td>
-<td>6 req secondly</td>
-<td>6 req secondly</td>
-</tr>
+
 </table>
 >];
 ScopusSearch -> limits_ScopusSearch[ style=dashed, color=black, penwidth=0.5 ];
@@ -82,11 +70,7 @@ limits_AbstractRetrieval4 [shape=note, style=filled, fillcolor="#F1D991" label=<
 <td>10000 req weekly</td>
 <td>10000 req weekly</td>
 </tr>
-<tr>
-<td><b>Rate</b></td>
-<td>6 req secondly</td>
-<td>6 req secondly</td>
-</tr>
+
 </table>
 >];
 AbstractRetrieval4 -> limits_AbstractRetrieval4[ style=dashed, color=black, penwidth=0.5 ];
@@ -103,11 +87,7 @@ limits_SerialTitleMetadata [shape=note, style=filled, fillcolor="#F1D991" label=
 <td>20000 req weekly</td>
 <td>20000 req weekly</td>
 </tr>
-<tr>
-<td><b>Rate</b></td>
-<td>3 req secondly</td>
-<td>3 req secondly</td>
-</tr>
+
 </table>
 >];
 SerialTitleMetadata -> limits_SerialTitleMetadata[ style=dashed, color=black, penwidth=0.5 ];
@@ -124,11 +104,7 @@ limits_SerialTitleSearch [shape=note, style=filled, fillcolor="#F1D991" label=<
 <td>20000 req weekly</td>
 <td>20000 req weekly</td>
 </tr>
-<tr>
-<td><b>Rate</b></td>
-<td>3 req secondly</td>
-<td>3 req secondly</td>
-</tr>
+
 </table>
 >];
 SerialTitleSearch -> limits_SerialTitleSearch[ style=dashed, color=black, penwidth=0.5 ];
@@ -156,12 +132,9 @@ limits_getReportR00 [shape=note, style=filled, fillcolor="#F0F8FF" label=<
 </tr>
 <tr>
 <td><b>Quota</b></td>
-<td>? req weekly</td>
+<td>270 req weekly</td>
 </tr>
-<tr>
-<td><b>Rate</b></td>
-<td>unrestricted req secondly</td>
-</tr>
+
 </table>
 >];
 getReportR00 -> limits_getReportR00[ style=dashed, color=black, penwidth=0.5 ];

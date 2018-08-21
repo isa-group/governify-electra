@@ -27,9 +27,3 @@ plans:
           requests:
             - max: '?'
               period: weekly
-    rates:
-      /api/b1/m1:
-        get:
-          requests:
-            - max: unrestricted
-              period: secondly

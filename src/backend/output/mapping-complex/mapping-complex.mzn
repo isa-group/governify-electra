@@ -84,14 +84,7 @@ float: count_getAuthor_AuthorSearch = 1;
 			float: unitQuotaConsumption_nonsubscriber_getAuthor_AuthorSearch_period_val = 1;
 			string: unitQuotaConsumption_nonsubscriber_getAuthor_AuthorSearch_period_period = "weekly";
 
-		float: rate_nonsubscriber_getAuthor_AuthorSearch_value = 3;
-		float: rate_nonsubscriber_getAuthor_AuthorSearch_period_val = 1;
-		string: rate_nonsubscriber_getAuthor_AuthorSearch_period_period = "secondly";
-
-			%Unit rate consumption
-			float: unitRateConsumption_nonsubscriber_getAuthor_AuthorSearch_value = count_getAuthor_AuthorSearch/rate_nonsubscriber_getAuthor_AuthorSearch_value;
-			float: unitRateConsumption_nonsubscriber_getAuthor_AuthorSearch_period_val = 1;
-			string: unitRateConsumption_nonsubscriber_getAuthor_AuthorSearch_period_period = "secondly";
+		%No rates for plan non-subscriber and path /search/author and method GET
 		%Plan: subscriber
 		float: quota_subscriber_AuthorSearch_value = 5000;
 		float: quota_subscriber_getAuthor_AuthorSearch_value = 5000;
@@ -103,14 +96,7 @@ float: count_getAuthor_AuthorSearch = 1;
 			float: unitQuotaConsumption_subscriber_getAuthor_AuthorSearch_period_val = 1;
 			string: unitQuotaConsumption_subscriber_getAuthor_AuthorSearch_period_period = "weekly";
 
-		float: rate_subscriber_getAuthor_AuthorSearch_value = 3;
-		float: rate_subscriber_getAuthor_AuthorSearch_period_val = 1;
-		string: rate_subscriber_getAuthor_AuthorSearch_period_period = "secondly";
-
-			%Unit rate consumption
-			float: unitRateConsumption_subscriber_getAuthor_AuthorSearch_value = count_getAuthor_AuthorSearch/rate_subscriber_getAuthor_AuthorSearch_value;
-			float: unitRateConsumption_subscriber_getAuthor_AuthorSearch_period_val = 1;
-			string: unitRateConsumption_subscriber_getAuthor_AuthorSearch_period_period = "secondly";
+		%No rates for plan subscriber and path /search/author and method GET
 	%END LIMITS FOR: AuthorSearch
 
 %% -------- BEGIN DEPENDENCY AuthorRetrievalid OF getAuthor DEFINITION --------
@@ -133,14 +119,7 @@ float: count_getAuthor_AuthorRetrievalid = 1;
 			float: unitQuotaConsumption_nonsubscriber_getAuthor_AuthorRetrievalid_period_val = 1;
 			string: unitQuotaConsumption_nonsubscriber_getAuthor_AuthorRetrievalid_period_period = "weekly";
 
-		float: rate_nonsubscriber_getAuthor_AuthorRetrievalid_value = 3;
-		float: rate_nonsubscriber_getAuthor_AuthorRetrievalid_period_val = 1;
-		string: rate_nonsubscriber_getAuthor_AuthorRetrievalid_period_period = "secondly";
-
-			%Unit rate consumption
-			float: unitRateConsumption_nonsubscriber_getAuthor_AuthorRetrievalid_value = count_getAuthor_AuthorRetrievalid/rate_nonsubscriber_getAuthor_AuthorRetrievalid_value;
-			float: unitRateConsumption_nonsubscriber_getAuthor_AuthorRetrievalid_period_val = 1;
-			string: unitRateConsumption_nonsubscriber_getAuthor_AuthorRetrievalid_period_period = "secondly";
+		%No rates for plan non-subscriber and path /author/author_id/{author_id} and method GET
 		%Plan: subscriber
 		float: quota_subscriber_AuthorRetrievalid_value = 5000;
 		float: quota_subscriber_getAuthor_AuthorRetrievalid_value = 5000;
@@ -152,14 +131,7 @@ float: count_getAuthor_AuthorRetrievalid = 1;
 			float: unitQuotaConsumption_subscriber_getAuthor_AuthorRetrievalid_period_val = 1;
 			string: unitQuotaConsumption_subscriber_getAuthor_AuthorRetrievalid_period_period = "weekly";
 
-		float: rate_subscriber_getAuthor_AuthorRetrievalid_value = 3;
-		float: rate_subscriber_getAuthor_AuthorRetrievalid_period_val = 1;
-		string: rate_subscriber_getAuthor_AuthorRetrievalid_period_period = "secondly";
-
-			%Unit rate consumption
-			float: unitRateConsumption_subscriber_getAuthor_AuthorRetrievalid_value = count_getAuthor_AuthorRetrievalid/rate_subscriber_getAuthor_AuthorRetrievalid_value;
-			float: unitRateConsumption_subscriber_getAuthor_AuthorRetrievalid_period_val = 1;
-			string: unitRateConsumption_subscriber_getAuthor_AuthorRetrievalid_period_period = "secondly";
+		%No rates for plan subscriber and path /author/author_id/{author_id} and method GET
 	%END LIMITS FOR: AuthorRetrievalid
 
 %% -------- BEGIN INNER COMPOSITION DEFINITION --------
@@ -193,14 +165,7 @@ float: count_getAuthorMetrics_AuthorRetrievalid = 1;
 			float: unitQuotaConsumption_nonsubscriber_getAuthorMetrics_AuthorRetrievalid_period_val = 1;
 			string: unitQuotaConsumption_nonsubscriber_getAuthorMetrics_AuthorRetrievalid_period_period = "weekly";
 
-		float: rate_nonsubscriber_getAuthorMetrics_AuthorRetrievalid_value = 3;
-		float: rate_nonsubscriber_getAuthorMetrics_AuthorRetrievalid_period_val = 1;
-		string: rate_nonsubscriber_getAuthorMetrics_AuthorRetrievalid_period_period = "secondly";
-
-			%Unit rate consumption
-			float: unitRateConsumption_nonsubscriber_getAuthorMetrics_AuthorRetrievalid_value = count_getAuthorMetrics_AuthorRetrievalid/rate_nonsubscriber_getAuthorMetrics_AuthorRetrievalid_value;
-			float: unitRateConsumption_nonsubscriber_getAuthorMetrics_AuthorRetrievalid_period_val = 1;
-			string: unitRateConsumption_nonsubscriber_getAuthorMetrics_AuthorRetrievalid_period_period = "secondly";
+		%No rates for plan non-subscriber and path /author/author_id/{author_id} and method GET
 		%Plan: subscriber
 		float: quota_subscriber_getAuthorMetrics_AuthorRetrievalid_value = 5000;
 		float: quota_subscriber_getAuthorMetrics_AuthorRetrievalid_period_val = 1;
@@ -211,14 +176,7 @@ float: count_getAuthorMetrics_AuthorRetrievalid = 1;
 			float: unitQuotaConsumption_subscriber_getAuthorMetrics_AuthorRetrievalid_period_val = 1;
 			string: unitQuotaConsumption_subscriber_getAuthorMetrics_AuthorRetrievalid_period_period = "weekly";
 
-		float: rate_subscriber_getAuthorMetrics_AuthorRetrievalid_value = 3;
-		float: rate_subscriber_getAuthorMetrics_AuthorRetrievalid_period_val = 1;
-		string: rate_subscriber_getAuthorMetrics_AuthorRetrievalid_period_period = "secondly";
-
-			%Unit rate consumption
-			float: unitRateConsumption_subscriber_getAuthorMetrics_AuthorRetrievalid_value = count_getAuthorMetrics_AuthorRetrievalid/rate_subscriber_getAuthorMetrics_AuthorRetrievalid_value;
-			float: unitRateConsumption_subscriber_getAuthorMetrics_AuthorRetrievalid_period_val = 1;
-			string: unitRateConsumption_subscriber_getAuthorMetrics_AuthorRetrievalid_period_period = "secondly";
+		%No rates for plan subscriber and path /author/author_id/{author_id} and method GET
 	%END LIMITS FOR: AuthorRetrievalid
 
 %% -------- BEGIN INNER COMPOSITION DEFINITION --------
@@ -253,14 +211,7 @@ float: count_getDocumentsByAuthor_ScopusSearch = ceil(numPublications/pageSize);
 			float: unitQuotaConsumption_nonsubscriber_getDocumentsByAuthor_ScopusSearch_period_val = 1;
 			string: unitQuotaConsumption_nonsubscriber_getDocumentsByAuthor_ScopusSearch_period_period = "weekly";
 
-		float: rate_nonsubscriber_getDocumentsByAuthor_ScopusSearch_value = 6;
-		float: rate_nonsubscriber_getDocumentsByAuthor_ScopusSearch_period_val = 1;
-		string: rate_nonsubscriber_getDocumentsByAuthor_ScopusSearch_period_period = "secondly";
-
-			%Unit rate consumption
-			float: unitRateConsumption_nonsubscriber_getDocumentsByAuthor_ScopusSearch_value = count_getDocumentsByAuthor_ScopusSearch/rate_nonsubscriber_getDocumentsByAuthor_ScopusSearch_value;
-			float: unitRateConsumption_nonsubscriber_getDocumentsByAuthor_ScopusSearch_period_val = 1;
-			string: unitRateConsumption_nonsubscriber_getDocumentsByAuthor_ScopusSearch_period_period = "secondly";
+		%No rates for plan non-subscriber and path /search/scopus and method GET
 		%Plan: subscriber
 		float: quota_subscriber_ScopusSearch_value = 20000;
 		float: quota_subscriber_getDocumentsByAuthor_ScopusSearch_value = 20000;
@@ -272,14 +223,7 @@ float: count_getDocumentsByAuthor_ScopusSearch = ceil(numPublications/pageSize);
 			float: unitQuotaConsumption_subscriber_getDocumentsByAuthor_ScopusSearch_period_val = 1;
 			string: unitQuotaConsumption_subscriber_getDocumentsByAuthor_ScopusSearch_period_period = "weekly";
 
-		float: rate_subscriber_getDocumentsByAuthor_ScopusSearch_value = 6;
-		float: rate_subscriber_getDocumentsByAuthor_ScopusSearch_period_val = 1;
-		string: rate_subscriber_getDocumentsByAuthor_ScopusSearch_period_period = "secondly";
-
-			%Unit rate consumption
-			float: unitRateConsumption_subscriber_getDocumentsByAuthor_ScopusSearch_value = count_getDocumentsByAuthor_ScopusSearch/rate_subscriber_getDocumentsByAuthor_ScopusSearch_value;
-			float: unitRateConsumption_subscriber_getDocumentsByAuthor_ScopusSearch_period_val = 1;
-			string: unitRateConsumption_subscriber_getDocumentsByAuthor_ScopusSearch_period_period = "secondly";
+		%No rates for plan subscriber and path /search/scopus and method GET
 	%END LIMITS FOR: ScopusSearch
 
 %% -------- BEGIN DEPENDENCY AbstractRetrieval4 OF getDocumentsByAuthor DEFINITION --------
@@ -302,14 +246,7 @@ float: count_getDocumentsByAuthor_AbstractRetrieval4 = numPublications;
 			float: unitQuotaConsumption_nonsubscriber_getDocumentsByAuthor_AbstractRetrieval4_period_val = 1;
 			string: unitQuotaConsumption_nonsubscriber_getDocumentsByAuthor_AbstractRetrieval4_period_period = "weekly";
 
-		float: rate_nonsubscriber_getDocumentsByAuthor_AbstractRetrieval4_value = 6;
-		float: rate_nonsubscriber_getDocumentsByAuthor_AbstractRetrieval4_period_val = 1;
-		string: rate_nonsubscriber_getDocumentsByAuthor_AbstractRetrieval4_period_period = "secondly";
-
-			%Unit rate consumption
-			float: unitRateConsumption_nonsubscriber_getDocumentsByAuthor_AbstractRetrieval4_value = count_getDocumentsByAuthor_AbstractRetrieval4/rate_nonsubscriber_getDocumentsByAuthor_AbstractRetrieval4_value;
-			float: unitRateConsumption_nonsubscriber_getDocumentsByAuthor_AbstractRetrieval4_period_val = 1;
-			string: unitRateConsumption_nonsubscriber_getDocumentsByAuthor_AbstractRetrieval4_period_period = "secondly";
+		%No rates for plan non-subscriber and path /abstract/scopus_id/{scopus_id} and method GET
 		%Plan: subscriber
 		float: quota_subscriber_AbstractRetrieval4_value = 10000;
 		float: quota_subscriber_getDocumentsByAuthor_AbstractRetrieval4_value = 10000;
@@ -321,14 +258,7 @@ float: count_getDocumentsByAuthor_AbstractRetrieval4 = numPublications;
 			float: unitQuotaConsumption_subscriber_getDocumentsByAuthor_AbstractRetrieval4_period_val = 1;
 			string: unitQuotaConsumption_subscriber_getDocumentsByAuthor_AbstractRetrieval4_period_period = "weekly";
 
-		float: rate_subscriber_getDocumentsByAuthor_AbstractRetrieval4_value = 6;
-		float: rate_subscriber_getDocumentsByAuthor_AbstractRetrieval4_period_val = 1;
-		string: rate_subscriber_getDocumentsByAuthor_AbstractRetrieval4_period_period = "secondly";
-
-			%Unit rate consumption
-			float: unitRateConsumption_subscriber_getDocumentsByAuthor_AbstractRetrieval4_value = count_getDocumentsByAuthor_AbstractRetrieval4/rate_subscriber_getDocumentsByAuthor_AbstractRetrieval4_value;
-			float: unitRateConsumption_subscriber_getDocumentsByAuthor_AbstractRetrieval4_period_val = 1;
-			string: unitRateConsumption_subscriber_getDocumentsByAuthor_AbstractRetrieval4_period_period = "secondly";
+		%No rates for plan subscriber and path /abstract/scopus_id/{scopus_id} and method GET
 	%END LIMITS FOR: AbstractRetrieval4
 
 %% -------- BEGIN DEPENDENCY SerialTitleMetadata OF getDocumentsByAuthor DEFINITION --------
@@ -351,14 +281,7 @@ float: count_getDocumentsByAuthor_SerialTitleMetadata = numPublicationsTypeJourn
 			float: unitQuotaConsumption_nonsubscriber_getDocumentsByAuthor_SerialTitleMetadata_period_val = 1;
 			string: unitQuotaConsumption_nonsubscriber_getDocumentsByAuthor_SerialTitleMetadata_period_period = "weekly";
 
-		float: rate_nonsubscriber_getDocumentsByAuthor_SerialTitleMetadata_value = 3;
-		float: rate_nonsubscriber_getDocumentsByAuthor_SerialTitleMetadata_period_val = 1;
-		string: rate_nonsubscriber_getDocumentsByAuthor_SerialTitleMetadata_period_period = "secondly";
-
-			%Unit rate consumption
-			float: unitRateConsumption_nonsubscriber_getDocumentsByAuthor_SerialTitleMetadata_value = count_getDocumentsByAuthor_SerialTitleMetadata/rate_nonsubscriber_getDocumentsByAuthor_SerialTitleMetadata_value;
-			float: unitRateConsumption_nonsubscriber_getDocumentsByAuthor_SerialTitleMetadata_period_val = 1;
-			string: unitRateConsumption_nonsubscriber_getDocumentsByAuthor_SerialTitleMetadata_period_period = "secondly";
+		%No rates for plan non-subscriber and path /serial/title/issn/{issn} and method GET
 		%Plan: subscriber
 		float: quota_subscriber_SerialTitleMetadata_value = 20000;
 		float: quota_subscriber_getDocumentsByAuthor_SerialTitleMetadata_value = 20000;
@@ -370,14 +293,7 @@ float: count_getDocumentsByAuthor_SerialTitleMetadata = numPublicationsTypeJourn
 			float: unitQuotaConsumption_subscriber_getDocumentsByAuthor_SerialTitleMetadata_period_val = 1;
 			string: unitQuotaConsumption_subscriber_getDocumentsByAuthor_SerialTitleMetadata_period_period = "weekly";
 
-		float: rate_subscriber_getDocumentsByAuthor_SerialTitleMetadata_value = 3;
-		float: rate_subscriber_getDocumentsByAuthor_SerialTitleMetadata_period_val = 1;
-		string: rate_subscriber_getDocumentsByAuthor_SerialTitleMetadata_period_period = "secondly";
-
-			%Unit rate consumption
-			float: unitRateConsumption_subscriber_getDocumentsByAuthor_SerialTitleMetadata_value = count_getDocumentsByAuthor_SerialTitleMetadata/rate_subscriber_getDocumentsByAuthor_SerialTitleMetadata_value;
-			float: unitRateConsumption_subscriber_getDocumentsByAuthor_SerialTitleMetadata_period_val = 1;
-			string: unitRateConsumption_subscriber_getDocumentsByAuthor_SerialTitleMetadata_period_period = "secondly";
+		%No rates for plan subscriber and path /serial/title/issn/{issn} and method GET
 	%END LIMITS FOR: SerialTitleMetadata
 
 %% -------- BEGIN DEPENDENCY SerialTitleSearch OF getDocumentsByAuthor DEFINITION --------
@@ -400,14 +316,7 @@ float: count_getDocumentsByAuthor_SerialTitleSearch = numPublicationsTypeConfere
 			float: unitQuotaConsumption_nonsubscriber_getDocumentsByAuthor_SerialTitleSearch_period_val = 1;
 			string: unitQuotaConsumption_nonsubscriber_getDocumentsByAuthor_SerialTitleSearch_period_period = "weekly";
 
-		float: rate_nonsubscriber_getDocumentsByAuthor_SerialTitleSearch_value = 3;
-		float: rate_nonsubscriber_getDocumentsByAuthor_SerialTitleSearch_period_val = 1;
-		string: rate_nonsubscriber_getDocumentsByAuthor_SerialTitleSearch_period_period = "secondly";
-
-			%Unit rate consumption
-			float: unitRateConsumption_nonsubscriber_getDocumentsByAuthor_SerialTitleSearch_value = count_getDocumentsByAuthor_SerialTitleSearch/rate_nonsubscriber_getDocumentsByAuthor_SerialTitleSearch_value;
-			float: unitRateConsumption_nonsubscriber_getDocumentsByAuthor_SerialTitleSearch_period_val = 1;
-			string: unitRateConsumption_nonsubscriber_getDocumentsByAuthor_SerialTitleSearch_period_period = "secondly";
+		%No rates for plan non-subscriber and path /serial/title and method GET
 		%Plan: subscriber
 		float: quota_subscriber_SerialTitleSearch_value = 20000;
 		float: quota_subscriber_getDocumentsByAuthor_SerialTitleSearch_value = 20000;
@@ -419,14 +328,7 @@ float: count_getDocumentsByAuthor_SerialTitleSearch = numPublicationsTypeConfere
 			float: unitQuotaConsumption_subscriber_getDocumentsByAuthor_SerialTitleSearch_period_val = 1;
 			string: unitQuotaConsumption_subscriber_getDocumentsByAuthor_SerialTitleSearch_period_period = "weekly";
 
-		float: rate_subscriber_getDocumentsByAuthor_SerialTitleSearch_value = 3;
-		float: rate_subscriber_getDocumentsByAuthor_SerialTitleSearch_period_val = 1;
-		string: rate_subscriber_getDocumentsByAuthor_SerialTitleSearch_period_period = "secondly";
-
-			%Unit rate consumption
-			float: unitRateConsumption_subscriber_getDocumentsByAuthor_SerialTitleSearch_value = count_getDocumentsByAuthor_SerialTitleSearch/rate_subscriber_getDocumentsByAuthor_SerialTitleSearch_value;
-			float: unitRateConsumption_subscriber_getDocumentsByAuthor_SerialTitleSearch_period_val = 1;
-			string: unitRateConsumption_subscriber_getDocumentsByAuthor_SerialTitleSearch_period_period = "secondly";
+		%No rates for plan subscriber and path /serial/title and method GET
 	%END LIMITS FOR: SerialTitleSearch
 
 %% -------- BEGIN INNER COMPOSITION DEFINITION --------

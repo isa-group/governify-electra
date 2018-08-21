@@ -27,9 +27,3 @@ plans:
           requests:
             - max: '?'
               period: weekly
-    rates:
-      /api/reports/r00:
-        get:
-          requests:
-            - max: unrestricted
-              period: secondly
