@@ -356,7 +356,8 @@ module.exports.generateMZN = function (mappingFilePath, name, selectedPlan, mznM
 
         mznData = mznData.concat('%% -------- END QUESTIONS DEFINITION --------').concat('\n');
 
-        fs.writeFileSync(mappingFilePath.replace('yaml', 'mzn').replace(INPUT_SUBFOLDER_NAME, OUTPUT_SUBFOLDER_NAME), mznData, 'utf8');
+        const mznPath = mappingFilePath.replace('yaml', 'mzn').replace(INPUT_SUBFOLDER_NAME, OUTPUT_SUBFOLDER_NAME);
+        fs.writeFileSync(mznPath, mznData, 'utf8');
     } catch (e) {
         logger.error(e);
         throw e;

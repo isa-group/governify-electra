@@ -222,37 +222,43 @@ function setQuotaValueFromCSP(mappingFileName, cspVariable, cspValue) {
             boundaryOperationPlanFile = path.join(basePath, 'b1-plans.yaml');
             boundaryOperationPath = '/api/b1/m1';
             boundaryOperationMethod = 'get';
+            doSetQuotaValueFromCSP(boundaryOperationPlanFile);
             break;
         case 'mapping-custom':
             boundaryOperationPlanFile = path.join(basePath, 'b1-plans.yaml');
             boundaryOperationPath = '/api/b1/m1';
             boundaryOperationMethod = 'get';
+            doSetQuotaValueFromCSP(boundaryOperationPlanFile);
             break;
         case 'mapping-simple':
             boundaryOperationPlanFile = path.join(basePath, 'sabius-publication-data-simple-plans.yaml');
             boundaryOperationPath = '/v1/{snapshot}/authors/{authorId}/documents';
             boundaryOperationMethod = 'get';
+            doSetQuotaValueFromCSP(boundaryOperationPlanFile);
             break;
         case 'mapping-complex':
             boundaryOperationPlanFile = path.join(basePath, 'sabius-reports-plans.yaml');
             boundaryOperationPath = '/api/reports/r00';
             boundaryOperationMethod = 'get';
+            doSetQuotaValueFromCSP(boundaryOperationPlanFile);
             break;
         default:
             logger.info('mappingFileName not supported yet');
             break;
     }
 
-    let plans = jsyaml.safeLoad(fs.readFileSync(boundaryOperationPlanFile, 'utf8'));
+    function doSetQuotaValueFromCSP(boundaryOperationPlanFile) {
+        let plans = jsyaml.safeLoad(fs.readFileSync(boundaryOperationPlanFile, 'utf8'));
 
-    Object.entries(plans.plans).forEach(entry => {
-        if (entry[0].replace(regex, '') === planCSP) {
-            entry[1]['quotas'][boundaryOperationPath][boundaryOperationMethod]['requests'][0]['max'] = cspValue;
-            plans.plans[entry[0]] = entry[1];
-            logger.info('Updated plan %s', boundaryOperationPlanFile);
-        }
-    });
-    fs.writeFileSync(boundaryOperationPlanFile, jsyaml.safeDump(plans), 'utf8');
+        Object.entries(plans.plans).forEach(entry => {
+            if (entry[0].replace(regex, '') === planCSP) {
+                entry[1]['quotas'][boundaryOperationPath][boundaryOperationMethod]['requests'][0]['max'] = cspValue;
+                plans.plans[entry[0]] = entry[1];
+                logger.info('Updated plan %s', boundaryOperationPlanFile);
+            }
+        });
+        fs.writeFileSync(boundaryOperationPlanFile, jsyaml.safeDump(plans), 'utf8');
+    }
 }
 
 

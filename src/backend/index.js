@@ -83,13 +83,19 @@ app.get('/generate', function (req, res) {
         //TODO: hardcoded paths, fix it
         let dotInput = '';
         let pngOutput = '';
+        let sep = '';
         if (process.platform === "win32") {
-          dotInput = dotInput.concat('%CD%//src//backend//').concat(config.app.OUTPUT_SUBFOLDER_NAME).concat('//').concat(FILE_NAME).concat('//').concat(FILE_NAME).concat('.dot');
-          pngOutput = pngOutput.concat('%CD%//src//frontend//data').concat('//').concat(FILE_NAME).concat('.png');
+          sep = "//";
+          dotInput = dotInput.concat('%CD%//src//backend//');
+          pngOutput = pngOutput.concat('%CD%//src//frontend//data');
         } else {
-          dotInput = dotInput.concat('/opt/app/src/backend/').concat(config.app.OUTPUT_SUBFOLDER_NAME).concat('/').concat(FILE_NAME).concat('/').concat(FILE_NAME).concat('.dot');
-          pngOutput = pngOutput.concat('/opt/app/src/frontend/data').concat('/').concat(FILE_NAME).concat('.png');
+          sep = "/";
+          dotInput = dotInput.concat('/opt/app/src/backend/');
+          pngOutput = pngOutput.concat('/opt/app/src/frontend/data');
         }
+        dotInput = dotInput.concat(config.app.OUTPUT_SUBFOLDER_NAME).concat(sep).concat(FILE_NAME).concat(sep).concat(FILE_NAME).concat('.dot');
+        pngOutput = pngOutput.concat(sep).concat(FILE_NAME).concat('.png');
+
         const cmd = 'dot '.concat(dotInput).concat(' -Tpng -o ').concat(pngOutput);
         logger.info("Executing %s", cmd);
         exec(cmd);
@@ -161,13 +167,28 @@ app.get('/exec', function (req, res) {
   try {
     execMZN().then(msg => {
       logger.info('GET /exec... OK');
-      fs.copyFileSync(path.join(__dirname, '../', '..', config.app.OUTPUT_SUBFOLDER_PATH, FILE_NAME, FILE_NAME.concat('.mzn')), path.join(__dirname, '../', '..', config.app.PUBLIC_SUBFOLDER_PATH, FILE_NAME.concat('.mzn')));
-      res.send(msg);
+      const copyFrom = path.join(__dirname, '../', '..', config.app.OUTPUT_SUBFOLDER_PATH, FILE_NAME, FILE_NAME.concat('.mzn'));
+      const copyTo = path.join(__dirname, '../', '..', config.app.PUBLIC_SUBFOLDER_PATH, FILE_NAME.concat('.mzn'));
+      fs.copyFile(copyFrom, copyTo, function (e) {
+        if (e) {
+          logger.info('GET /exec... ERROR');
+          logger.error(e);
+          res.status(400).send({
+            status: 0,
+            reason: e
+          });
+        } else {
+          res.send(msg);
+        }
+      });
     });
   } catch (e) {
     logger.info('GET /exec... ERROR');
     logger.error(e);
-    res.sendStatus(400);
+    res.status(400).send({
+      status: 0,
+      reason: e
+    });
   }
 });
 
@@ -180,15 +201,155 @@ app.post('/postMapping', function (req, res) {
   const fileContent = req.body;
   const internalPath = path.join(__dirname, config.app.INPUT_SUBFOLDER_NAME, FILE_NAME, FILE_NAME.concat('.yaml'));
   const publicPath = path.join(__dirname, '../', '../', config.app.PUBLIC_SUBFOLDER_PATH, FILE_NAME.concat('.yaml'));
-  fs.writeFileSync(internalPath, jsyaml.safeDump(fileContent));
-  fs.writeFileSync(publicPath, jsyaml.safeDump(fileContent));
-  logger.info('POST /postMapping... OK');
-  res.send('OK');
+  fs.writeFile(internalPath, jsyaml.safeDump(fileContent), function (e) {
+    if (e) {
+      logger.info('POST /postMapping... ERROR');
+      logger.error(e);
+      res.status(400).send({
+        status: 0,
+        reason: e
+      });
+    } else {
+      fs.writeFile(publicPath, jsyaml.safeDump(fileContent), function (e) {
+        if (e) {
+          logger.info('POST /postMapping... ERROR');
+          logger.error(e);
+          res.status(400).send({
+            status: 0,
+            reason: e
+          });
+        } else {
+          logger.info('POST /postMapping... OK');
+          res.send('OK');
+        }
+      });
+    }
+  });
 });
 
+app.post('/createWorkspace', function (req, res) {
+  logger.info('POST /createWorkspace...');
+
+  // name: 45010064645373668034401065373631080192024_cyz4rfx3l2q
+  // from: mapping - complex
+  const FROM_FILE_NAME = req.body.from;
+  const FILE_NAME = req.body.name;
+
+  const mappingFileName = 'mapping'.concat('-').concat(FILE_NAME);
+
+  const internalInputFolderPath = path.join(__dirname, config.app.INPUT_SUBFOLDER_NAME, mappingFileName);
+  const internalOutFromFolderPath = path.join(__dirname, config.app.OUTPUT_SUBFOLDER_NAME, mappingFileName);
+
+  const internalInputFromFolderPath = path.join(__dirname, config.app.INPUT_SUBFOLDER_NAME, FROM_FILE_NAME);
+  const publicFolderPath = path.join(__dirname, '../', '../', config.app.PUBLIC_SUBFOLDER_PATH);
+
+  const internalPath = path.join(internalInputFolderPath, mappingFileName.concat('.yaml'));
+  const publicPath = path.join(publicFolderPath, mappingFileName.concat('.yaml'));
+
+
+  const copyFrom = path.join(internalInputFromFolderPath, FROM_FILE_NAME.concat('.yaml'));
+
+  fs.exists(internalOutFromFolderPath, function (exists) {
+    if (!exists) {
+      fs.mkdir(internalOutFromFolderPath, function (e) {
+        if (e) {
+          logger.info('POST /createWorkspace... ERROR');
+          logger.error(e);
+          res.status(400).send({
+            status: 0,
+            reason: e
+          });
+        } else {
+          fs.exists(internalInputFolderPath, function (exists) {
+            if (!exists) {
+              fs.mkdir(internalInputFolderPath, function (e) {
+                if (e) {
+                  logger.info('POST /createWorkspace... ERROR');
+                  logger.error(e);
+                  res.status(400).send({
+                    status: 0,
+                    reason: e
+                  });
+                } else {
+                  if (FROM_FILE_NAME && FROM_FILE_NAME != "false") {
+                    fs.copyFile(copyFrom, publicPath, function (e) {
+                      if (e) {
+                        logger.info('POST /createWorkspace... ERROR');
+                        logger.error(e);
+                        res.status(400).send({
+                          status: 0,
+                          reason: e
+                        });
+                      } else {
+                        fs.copyFile(copyFrom, internalPath, function (e) {
+                          if (e) {
+                            logger.info('POST /createWorkspace... ERROR');
+                            logger.error(e);
+                            res.status(400).send({
+                              status: 0,
+                              reason: e
+                            });
+                          } else {
+                            logger.info('POST /createWorkspace (from "%s")(%s)... OK', FROM_FILE_NAME, mappingFileName);
+                            res.send(mappingFileName);
+                          }
+                        });
+                      }
+                    });
+                  } else {
+                    fs.writeFile(internalPath, "", function (e) {
+                      if (e) {
+                        logger.info('POST /createWorkspace... ERROR');
+                        logger.error(e);
+                        res.status(400).send({
+                          status: 0,
+                          reason: e
+                        });
+                      } else {
+                        fs.writeFile(publicPath, "", function (e) {
+                          if (e) {
+                            logger.info('POST /createWorkspace... ERROR');
+                            logger.error(e);
+                            res.status(400).send({
+                              status: 0,
+                              reason: e
+                            });
+                          } else {
+                            logger.info('POST /createWorkspace (empty)(%s)... OK', FILE_NAME);
+                            res.send(FILE_NAME);
+                          }
+                        });
+                      }
+                    });
+                  }
+                }
+              });
+            } else {
+              logger.info('POST /createWorkspace... ERROR');
+              let e = "Name input collision: ".concat(mappingFileName);
+              logger.error(e);
+              res.status(500).send({
+                status: 0,
+                reason: e
+              });
+            }
+          });
+        }
+      });
+
+    } else {
+      logger.info('POST /createWorkspace... ERROR');
+      let e = "Name output collision: ".concat(mappingFileName);
+      logger.error(e);
+      res.status(500).send({
+        status: 0,
+        reason: e
+      });
+    }
+  });
+});
 
 /// END ROUTES
-
 
 server.listen(serverPort, function () {
   logger.info('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);

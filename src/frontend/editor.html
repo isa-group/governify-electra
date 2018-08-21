@@ -107,7 +107,57 @@
                     </div>
                 </div>
 
+                <div id="div-graph" class="graph-hidable hide" class="row">
+                    <div class="col col-12-xlarge col-12-large col-12-medium col-12-small">
+                        <h3>Dependencies graph</h3>
+                        <img src="" id="graphcontainerImg" width="100%">
+                    </div>
+                </div>
 
+                <div id="div-editor" class="row">
+                    <div class="col col-12-xlarge col-12-large col-12-medium col-12-small">
+                        <h3>Editor</h3>
+
+                        <div class="tab">
+                            <button class="tablinks icon fa-file-archive-o" onclick="openTab(event, 'mappingEditorTab')">x-conversation</button>
+                            <button class="tablinks icon fa-file-archive-o" onclick="openTab(event, 'oasEditorTab')">OAS structure (read-only)</button>
+                            <button class="tablinks icon fa-file-archive-o" onclick="openTab(event, 'sla4oaiEditorTab')">x-sla (read-only)</button>
+                        </div>
+
+                        <select id="serviceSelector" class="hide not-mappingEditorTab" onchange="loadServiceModels(this);">
+                            <option>Select a service</option>
+                        </select>
+
+                        <br>
+
+                        <div id="mappingEditorTab" class="tabcontent">
+                            <div id="mappingEditor" style="width: 70vmax; height: 30vmax; border:1px solid grey"></div>
+                        </div>
+
+                        <div id="oasEditorTab" class="tabcontent" style="visibility: hidden;">
+                            <div id="oasEditor" style="width: 70vmax; height: 30vmax; border:1px solid grey;"></div>
+                        </div>
+
+                        <div id="sla4oaiEditorTab" class="tabcontent" style="visibility: hidden">
+                            <div id="sla4oaiEditor" style="width: 70vmax; height: 30vmax; border:1px solid grey;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <div id="div-actions" class="row">
+                    <div class="col col-12-xlarge col-12-large col-12-medium col-12-small">
+                        <ul class="actions">
+                            <li>
+                                <a class="button primary icon fa-save" onclick="saveAndCalculate();">Save and calculate usage limitations</a>
+                            </li>
+                            <li>
+                                <a id="CSOP_download" class="button icon fa-save">Download CSOP mapping</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
     </section>
 

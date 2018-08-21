@@ -18,144 +18,194 @@ toastr.options = {
     "hideMethod": "fadeOut"
 };
 
-$.get('data/' + localStorage.getItem('mapping') + '.yaml', function (data) {
-    var mappingEditorHTML = document.getElementById('mappingEditor');
-    var oasEditorHTML = document.getElementById('oasEditor');
-    var sla4oaiEditorHTML = document.getElementById('sla4oaiEditor');
+if (window.location.href.includes("editor.html") && (!getCurrentWorkspace() || getCurrentWorkspace() == null)) {
+    window.location.replace("index.html");
+    console.error("In production, you will be redirected to the index page");
+} else if (window.location.href.includes("editor.html") && (getCurrentWorkspace() && getCurrentWorkspace() != null)) {
 
-    var editor = monaco.editor.create(mappingEditorHTML, {
-        value: data,
-        language: 'yaml',
-        automaticLayout: true
-    });
-    var oasEditor = monaco.editor.create(oasEditorHTML, {
-        value: "Select a service from the dropdown above. This editor view is read-only.",
-        language: 'yaml',
-        readOnly: true,
-        automaticLayout: true
-    });
-    var sla4oaiEditor = monaco.editor.create(sla4oaiEditorHTML, {
-        value: "Select a service from the dropdown above. This editor view is read-only.",
-        language: 'yaml',
-        readOnly: true,
-        automaticLayout: true
-    });
+    // console.log("mapping-simple", utf8_to_b64('mapping-simple'));
+    // console.log("mapping-complex", utf8_to_b64('mapping-complex'));
+    // console.log("mapping-synthetic", utf8_to_b64('mapping-synthetic'));
+    // console.log("mapping-custom", utf8_to_b64('mapping-custom'));
 
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, function () {
-        saveAndCalculate();
-    });
+    $.ajax({
+        type: "GET",
+        url: 'data/' + getCurrentWorkspace() + '.yaml',
+        success: function (data) {
+            var mappingEditorHTML = document.getElementById('mappingEditor');
+            var oasEditorHTML = document.getElementById('oasEditor');
+            var sla4oaiEditorHTML = document.getElementById('sla4oaiEditor');
 
-    editor.addAction({
-        id: 'refresh',
-        label: 'Refresh document',
-        precondition: null,
-        keybindingContext: null,
-        contextMenuGroupId: 'navigation',
-        contextMenuOrder: 1.5,
-        run: loadData
-    });
+            var editor = monaco.editor.create(mappingEditorHTML, {
+                value: data,
+                language: 'yaml',
+                automaticLayout: true
+            });
+            var oasEditor = monaco.editor.create(oasEditorHTML, {
+                value: "Select a service from the dropdown above. This editor view is read-only.",
+                language: 'yaml',
+                readOnly: true,
+                automaticLayout: true
+            });
+            var sla4oaiEditor = monaco.editor.create(sla4oaiEditorHTML, {
+                value: "Select a service from the dropdown above. This editor view is read-only.",
+                language: 'yaml',
+                readOnly: true,
+                automaticLayout: true
+            });
 
-    editor.addAction({
-        id: 'save',
-        label: 'Save and calculate limitations',
-        precondition: null,
-        keybindingContext: null,
-        contextMenuGroupId: 'navigation',
-        contextMenuOrder: 1.5,
-        run: saveAndCalculate
-    });
+            editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, function () {
+                saveAndCalculate();
+            });
 
-    var svc = jsyaml.safeLoad(monaco.editor.getModels()[0].getValue()).services;
-    var serviceSelector = document.getElementById("serviceSelector");
-    Object.entries(svc).forEach(function ([name, path]) {
-        var opt = document.createElement("option");
-        opt.text = name;
-        opt.value = path;
-        serviceSelector.options.add(opt);
-    });
+            editor.addAction({
+                id: 'refresh',
+                label: 'Refresh document',
+                precondition: null,
+                keybindingContext: null,
+                contextMenuGroupId: 'navigation',
+                contextMenuOrder: 1.5,
+                run: loadData
+            });
 
-    var tabcontent = document.getElementsByClassName("tabcontent");
-    for (var i = 1; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-});
+            editor.addAction({
+                id: 'save',
+                label: 'Save and calculate limitations',
+                precondition: null,
+                keybindingContext: null,
+                contextMenuGroupId: 'navigation',
+                contextMenuOrder: 1.5,
+                run: saveAndCalculate
+            });
+
+            var svc = jsyaml.safeLoad(monaco.editor.getModels()[0].getValue()).services;
+            var serviceSelector = document.getElementById("serviceSelector");
+            Object.entries(svc).forEach(function ([name, path]) {
+                var opt = document.createElement("option");
+                opt.text = name;
+                opt.value = path;
+                serviceSelector.options.add(opt);
+            });
+
+            var tabcontent = document.getElementsByClassName("tabcontent");
+            for (var i = 1; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+        }, error: function (err) {
+            toastr["error"]("0x_init_0: The mapping file 'data/" + getCurrentWorkspace() + ".yaml' not exists", "Error");
+        }
+    });
+} else {
+    // console.error("You should be in index w/o params... why?");
+}
 
 
 function loadData() {
-    $.get('data/' + localStorage.getItem('mapping') + '.yaml', function (data) {
-        monaco.editor.getModels()[0].setValue(data);
+    $.ajax({
+        type: "GET",
+        url: 'data/' + getCurrentWorkspace() + '.yaml', success: function (data) {
+            monaco.editor.getModels()[0].setValue(data);
+        }, error: function (err) {
+            toastr["error"]("0x_loadData_0", "Error");
+        }
     });
 }
 
 function saveAndCalculate() {
+    $(".graph-hidable").removeClass("hide");
     document.getElementById('graphcontainerImg').src = 'assets/images/spinner.gif';
     var text = monaco.editor.getModels()[0].getValue();
     $.ajax({
         type: "POST",
-        url: "postMapping?mapping=" + localStorage.getItem('mapping'),
+        url: "postMapping?mapping=" + getCurrentWorkspace(),
         data: jsyaml.safeLoad(text),
         success: function () {
             console.log("OK saved file");
             $.ajax({
                 type: "GET",
-                url: "generate?mzn=true&dot=false&mapping=" + localStorage.getItem('mapping'),
+                url: "generate?mzn=true&dot=false&mapping=" + getCurrentWorkspace(),
                 success: function (data) {
                     console.log("OK generated mzn");
                     $.ajax({
                         type: "GET",
-                        url: "exec?mapping=" + localStorage.getItem('mapping'),
+                        url: "exec?mapping=" + getCurrentWorkspace(),
                         success: function (dataMZN) {
                             console.log("OK executed mzn");
                             $.ajax({
                                 type: "GET",
-                                url: "generate?mzn=false&dot=true&mapping=" + localStorage.getItem('mapping'),
+                                url: "generate?mzn=false&dot=true&mapping=" + getCurrentWorkspace(),
                                 success: function (data) {
                                     console.log("OK generated png");
                                     $.ajax({
                                         type: "GET",
-                                        url: 'data/' + localStorage.getItem('mapping') + '.png',
+                                        url: 'data/' + getCurrentWorkspace() + '.png',
                                         success: function (data) {
                                             setTimeout(() => {
                                                 console.log("OK evict sync disk");
                                                 renderUI();
+                                                document.getElementById('graphcontainerImg').src = 'data/' + getCurrentWorkspace() + '.png';
                                                 toastr["info"](dataMZN, "Usage limitations");
-                                                document.getElementById('graphcontainerImg').src = 'data/' + localStorage.getItem('mapping') + '.png';
                                             }, 3000);
 
+                                        }, error: function (err) {
+                                            setTimeout(() => {
+                                                console.log("Img retrieving failed... last try");
+                                                renderUI();
+                                                document.getElementById('graphcontainerImg').src = 'data/' + getCurrentWorkspace() + '.png';
+                                                toastr["info"](dataMZN, "Usage limitations");
+                                            }, 3000);
                                         }
                                     });
 
+                                }, error: function (err) {
+                                    $(".graph-hidable").addClass("hide");
+                                    toastr["error"]("0x_saveAndCalculate_1", "Error");
                                 }
                             });
+                        }, error: function (err) {
+                            $(".graph-hidable").addClass("hide");
+                            toastr["error"]("0x_saveAndCalculate_2", "Error");
                         }
                     });
+                }, error: function (err) {
+                    $(".graph-hidable").addClass("hide");
+                    toastr["error"]("0x_saveAndCalculate_3", "Error");
                 }
             });
+        }, error: function (err) {
+            $(".graph-hidable").addClass("hide");
+            toastr["error"]("0x_saveAndCalculate_4", "Error");
         }
     });
 }
 
-function change(name) {
-    document.getElementById('graphcontainerImg').src = 'assets/images/spinner.gif';
-    localStorage.setItem('mapping', name);
-    $.ajax({
-        type: "GET",
-        url: 'generate?mzn=false&dot=true&mapping=' + localStorage.getItem('mapping'),
-        success: function (data) {
-            console.log("OK generated");
-            $.ajax({
-                type: "GET",
-                url: 'data/' + localStorage.getItem('mapping') + '.yaml',
-                success: function (data) {
-                    console.log("OK loaded file");
-                    renderUI();
-                    monaco.editor.getModels()[0].setValue(data);
-                    document.getElementById('graphcontainerImg').src = 'data/' + localStorage.getItem('mapping') + '.png';
-                }
-            });
-        }
-    });
-}
+
+// function change(name) {
+//     document.getElementById('graphcontainerImg').src = 'assets/images/spinner.gif';
+//     // localStorage.setItem('mapping', name);
+//     $.ajax({
+//         type: "GET",
+//         url: 'generate?mzn=false&dot=true&mapping=' + getCurrentWorkspace(),
+//         success: function (data) {
+//             console.log("OK generated");
+//             $.ajax({
+//                 type: "GET",
+//                 url: 'data/' + getCurrentWorkspace() + '.yaml',
+//                 success: function (data) {
+//                     console.log("OK loaded file");
+//                     renderUI();
+//                     monaco.editor.getModels()[0].setValue(data);
+//                     document.getElementById('graphcontainerImg').src = 'data/' + getCurrentWorkspace() + '.png';
+//                 }, error: function (err) {
+//                     toastr["error"]("0x_change_0", "Error");
+//                 }
+//             });
+//         }, error: function (err) {
+//             toastr["error"]("0x_change_1", "Error");
+//         }
+//     });
+// }
+
 
 function openTab(event, idTab) {
     var i, tabcontent, tablinks;
@@ -184,16 +234,76 @@ function openTab(event, idTab) {
 
 function loadServiceModels(select) {
     var svc = select.value;
-    $.get(svc, function (oas) {
-        monaco.editor.getModels()[1].setValue(oas);
-        var sla = jsyaml.safeLoad(oas).info['x-sla'];
-        if (sla) {
-            $.get(sla, function (sla4oai) {
-                monaco.editor.getModels()[2].setValue(sla4oai);
-            });
-        } else {
-            monaco.editor.getModels()[2].setValue("There is no SLA4OAI definition for this service");
+    $.ajax({
+        type: "GET",
+        url: svc,
+        success: function (oas) {
+            monaco.editor.getModels()[1].setValue(oas);
+            var sla = jsyaml.safeLoad(oas).info['x-sla'];
+            if (sla) {
+                $.ajax({
+                    type: "GET",
+                    url: sla,
+                    success: function (sla4oai) {
+                        monaco.editor.getModels()[2].setValue(sla4oai);
+                    }, error: function (err) {
+                        toastr["error"]("0x_loadServiceModels_0", "Error");
+                    }
+                });
+            } else {
+                monaco.editor.getModels()[2].setValue("There is no SLA4OAI definition for this service");
+            }
+        }, error: function (err) {
+            toastr["error"]("0x_loadServiceModels_1", "Error");
         }
-
     });
+}
+
+function generatePseudoGUID() {
+    const nav = window.navigator;
+    const screen = window.screen;
+    let guid = nav.mimeTypes.length;
+    guid += nav.userAgent.replace(/\D+/g, '');
+    guid += nav.plugins.length;
+    guid += screen.height || '';
+    guid += screen.width || '';
+    guid += screen.pixelDepth || '';
+
+    return guid;
+}
+
+function createWorkspaceFrom(fromWs64) {
+    const userUID = generatePseudoGUID();
+    const randomWs = Math.random().toString(36).substring(2, 15);
+
+    let newWsName = ''.concat(userUID).concat('_').concat(randomWs);
+    let fromName = false;
+
+    if (fromWs64 && fromWs64 != "") {
+        newWsName = newWsName.concat('_').concat(fromWs64);
+        fromName = b64_to_utf8(fromWs64);
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "createWorkspace",
+        data: {
+            name: newWsName,
+            from: fromName
+        },
+        success: function (data) {
+            console.log(data);
+            try {
+                let b64Ws = utf8_to_b64(data);
+                let newWsURL = "editor.html?workspace=".concat(b64Ws).concat("#main");
+                window.location.replace(newWsURL);
+            } catch (e) {
+                toastr["error"]("0x_createWorkspaceFrom_0", "Error");
+            }
+
+        }, error: function (err) {
+            toastr["error"]("0x_createWorkspaceFrom_1", "Error");
+        }
+    });
+
 }
