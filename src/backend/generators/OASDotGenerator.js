@@ -77,26 +77,42 @@ module.exports.generateDOT = function (oasPath, graphvizPath, name, serviceName,
                     graphvizContent = graphvizContent.concat('</tr>').concat('\n')
                         .concat('<tr>').concat('\n')
                         .concat('<td><b>Quota</b></td>').concat('\n');
+                    let existsQuota = false;
                     Object.entries(sla.plans).forEach(([planName, plan]) => {
                         let limitValue = utils.getPlan(sla, planName, "quotas", apiPath, method.toLowerCase());
                         if (limitValue) {
+                            existsQuota = true;
                             limitValue = limitValue["requests"][0]; //TODO: We only support "requests" so far with 1 element
                             graphvizContent = graphvizContent.concat('<td>').concat(limitValue.max).concat(' req ').concat(limitValue.period).concat('</td>').concat('\n');
                         }
                     });
-                    graphvizContent = graphvizContent.concat('</tr>').concat('\n')
-                        .concat('<tr>').concat('\n')
-                        .concat('<td><b>Rate</b></td>').concat('\n');
+                    if (!existsQuota) {
+                        graphvizContent = graphvizContent.replace(/<tr>\s*<td><b>Quota<\/b><\/td>\s*<\/tr>/, '');
+                        graphvizContent = graphvizContent.replace(/<tr>\s*<td><b>Quota<\/b><\/td>/, '');
+                        graphvizContent = graphvizContent.replace(/<\/tr>\s*<\/tr>/, '');
+                    } else {
+                        graphvizContent = graphvizContent.concat('</tr>').concat('\n');
+                    }
+
+                    graphvizContent = graphvizContent.concat('<tr>').concat('\n').concat('<td><b>Rate</b></td>').concat('\n');
+                    let existsRate = false;
                     Object.entries(sla.plans).forEach(([planName, plan]) => {
                         let limitValue = utils.getPlan(sla, planName, "rates", apiPath, method.toLowerCase());
                         if (limitValue) {
+                            existsRate = true;
                             limitValue = limitValue["requests"][0]; //TODO: We only support "requests" so far with 1 element
                             graphvizContent = graphvizContent.concat('<td>').concat(limitValue.max).concat(' req ').concat(limitValue.period).concat('</td>').concat('\n');
                         }
                     });
-                    graphvizContent = graphvizContent.concat('</tr>').concat('\n')
-                        .concat('</table>').concat('\n')
-                        .concat('>];').concat('\n');
+                    if (!existsRate) {
+                        graphvizContent = graphvizContent.replace(/<tr>\s*<td><b>Rate<\/b><\/td>\s*<\/tr>/, '');
+                        graphvizContent = graphvizContent.replace(/<tr>\s*<td><b>Rate<\/b><\/td>/, '');
+                        graphvizContent = graphvizContent.replace(/<\/tr>\s*<\/tr>/, '');
+                    } else {
+                        graphvizContent = graphvizContent.concat('</tr>').concat('\n');
+                    }
+
+                    graphvizContent = graphvizContent.concat('</table>').concat('\n').concat('>];').concat('\n');
 
                     // create SLA--REQUEST
                     graphvizContent = graphvizContent.concat(apiOperation.operationId)
