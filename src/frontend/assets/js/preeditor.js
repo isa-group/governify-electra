@@ -16,6 +16,7 @@ function renderUI() {
             $(".mapping-complex").removeClass("primary");
             $(".mapping-custom").removeClass("primary");
             $(".mapping-custom-hidable").addClass("hide");
+            $(".mapping-example-hidable").removeClass("hide");
             break;
 
         case "mapping-simple":
@@ -24,6 +25,7 @@ function renderUI() {
             $(".mapping-complex").removeClass("primary");
             $(".mapping-custom").removeClass("primary");
             $(".mapping-custom-hidable").addClass("hide");
+            $(".mapping-example-hidable").removeClass("hide");
             break;
 
         case "mapping-complex":
@@ -32,6 +34,7 @@ function renderUI() {
             $(".mapping-complex").addClass("primary");
             $(".mapping-custom").removeClass("primary");
             $(".mapping-custom-hidable").addClass("hide");
+            $(".mapping-example-hidable").removeClass("hide");
             break;
 
         case "mapping-custom":
@@ -40,6 +43,7 @@ function renderUI() {
             $(".mapping-complex").removeClass("primary");
             $(".mapping-custom").addClass("primary");
             $(".mapping-custom-hidable").removeClass("hide");
+            $(".mapping-example-hidable").addClass("hide");
             break;
 
         default:

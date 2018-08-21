@@ -29,12 +29,6 @@
     <!-- Nav -->
     <nav id="menu">
         <ul class="links">
-            <!-- <li>
-                <a href="index.html">Home</a>
-            </li>
-            <li>
-                <a href="editor.html">Editor</a>
-            </li> -->
             <li>
                 <a href="index.html">Editor</a>
             </li>
@@ -77,18 +71,35 @@
                     <div class="col col-12-xlarge col-12-large col-12-medium col-12-small">
                         <h3>How to load a custom scenario</h3>
                         <ol>
-                            <li>Model the structure of the APIs using the
-                                <a href="https://openapis.org" target="_blank">OpenAPI Specification</a>. Next, model the usage limitations in every service by using the
-                                <a href="https://github.com/isa-group/SLA4OAI-Specification" target="_blank">SLA4OAI Specification</a>.</li>
-                            <li>Publish each of these files with an URL. For instance,
-                                <a href="https://gist.github.com/" target="_blank">Github Gist</a> service can be useful (
-                                <a href="https://gist.github.com/antgamdia/48895cef42b800e09e72a4b379449ddd" target="_blank">see an example</a>).</li>
-                            <li>Write the
-                                <i>X-Conversation</i> document in the editor below (an initial example is provided). Then, save
-                                the model.
+                            <li>
+                                Model the structure of the APIs using the <a href="https://openapis.org" target="_blank">OpenAPI Specification</a>. Next, model the usage limitations in every service by using the <a href="https://github.com/isa-group/SLA4OAI-Specification" target="_blank">SLA4OAI Specification</a>.
                             </li>
-                            <li>Click in the
-                                <i>calculate usage limitations</i> button.</li>
+                            <li>
+                                Publish each of these files with an URL. For instance, <a href="https://gist.github.com/" target="_blank">Github Gist</a> service can be useful (<a href="https://gist.github.com/antgamdia/48895cef42b800e09e72a4b379449ddd" target="_blank">see an example</a>).
+                            </li>
+                            <li>
+                                Write the <i>X-Conversation</i> document in the editor below (an initial example is provided).
+                            </li>
+                            <li>
+                                Click in the <i>save and calculate usage limitations</i> button to calculate the induced limitations.
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="row mapping-example-hidable hide">
+                    <div class="col col-12-xlarge col-12-large col-12-medium col-12-small">
+                        <h3>How to use the example scenario</h3>
+                        <ol>
+                            <li>
+                                A model the structure of the APIs using the <a href="https://openapis.org" target="_blank">OpenAPI Specification</a> is provided. Also, the usage limitations in every service by using the <a href="https://github.com/isa-group/SLA4OAI-Specification" target="_blank">SLA4OAI Specification</a> are included.
+                            </li>
+                            <li>
+                                Make changes in the <i>X-Conversation</i> document in the editor below.
+                            </li>
+                            <li>
+                                Click in the <i>save and calculate usage limitations</i> button to calculate the induced limitations.
+                            </li>
                         </ol>
                     </div>
                 </div>
@@ -136,10 +147,10 @@
                     <div class="col col-12-xlarge col-12-large col-12-medium col-12-small">
                         <ul class="actions">
                             <li>
-                                <a class="button primary  icon fa-save" onclick="saveAndCalculate();">Save and calculate usage limitations</a>
+                                <a class="button primary icon fa-save" onclick="saveAndCalculate();">Save and calculate usage limitations</a>
                             </li>
                             <li>
-                                <a id="CSOP_download" class="button  icon fa-save">Download CSOP mapping</a>
+                                <a id="CSOP_download" class="button icon fa-save">Download CSOP mapping</a>
                             </li>
                         </ul>
                     </div>
@@ -157,29 +168,28 @@
                 </section>
 
                 <section>
-                    <h4>Contact</h4>
+                    <h4>About us</h4>
                     <ul class="plain">
                         <li>
                             <a href="https://es.linkedin.com/in/antoniogamezdiaz">
-                                <i class="icon fa-linkedin">&nbsp;</i>Discover more about the author</a>
+                                <i class="icon fa-linkedin">&nbsp;</i>Discover more about the author.</a>
                         </li>
                         <li>
                             <a href="http://www.isa.us.es/">
-                                <i class="icon fa-globe">&nbsp;</i>Discover more about the research group</a>
+                                <i class="icon fa-globe">&nbsp;</i>Discover more about our group.</a>
                         </li>
                         <li>
-                            <a href="https://github.com/isa-group/"></a>
-                            <i class="icon fa-github">&nbsp;</i>Discover more about our software</a>
+                            <a href="https://github.com/isa-group/">
+                                <i class="icon fa-github">&nbsp;</i>Discover more about our software.</a>
                         </li>
                     </ul>
                 </section>
             </div>
             <div class="copyright">
-                2018 &copy; ISA Research Group. Style based on Industrious by TEMPLATED.
+                <script>document.write(new Date().getFullYear())</script> &copy; ISA Research Group. Style based on Industrious by TEMPLATED.
             </div>
         </div>
     </footer>
-
 
 
     <!-- Scripts -->
