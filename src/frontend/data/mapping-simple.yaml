@@ -20,9 +20,9 @@ params:
   numPublicationsTypeConference:
     value: '13'
 services:
-  scopus: 'http://antgamdiapc.lsi.us.es/data/oas/scopus-simple-oas.yaml'
+  scopus: 'https://antgamdiapc.lsi.us.es/data/oas/scopus-simple-oas.yaml'
   sabius-publication-data: >-
-    http://antgamdiapc.lsi.us.es/data/oas/sabius-publication-data-simple-oas.yaml
+    https://antgamdiapc.lsi.us.es/data/oas/sabius-publication-data-simple-oas.yaml
 mappings:
   - input:
       service: sabius-publication-data

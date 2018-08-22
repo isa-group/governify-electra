@@ -2,7 +2,7 @@ context:
   id: plans
   sla: '1.0'
   type: plans
-  api: 'http://antgamdiapc.lsi.us.es/data/oas/s3-oas.yaml'
+  api: 'https://antgamdiapc.lsi.us.es/data/oas/s3-oas.yaml'
   provider: ISA Group
 infrastructure:
   supervisor: 'http://supervisor.oai.governify.io/api/v2'

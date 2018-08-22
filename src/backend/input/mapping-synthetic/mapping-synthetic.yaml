@@ -6,9 +6,9 @@ params:
   selectedPlan:
     value: Usage limitations
 services:
-  b1: 'http://antgamdiapc.lsi.us.es/data/oas/b1-oas.yaml'
-  s1: 'http://antgamdiapc.lsi.us.es/data/oas/s1-oas.yaml'
-  s2: 'http://antgamdiapc.lsi.us.es/data/oas/s2-oas.yaml'
+  b1: 'https://antgamdiapc.lsi.us.es/data/oas/b1-oas.yaml'
+  s1: 'https://antgamdiapc.lsi.us.es/data/oas/s1-oas.yaml'
+  s2: 'https://antgamdiapc.lsi.us.es/data/oas/s2-oas.yaml'
 mappings:
   - input:
       service: b1

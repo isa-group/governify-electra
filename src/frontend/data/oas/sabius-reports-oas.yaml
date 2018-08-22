@@ -7,7 +7,7 @@ info:
   termsOfService: ''
   contact:
     email: ''
-  x-sla: 'http://antgamdiapc.lsi.us.es/data/sla4oai/sabius-reports-plans.yaml'
+  x-sla: 'https://antgamdiapc.lsi.us.es/data/sla4oai/sabius-reports-plans.yaml'
 paths:
   /api/reports/r00:
     get:
