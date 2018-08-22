@@ -25,7 +25,6 @@ if (window.location.href.includes("editor.html") && (!getCurrentWorkspace() || g
 
 
 function renderUI() {
-    debugger
     const wsName = getCurrentWorkspace();
     if (wsName.includes("bWFwcGluZy1zeW50aGV0aWM=")) {
         $(".mapping-synthetic").addClass("primary");

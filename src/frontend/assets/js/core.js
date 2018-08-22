@@ -32,22 +32,22 @@ if (window.location.href.includes("editor.html") && (!getCurrentWorkspace() || g
         type: "GET",
         url: 'data/' + getCurrentWorkspace() + '.yaml',
         success: function (data) {
-            var mappingEditorHTML = document.getElementById('mappingEditor');
-            var oasEditorHTML = document.getElementById('oasEditor');
-            var sla4oaiEditorHTML = document.getElementById('sla4oaiEditor');
+            const mappingEditorHTML = document.getElementById('mappingEditor');
+            const oasEditorHTML = document.getElementById('oasEditor');
+            const sla4oaiEditorHTML = document.getElementById('sla4oaiEditor');
 
-            var editor = monaco.editor.create(mappingEditorHTML, {
+            const editor = monaco.editor.create(mappingEditorHTML, {
                 value: data,
                 language: 'yaml',
                 automaticLayout: true
             });
-            var oasEditor = monaco.editor.create(oasEditorHTML, {
+            const oasEditor = monaco.editor.create(oasEditorHTML, {
                 value: "Select a service from the dropdown above. This editor view is read-only.",
                 language: 'yaml',
                 readOnly: true,
                 automaticLayout: true
             });
-            var sla4oaiEditor = monaco.editor.create(sla4oaiEditorHTML, {
+            const sla4oaiEditor = monaco.editor.create(sla4oaiEditorHTML, {
                 value: "Select a service from the dropdown above. This editor view is read-only.",
                 language: 'yaml',
                 readOnly: true,
@@ -78,17 +78,19 @@ if (window.location.href.includes("editor.html") && (!getCurrentWorkspace() || g
                 run: saveAndCalculate
             });
 
-            var svc = jsyaml.safeLoad(monaco.editor.getModels()[0].getValue()).services;
-            var serviceSelector = document.getElementById("serviceSelector");
-            Object.entries(svc).forEach(function ([name, path]) {
-                var opt = document.createElement("option");
-                opt.text = name;
-                opt.value = path;
-                serviceSelector.options.add(opt);
-            });
-
-            var tabcontent = document.getElementsByClassName("tabcontent");
-            for (var i = 1; i < tabcontent.length; i++) {
+            const content = monaco.editor.getModels()[0].getValue();
+            if (content) {
+                const svc = jsyaml.safeLoad(content).services;
+                const serviceSelector = document.getElementById("serviceSelector");
+                Object.entries(svc).forEach(function ([name, path]) {
+                    let opt = document.createElement("option");
+                    opt.text = name;
+                    opt.value = path;
+                    serviceSelector.options.add(opt);
+                });
+            }
+            const tabcontent = document.getElementsByClassName("tabcontent");
+            for (let i = 1; i < tabcontent.length; i++) {
                 tabcontent[i].style.display = "none";
             }
         }, error: function (err) {
@@ -114,7 +116,7 @@ function loadData() {
 function saveAndCalculate() {
     $(".graph-hidable").removeClass("hide");
     document.getElementById('graphcontainerImg').src = 'assets/images/spinner.gif';
-    var text = monaco.editor.getModels()[0].getValue();
+    const text = monaco.editor.getModels()[0].getValue();
     $.ajax({
         type: "POST",
         url: "postMapping?mapping=" + getCurrentWorkspace(),
@@ -139,6 +141,9 @@ function saveAndCalculate() {
                                     $.ajax({
                                         type: "GET",
                                         url: 'data/' + getCurrentWorkspace() + '.png',
+                                        headers: {
+                                            "Cache-Control": "no-cache",
+                                        },
                                         success: function (data) {
                                             setTimeout(() => {
                                                 console.log("OK evict sync disk");
@@ -208,7 +213,7 @@ function saveAndCalculate() {
 
 
 function openTab(event, idTab) {
-    var i, tabcontent, tablinks;
+    let i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
@@ -233,13 +238,13 @@ function openTab(event, idTab) {
 }
 
 function loadServiceModels(select) {
-    var svc = select.value;
+    const svc = select.value;
     $.ajax({
         type: "GET",
         url: svc,
         success: function (oas) {
             monaco.editor.getModels()[1].setValue(oas);
-            var sla = jsyaml.safeLoad(oas).info['x-sla'];
+            const sla = jsyaml.safeLoad(oas).info['x-sla'];
             if (sla) {
                 $.ajax({
                     type: "GET",
@@ -305,5 +310,41 @@ function createWorkspaceFrom(fromWs64) {
             toastr["error"]("0x_createWorkspaceFrom_1", "Error");
         }
     });
+
+}
+
+function copyURL() {
+    const API_KEY = "R_411d29a4512042529e096480c5faca1f";
+    const API_KEY_USER = "ellocoyo";
+    let shortenerURL = "https://api-ssl.bitly.com/v3/shorten"
+        .concat("?apiKey=").concat(API_KEY)
+        .concat("&login=").concat(API_KEY_USER)
+        .concat("&longUrl=").concat(encodeURIComponent(window.location.href.replace("localhost:8080", "electra.governify.io")));
+    $.ajax({
+        async: false,
+        crossDomain: true,
+        url: shortenerURL,
+        method: "GET",
+        headers: {
+            "Cache-Control": "no-cache",
+        }, success: function (response) {
+            console.log(response);
+            const dummyElement = document.createElement('input');
+            const currentURL = response.data.url;
+            if (currentURL) {
+                document.body.appendChild(dummyElement);
+                dummyElement.value = currentURL;
+                dummyElement.select();
+                document.execCommand('copy');
+                document.body.removeChild(dummyElement);
+                toastr["info"]("The URL '" + currentURL + "' has been copied to the clipboard.", "Info");
+            } else {
+                toastr["error"]("0x_copyURL_0", "Error");
+            }
+        }, error: function () {
+            toastr["error"]("0x_copyURL_1", "Error");
+        }
+    });
+
 
 }
