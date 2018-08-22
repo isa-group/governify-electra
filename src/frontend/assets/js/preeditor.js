@@ -22,10 +22,23 @@ if (window.location.href.includes("editor.html") && (!getCurrentWorkspace() || g
         }
     });
 
-    renderUI();
 } else {
     // console.error("You should be in index w/o params... why?");
 }
+
+$.ajax({
+    type: "GET",
+    url: 'version',
+    crossDomain: true,
+    headers: {
+        "Cache-Control": "no-cache",
+    },
+    success: function (data) {
+        $("#version").text(data);
+    }, error: function (err) {
+        console.log("version not loaded yet");
+    }
+});
 
 
 function renderUI() {
