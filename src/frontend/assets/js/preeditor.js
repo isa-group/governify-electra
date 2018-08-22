@@ -8,6 +8,10 @@ if (window.location.href.includes("editor.html") && (!getCurrentWorkspace() || g
     $.ajax({
         type: "GET",
         url: 'data/' + getCurrentWorkspace() + '.png',
+        crossDomain: true,
+        headers: {
+            "Cache-Control": "no-cache",
+        },
         success: function (data) {
             renderUI();
             document.getElementById('graphcontainerImg').src = 'data/' + getCurrentWorkspace() + '.png';

@@ -31,6 +31,7 @@ if (window.location.href.includes("editor.html") && (!getCurrentWorkspace() || g
     $.ajax({
         type: "GET",
         url: 'data/' + getCurrentWorkspace() + '.yaml',
+        crossDomain: true,
         success: function (data) {
             const mappingEditorHTML = document.getElementById('mappingEditor');
             const oasEditorHTML = document.getElementById('oasEditor');
@@ -105,7 +106,9 @@ if (window.location.href.includes("editor.html") && (!getCurrentWorkspace() || g
 function loadData() {
     $.ajax({
         type: "GET",
-        url: 'data/' + getCurrentWorkspace() + '.yaml', success: function (data) {
+        url: 'data/' + getCurrentWorkspace() + '.yaml',
+        crossDomain: true,
+        success: function (data) {
             monaco.editor.getModels()[0].setValue(data);
         }, error: function (err) {
             toastr["error"]("0x_loadData_0", "Error");
@@ -121,26 +124,31 @@ function saveAndCalculate() {
         type: "POST",
         url: "postMapping?mapping=" + getCurrentWorkspace(),
         data: jsyaml.safeLoad(text),
+        crossDomain: true,
         success: function () {
             console.log("OK saved file");
             $.ajax({
                 type: "GET",
                 url: "generate?mzn=true&dot=false&mapping=" + getCurrentWorkspace(),
+                crossDomain: true,
                 success: function (data) {
                     console.log("OK generated mzn");
                     $.ajax({
                         type: "GET",
                         url: "exec?mapping=" + getCurrentWorkspace(),
+                        crossDomain: true,
                         success: function (dataMZN) {
                             console.log("OK executed mzn");
                             $.ajax({
                                 type: "GET",
                                 url: "generate?mzn=false&dot=true&mapping=" + getCurrentWorkspace(),
+                                crossDomain: true,
                                 success: function (data) {
                                     console.log("OK generated png");
                                     $.ajax({
                                         type: "GET",
                                         url: 'data/' + getCurrentWorkspace() + '.png',
+                                        crossDomain: true,
                                         headers: {
                                             "Cache-Control": "no-cache",
                                         },
@@ -190,12 +198,14 @@ function saveAndCalculate() {
 //     // localStorage.setItem('mapping', name);
 //     $.ajax({
 //         type: "GET",
-//         url: 'generate?mzn=false&dot=true&mapping=' + getCurrentWorkspace(),
+//          url: 'generate?mzn=false&dot=true&mapping=' + getCurrentWorkspace(),
+//          crossDomain: true,
 //         success: function (data) {
 //             console.log("OK generated");
 //             $.ajax({
 //                 type: "GET",
 //                 url: 'data/' + getCurrentWorkspace() + '.yaml',
+//                 crossDomain: true,
 //                 success: function (data) {
 //                     console.log("OK loaded file");
 //                     renderUI();
@@ -242,6 +252,7 @@ function loadServiceModels(select) {
     $.ajax({
         type: "GET",
         url: svc,
+        crossDomain: true,
         success: function (oas) {
             monaco.editor.getModels()[1].setValue(oas);
             const sla = jsyaml.safeLoad(oas).info['x-sla'];
@@ -249,6 +260,7 @@ function loadServiceModels(select) {
                 $.ajax({
                     type: "GET",
                     url: sla,
+                    crossDomain: true,
                     success: function (sla4oai) {
                         monaco.editor.getModels()[2].setValue(sla4oai);
                     }, error: function (err) {
@@ -292,6 +304,7 @@ function createWorkspaceFrom(fromWs64) {
     $.ajax({
         type: "POST",
         url: "createWorkspace",
+        crossDomain: true,
         data: {
             name: newWsName,
             from: fromName
