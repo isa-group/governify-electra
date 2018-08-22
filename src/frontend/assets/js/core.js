@@ -71,7 +71,7 @@ if (window.location.href.includes("editor.html") && (!getCurrentWorkspace() || g
 
             editor.addAction({
                 id: 'save',
-                label: 'Save and calculate limitations',
+                label: 'Save and calculate induced usage limitations',
                 precondition: null,
                 keybindingContext: null,
                 contextMenuGroupId: 'navigation',
@@ -118,7 +118,7 @@ function loadData() {
 
 function saveAndCalculate() {
     $(".graph-hidable").removeClass("hide");
-    document.getElementById('graphcontainerImg').src = 'assets/images/spinner.gif';
+    $("#graphcontainerImg").attr('src', 'assets/images/spinner.gif')
     const text = monaco.editor.getModels()[0].getValue();
     $.ajax({
         type: "POST",
@@ -156,16 +156,18 @@ function saveAndCalculate() {
                                             setTimeout(() => {
                                                 console.log("OK evict sync disk");
                                                 renderUI();
-                                                document.getElementById('graphcontainerImg').src = 'data/' + getCurrentWorkspace() + '.png';
-                                                toastr["info"](dataMZN, "Usage limitations");
+                                                $("#graphcontainerImg").attr('src', 'data/' + getCurrentWorkspace() + '.png');
+                                                $("#cspResponseContainer").val(dataMZN);
+                                                toastr["info"](dataMZN, "Induced usage limitations");
                                             }, 3000);
 
                                         }, error: function (err) {
                                             setTimeout(() => {
                                                 console.log("Img retrieving failed... last try");
                                                 renderUI();
-                                                document.getElementById('graphcontainerImg').src = 'data/' + getCurrentWorkspace() + '.png';
-                                                toastr["info"](dataMZN, "Usage limitations");
+                                                $("#graphcontainerImg").attr('src', 'data/' + getCurrentWorkspace() + '.png');
+                                                $("#cspResponseContainer").val(dataMZN);
+                                                toastr["info"](dataMZN, "Induced usage limitations");
                                             }, 3000);
                                         }
                                     });
@@ -194,7 +196,7 @@ function saveAndCalculate() {
 
 
 // function change(name) {
-//     document.getElementById('graphcontainerImg').src = 'assets/images/spinner.gif';
+//     $("#graphcontainerImg").attr('src', 'assets/images/spinner.gif');
 //     // localStorage.setItem('mapping', name);
 //     $.ajax({
 //         type: "GET",
@@ -210,7 +212,7 @@ function saveAndCalculate() {
 //                     console.log("OK loaded file");
 //                     renderUI();
 //                     monaco.editor.getModels()[0].setValue(data);
-//                     document.getElementById('graphcontainerImg').src = 'data/' + getCurrentWorkspace() + '.png';
+//                     $("#graphcontainerImg").attr('src', 'data/' + getCurrentWorkspace() + '.png');
 //                 }, error: function (err) {
 //                     toastr["error"]("0x_change_0", "Error");
 //                 }

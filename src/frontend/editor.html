@@ -87,7 +87,7 @@
                                 Write the <i>X-Conversation</i> document in the editor below (an initial example is provided).
                             </li>
                             <li>
-                                Click in the <i>save and calculate usage limitations</i> button to calculate the induced limitations.
+                                Click in the <i>save and calculate induced usage limitations</i> button to calculate the induced limitations.
                             </li>
                         </ol>
                     </div>
@@ -104,7 +104,7 @@
                                 Make changes in the <i>X-Conversation</i> document in the editor below.
                             </li>
                             <li>
-                                Click in the <i>save and calculate usage limitations</i> button to calculate the induced limitations.
+                                Click in the <i>save and calculate induced usage limitations</i> button to calculate the induced limitations.
                             </li>
                         </ol>
                     </div>
@@ -113,7 +113,8 @@
                 <div id="div-graph" class="graph-hidable hide" class="row">
                     <div class="col col-12-xlarge col-12-large col-12-medium col-12-small">
                         <h3>Dependencies graph</h3>
-                        <img src="" id="graphcontainerImg" width="100%">
+                        <img src="" id="graphcontainerImg">
+                        <label>Induced limitations:<input id="cspResponseContainer" type="text" placeholder="Press 'save and calculate induced usage limitations' button to update this value." /></label>
                     </div>
                 </div>
 
@@ -153,7 +154,7 @@
                     <div class="col col-12-xlarge col-12-large col-12-medium col-12-small">
                         <ul class="actions">
                             <li>
-                                <a class="button primary icon fa-save" onclick="saveAndCalculate();">Save and calculate usage limitations</a>
+                                <a class="button primary icon fa-save" onclick="saveAndCalculate();">Save and calculate induced usage limitations</a>
                             </li>
                             <li>
                                 <a id="CSOP_download" class="button icon fa-save">Download CSOP mapping</a>

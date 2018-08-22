@@ -14,7 +14,7 @@ if (window.location.href.includes("editor.html") && (!getCurrentWorkspace() || g
         },
         success: function (data) {
             renderUI();
-            document.getElementById('graphcontainerImg').src = 'data/' + getCurrentWorkspace() + '.png';
+            $("#graphcontainerImg").attr('src', 'data/' + getCurrentWorkspace() + '.png');
             document.getElementById('CSOP_download').href = 'data/' + getCurrentWorkspace() + '.mzn';
             $(".graph-hidable").removeClass("hide");
         }, error: function (err) {
