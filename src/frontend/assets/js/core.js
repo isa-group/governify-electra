@@ -119,6 +119,7 @@ function loadData() {
 function saveAndCalculate() {
     $(".graph-hidable").removeClass("hide");
     $("#graphcontainerImg").attr('src', 'assets/images/spinner.gif')
+    $("#graphcontainerImg").css('width', 'auto%');
     const text = monaco.editor.getModels()[0].getValue();
     $.ajax({
         type: "POST",
@@ -157,18 +158,20 @@ function saveAndCalculate() {
                                                 console.log("OK evict sync disk");
                                                 renderUI();
                                                 $("#graphcontainerImg").attr('src', 'data/' + getCurrentWorkspace() + '.png');
+                                                $("#graphcontainerImg").css('width', '100%');
                                                 $("#cspResponseContainer").val(dataMZN);
                                                 toastr["info"](dataMZN, "Induced usage limitations");
-                                            }, 3000);
+                                            }, 1000);
 
                                         }, error: function (err) {
                                             setTimeout(() => {
                                                 console.log("Img retrieving failed... last try");
                                                 renderUI();
                                                 $("#graphcontainerImg").attr('src', 'data/' + getCurrentWorkspace() + '.png');
+                                                $("#graphcontainerImg").css('width', '100%');
                                                 $("#cspResponseContainer").val(dataMZN);
                                                 toastr["info"](dataMZN, "Induced usage limitations");
-                                            }, 3000);
+                                            }, 1000);
                                         }
                                     });
 
@@ -197,6 +200,7 @@ function saveAndCalculate() {
 
 // function change(name) {
 //     $("#graphcontainerImg").attr('src', 'assets/images/spinner.gif');
+//     $("#graphcontainerImg").css('width', 'auto');
 //     // localStorage.setItem('mapping', name);
 //     $.ajax({
 //         type: "GET",
@@ -213,6 +217,7 @@ function saveAndCalculate() {
 //                     renderUI();
 //                     monaco.editor.getModels()[0].setValue(data);
 //                     $("#graphcontainerImg").attr('src', 'data/' + getCurrentWorkspace() + '.png');
+//                     $("#graphcontainerImg").css('width', '100%');
 //                 }, error: function (err) {
 //                     toastr["error"]("0x_change_0", "Error");
 //                 }

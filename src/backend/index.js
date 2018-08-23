@@ -353,15 +353,17 @@ app.post('/createWorkspace', function (req, res) {
 
 server.listen(serverPort, function () {
   logger.info('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
-  require('child_process').exec('git rev-parse HEAD', function (err, stdout) {
-    fs.writeFile(path.join(__dirname, '..', 'frontend/version'), stdout, function (err) {
-      if (!err) {
-        logger.info('Running version:', stdout);
-      } else {
-        logger.info('Unable to write version file', err);
-      }
+  if (process.env.NODE_ENV != "production") {
+    require('child_process').exec('git rev-parse HEAD', function (err, stdout) {
+      fs.writeFile(path.join(__dirname, '..', 'frontend/version'), stdout, function (err) {
+        if (!err) {
+          logger.info('Running version:', stdout);
+        } else {
+          logger.info('Unable to write version file', err);
+        }
+      });
     });
-  });
+  }
 });
 
 
