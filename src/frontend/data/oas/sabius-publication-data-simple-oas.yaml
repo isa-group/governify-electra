@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  x-sla: 'https://antgamdiapc.lsi.us.es/data/sla4oai/sabius-publication-data-simple-plans.yaml'
+  x-sla: 'https://electra.governify.io/data/sla4oai/sabius-publication-data-simple-plans.yaml'
   description: 'Publication data API'
   version: 1.0.0
   title: publications.data.sabius-alpha
