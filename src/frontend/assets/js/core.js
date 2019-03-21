@@ -119,7 +119,7 @@ function loadData() {
 function saveAndCalculate() {
     $(".graph-hidable").removeClass("hide");
     $("#graphcontainerImg").attr('src', 'assets/images/spinner.gif')
-    $("#graphcontainerImg").css('width', 'auto%');
+    $("#graphcontainerImg").css('width', 'auto');
     const text = monaco.editor.getModels()[0].getValue();
     $.ajax({
         type: "POST",
