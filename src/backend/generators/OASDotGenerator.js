@@ -8,17 +8,23 @@ const downloadFileSync = require('download-file-sync');
 
 const utils = require('./utils/utils');
 const logger = require('./../logger');
+const config = require('./../configurations/');
+
+const REMOTE_ENDPOINT_REGEX = /https?:\/\/electra.governify.io\/data/;
 
 module.exports.generateDOT = function (oasPath, graphvizPath, name, serviceName, INPUT_SUBFOLDER_NAME, START_NODE_NAME) {
-
     try {
 
-
         let oasDocRef = '';
-        if (oasPath.includes('http')) {
-            logger.info('DOWNLOADING OAS from %s', oasPath);
+        if (oasPath.includes('http') && !REMOTE_ENDPOINT_REGEX.test(oasPath)) {
+            logger.info('(OASDotGenerator) DOWNLOADING REMOTE OAS from %s', oasPath);
             oasDocRef = yaml.safeLoad(downloadFileSync(oasPath));
+        } else if (oasPath.includes('http') && REMOTE_ENDPOINT_REGEX.test(oasPath)) {
+            oasPath = path.join(__dirname, '../', '../', '../', config.app.PUBLIC_SUBFOLDER_PATH, oasPath.replace(REMOTE_ENDPOINT_REGEX, ""));
+            logger.info('(OASDotGenerator) DOWNLOADING LOCAL OAS from %s', oasPath);
+            oasDocRef = yaml.safeLoad(fs.readFileSync(oasPath, 'utf8'));
         } else if (oasPath.includes('./')) {
+            logger.info('(OASDotGenerator) DOWNLOADING LOCAL OAS from %s', oasPath);
             oasDocRef = yaml.safeLoad(fs.readFileSync(oasPath, 'utf8'));
         }
         const oasDoc = $SyncRefParser.dereference(oasDocRef);
@@ -27,11 +33,16 @@ module.exports.generateDOT = function (oasPath, graphvizPath, name, serviceName,
         if (oasDoc.info["x-sla"]) {
             let slaFilePath = oasDoc.info["x-sla"];
             let slaRef = '';
-            if (slaFilePath.includes('http')) {
-                logger.info('DOWNLOADING SLA from %s', slaFilePath);
+            if (slaFilePath.includes('http') && !REMOTE_ENDPOINT_REGEX.test(slaFilePath)) {
+                logger.info('(OASDotGenerator) DOWNLOADING REMOTE SLA from %s', slaFilePath);
                 slaRef = yaml.safeLoad(downloadFileSync(slaFilePath));
+            } else if (slaFilePath.includes('http') && REMOTE_ENDPOINT_REGEX.test(slaFilePath)) {
+                slaFilePath = path.join(__dirname, '../', '../', '../', config.app.PUBLIC_SUBFOLDER_PATH, slaFilePath.replace(REMOTE_ENDPOINT_REGEX, ""));
+                logger.info('(OASDotGenerator) DOWNLOADING LOCAL SLA from %s', slaFilePath);
+                slaRef = yaml.safeLoad(fs.readFileSync(slaFilePath, 'utf8'));
             } else if (slaFilePath.includes('./')) {
                 slaFilePath = path.join(__dirname, '../', INPUT_SUBFOLDER_NAME, name, oasDoc.info["x-sla"]);
+                logger.info('(OASDotGenerator) DOWNLOADING LOCAL SLA from %s', slaFilePath);
                 slaRef = yaml.safeLoad(fs.readFileSync(slaFilePath, 'utf8'));
             }
 

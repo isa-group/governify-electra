@@ -9,6 +9,9 @@ const downloadFileSync = require('download-file-sync');
 const mznModules = require('./utils/mznModules');
 const utils = require('./utils/utils');
 const logger = require('./../logger');
+const config = require('./../configurations/');
+
+const REMOTE_ENDPOINT_REGEX = /https?:\/\/electra.governify.io\/data/;
 
 module.exports.generateMZN = function (mappingFilePath, name, selectedPlan, mznModuleName, sizeVarName, INPUT_SUBFOLDER_NAME, OUTPUT_SUBFOLDER_NAME, START_NODE_NAME) {
     try {
@@ -26,11 +29,16 @@ module.exports.generateMZN = function (mappingFilePath, name, selectedPlan, mznM
         Object.entries(mapping['services']).forEach(([serviceName, oasPath]) => {
             try {
                 let docRef = '';
-                if (oasPath.includes('http')) {
-                    logger.info('DOWNLOADING OAS from %s', oasPath);
+                if (oasPath.includes('http') && !REMOTE_ENDPOINT_REGEX.test(oasPath)) {
+                    logger.info('(mappingMznGenerator) DOWNLOADING REMOTE OAS from %s', oasPath);
                     docRef = yaml.safeLoad(downloadFileSync(oasPath));
+                } else if (oasPath.includes('http') && REMOTE_ENDPOINT_REGEX.test(oasPath)) {
+                    let oasFilePath = path.join(__dirname, '../', '../', '../', config.app.PUBLIC_SUBFOLDER_PATH, oasPath.replace(REMOTE_ENDPOINT_REGEX, ""));
+                    logger.info('(mappingMznGenerator) DOWNLOADING LOCAL OAS from %s', oasFilePath);
+                    docRef = yaml.safeLoad(fs.readFileSync(oasFilePath, 'utf8'));
                 } else if (oasPath.includes('./')) {
                     let oasFilePath = path.join(__dirname, '../', INPUT_SUBFOLDER_NAME, name, oasPath);
+                    logger.info('(mappingMznGenerator) DOWNLOADING LOCAL OAS from %s', oasFilePath);
                     docRef = yaml.safeLoad(fs.readFileSync(oasFilePath, 'utf8'));
                 }
                 oas[serviceName] = $SyncRefParser.dereference(docRef);
@@ -41,11 +49,16 @@ module.exports.generateMZN = function (mappingFilePath, name, selectedPlan, mznM
             if (slaPath) {
                 try {
                     let slaRef = '';
-                    if (slaPath.includes('http')) {
-                        logger.info('DOWNLOADING SLA from %s', slaPath);
+                    if (slaPath.includes('http') && !REMOTE_ENDPOINT_REGEX.test(slaPath)) {
+                        logger.info('(mappingMznGenerator) DOWNLOADING REMOTE SLA from %s', slaPath);
                         slaRef = yaml.safeLoad(downloadFileSync(slaPath));
+                    } else if (slaPath.includes('http') && REMOTE_ENDPOINT_REGEX.test(slaPath)) {
+                        let slaFilePath = path.join(__dirname, '../', '../', '../', config.app.PUBLIC_SUBFOLDER_PATH, slaPath.replace(REMOTE_ENDPOINT_REGEX, ""));
+                        logger.info('(mappingMznGenerator) DOWNLOADING LOCAL SLA from %s', slaFilePath);
+                        slaRef = yaml.safeLoad(fs.readFileSync(slaFilePath, 'utf8'));
                     } else if (slaPath.includes('./')) {
                         let slaFilePath = path.join(__dirname, '../', INPUT_SUBFOLDER_NAME, name, slaPath);
+                        logger.info('(mappingMznGenerator) DOWNLOADING LOCAL SLA from %s', slaFilePath);
                         slaRef = yaml.safeLoad(fs.readFileSync(slaFilePath, 'utf8'));
                     }
                     sla[serviceName] = $SyncRefParser.dereference(slaRef);

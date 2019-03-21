@@ -8,7 +8,9 @@ const downloadFileSync = require('download-file-sync');
 const OASDotGenerator = require('./OASDotGenerator');
 const utils = require('./utils/utils');
 const logger = require('./../logger');
+const config = require('./../configurations/');
 
+const REMOTE_ENDPOINT_REGEX = /https?:\/\/electra.governify.io\/data/;
 
 module.exports.generateMappingDOT = function (mappingFilePath, name, INPUT_SUBFOLDER_NAME, OUTPUT_SUBFOLDER_NAME, START_NODE_NAME) {
     try {
@@ -20,16 +22,21 @@ module.exports.generateMappingDOT = function (mappingFilePath, name, INPUT_SUBFO
         START_NODE_NAME = START_NODE_NAME ? START_NODE_NAME : mapping.params.rootOperation.value;
 
         Object.entries(mapping['services']).forEach(([serviceName, oasPath]) => {
-
             try {
                 let docRef = '';
                 let oasDocPath = '';
-                if (oasPath.includes('http')) {
-                    logger.info('DOWNLOADING OAS from %s', oasPath);
+                if (oasPath.includes('http') && !REMOTE_ENDPOINT_REGEX.test(oasPath)) {
+                    logger.info('(mappingDotGenerator) DOWNLOADING REMOTE OAS from %s', oasPath);
                     docRef = yaml.safeLoad(downloadFileSync(oasPath));
+                    oasDocPath = oasPath;
+                } else if (oasPath.includes('http') && REMOTE_ENDPOINT_REGEX.test(oasPath)) {
+                    let oasFilePath = path.join(__dirname, '../', '../', '../', config.app.PUBLIC_SUBFOLDER_PATH, oasPath.replace(REMOTE_ENDPOINT_REGEX, ""));
+                    logger.info('(mappingDotGenerator) DOWNLOADING LOCAL OAS from %s', oasFilePath);
+                    docRef = yaml.safeLoad(fs.readFileSync(oasFilePath, 'utf8'));
                     oasDocPath = oasPath;
                 } else if (oasPath.includes('./')) {
                     let oasFilePath = path.join(__dirname, '../', INPUT_SUBFOLDER_NAME, name, oasPath);
+                    logger.info('(mappingDotGenerator) DOWNLOADING LOCAL OAS from %s', oasFilePath);
                     docRef = yaml.safeLoad(fs.readFileSync(oasFilePath, 'utf8'));
                     oasDocPath = path.join(__dirname, '../', INPUT_SUBFOLDER_NAME, name, serviceName.concat('-oas.yaml'));
                 }
