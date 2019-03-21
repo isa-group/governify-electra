@@ -19,9 +19,9 @@ RUN rm -rf minizinc-*
 RUN rm -rf /var/cache/apk/*
 
 WORKDIR /tmp
-RUN wget -O gecode-6.0.0.tar.gz http://www.gecode.org/download/gecode-6.0.0.tar.gz
-RUN tar xfz gecode-6.0.0.tar.gz
-WORKDIR /tmp/gecode-6.0.0
+RUN wget -O gecode-6.1.1.tar.gz https://github.com/Gecode/gecode/archive/release-6.1.1.tar.gz
+RUN tar xfz gecode-6.1.1.tar.gz
+WORKDIR /tmp/gecode-release-6.1.1/
 RUN ./configure && make -j4 && make install
 WORKDIR /tmp
 RUN rm -rf gecode*
