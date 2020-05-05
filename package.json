@@ -4,7 +4,9 @@
   "description": "governify-electra",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +30,8 @@
     "route-parser": "0.0.5",
     "safe-buffer": "^5.1.2",
     "utf8": "^3.0.0",
-    "winston": "^2.4.0"
-  }
+    "winston": "^2.4.0",
+    "snyk": "^1.318.0"
+  },
+  "snyk": true
 }
