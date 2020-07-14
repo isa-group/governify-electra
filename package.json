@@ -21,7 +21,7 @@
     "json-schema-ref-parser": "^5.0.3",
     "json-schema-ref-parser-sync": "^1.0.0",
     "moment": "^2.17.1",
-    "newman": "^4.4.0",
+    "newman": "^5.1.2",
     "node-all-paths": "^1.0.3",
     "node-plantuml": "^0.6.2",
     "request": "^2.79.0",
